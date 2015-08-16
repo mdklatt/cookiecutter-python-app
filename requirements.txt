@@ -1,0 +1,6 @@
+## Python requirements for using this template. 
+##
+##    pip install --requirement=requirements.txt
+##
+cookiecutter>=1.0.0
+

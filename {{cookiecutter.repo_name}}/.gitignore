@@ -1,0 +1,19 @@
+# Ignore generated Python files.
+
+MANIFEST
+build/
+dist/
+*.pyc
+*.pyo
+
+
+# Ignore generated Sphinx files.
+
+_templates/
+_build/
+_static/
+
+
+# Ignore virtualenv environments.
+
+venv*/
