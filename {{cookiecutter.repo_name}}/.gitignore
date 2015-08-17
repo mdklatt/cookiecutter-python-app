@@ -1,19 +1,38 @@
-# Ignore generated Python files.
+# Python
 
 MANIFEST
 build/
 dist/
+*.egg-info/
 *.pyc
 *.pyo
 
 
-# Ignore generated Sphinx files.
+# Sphinx
 
-_templates/
 _build/
 _static/
+_templates/
 
 
-# Ignore virtualenv environments.
+# virtualenv
 
 venv*/
+
+
+# Vagrant
+
+.vagrant/
+
+
+# IDE settings
+
+.idea/
+.project/
+.pydevproject/
+nbproject/
+
+
+# OS-specific
+
+.DS_Store
