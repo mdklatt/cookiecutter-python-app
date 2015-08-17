@@ -1,5 +1,5 @@
 ## Python requirements for running tests.
 ##
-##    pip install --requirement=test/requirements.txt
+##    pip install --requirement=requirements-test.txt
 ##
 pytest>=2.7

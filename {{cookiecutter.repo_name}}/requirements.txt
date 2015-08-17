@@ -1,4 +1,4 @@
 ## Python requirements for using the {{cookiecutter.repo_name}} application.
 ##
-##    pip install --requirement=requirements-test.txt
+##    pip install --requirement=requirements.txt
 ##
