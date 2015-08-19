@@ -39,7 +39,6 @@ Install for the current user:
 
     $ python setup.py install --user
 
-
 Run the application:
 
 ..  code-block::

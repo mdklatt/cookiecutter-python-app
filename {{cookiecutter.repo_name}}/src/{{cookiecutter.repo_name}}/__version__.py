@@ -1,4 +1,4 @@
-""" The current version of the {{cookiecutter.repo_name}} application.
+""" Current version of the {{cookiecutter.repo_name}} application.
 
 This package uses the Semantic Versioning scheme in conjunction with PEP 0440:
 

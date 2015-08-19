@@ -1,4 +1,4 @@
-""" Entry point for the CLI.
+""" Entry point for the {{cookiecutter.repo_name}} CLI.
 
     python -m {{cookiecutter.repo_name}}.cli ...
 

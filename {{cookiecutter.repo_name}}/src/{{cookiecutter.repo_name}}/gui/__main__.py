@@ -1,4 +1,4 @@
-""" Entry point for the GUI.
+""" Entry point for the {{cookiecutter.repo_name}} GUI.
 
     python -m {{cookiecutter.repo_name}}.gui ...
 
