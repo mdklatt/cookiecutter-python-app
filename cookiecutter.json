@@ -1,7 +1,7 @@
 {
     "repo_name": "pyapp",
-    "author_name": "Michael Klatt",
-    "author_email": "mdklatt@ou.edu",
+    "author_name": "",
+    "author_email": "",
     "project_version": "0.1.0.dev0",
     "copyright_year": "2015",
     "sphinx_theme": "sphinx_rtd_theme"
