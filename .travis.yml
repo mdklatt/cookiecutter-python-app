@@ -1,0 +1,36 @@
+## Travis CI configuration for the cookiecutter-python-app project template.
+##
+## This verifies that a sample project can be created from the template, be
+## installed, and pass a basic test suite.
+##
+language: python
+python:
+  - "2.7"
+
+branches:
+  only:
+    - master
+    - dev
+
+sudo: false
+
+before_install:
+  # Install Cookiecutter and create template project.
+  - pip install --requirement=requirements.txt
+  - cookiecutter --no-input .
+  - cd ..
+  - cookiecutter --no-input ${TRAVIS_BUILD_DIR}
+
+install:
+  # Install template project.
+  - cd pyapp
+  - python setup.py install
+
+before_script:
+  # Travis CI preinstalls py.test, but automatic test discovery fails for the
+  # default version (2.6), so make sure the correct version is installed.
+  - pip install --requirement=requirements-test.txt
+
+script:
+  # Run the template project test suite.
+  - py.test --verbose test/

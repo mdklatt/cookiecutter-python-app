@@ -1,14 +1,25 @@
 Python Application Project Template
 ===================================
 
-Overview
---------
+Overview |travis.png|
+---------------------
 
 This is a `Cookiecutter`_ template for creating a Python application project.
 
 This template departs from the current Python `packaging guidelines`_ that
 discourage the use of a *src* directory, but moving the package out of the
 project root provides several advantages (*cf.* `Packaging a python library`_).
+
+
+..  |travis.png| image:: https://travis-ci.org/mdklatt/cookiecutter-python-app.png?branch=master
+    :alt: Travis CI build status
+    :target: `travis`_
+
+..  _travis: https://travis-ci.org/mdklatt/cookiecutter-python-app
+..  _Cookiecutter: http://cookiecutter.readthedocs.org
+..  _packaging guidelines: https://packaging.python.org/en/latest/distributing.html#configuring-your-project
+..  _Packaging a python library: http://blog.ionelmc.ro/2014/05/25/python-packaging/
+
 
 
 Template Project Features
@@ -18,6 +29,12 @@ Template Project Features
 * `Sphinx`_ documentation
 * `MIT license`_
 * Custom setup.py command for creating `virtualenv`_ environments
+
+
+..  _py.test: http://pytest.org
+..  _Sphinx: http://sphinx-doc.org
+..  _MIT license: http://choosealicense.com/licenses/mit
+..  _virtualenv: https://virtualenv.pypa.io
 
 
 Minimum Requirements
@@ -37,11 +54,4 @@ Create a new project directly from the template on `GitHub`_:
     $ cookiecutter gh:mdklatt/cookiecutter-python-app
 
 
-..  _Cookiecutter: http://cookiecutter.readthedocs.org
-..  _packaging guidelines: https://packaging.python.org/en/latest/distributing.html#configuring-your-project
-..  _Packaging a python library: http://blog.ionelmc.ro/2014/05/25/python-packaging/
-..  _py.test: http://pytest.org
-..  _Sphinx: http://sphinx-doc.org
-..  _MIT license: http://choosealicense.com/licenses/mit
-..  _virtualenv: https://virtualenv.pypa.io
 ..  _GitHub: https://github.com/mdklatt/cookiecutter-python-app
