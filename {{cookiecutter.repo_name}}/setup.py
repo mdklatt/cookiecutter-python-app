@@ -1,4 +1,3 @@
-# noinspection PyInterpreter,PyInterpreter
 """ Setup script for the {{cookiecutter.repo_name}} application.
 
 """
