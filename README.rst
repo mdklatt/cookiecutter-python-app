@@ -34,7 +34,7 @@ Create a new project directly from the template on `GitHub`_:
 
 ..  code-block::
    
-    $ cookiecutter gh:mdklatt/cookiecutter-python-app.git
+    $ cookiecutter gh:mdklatt/cookiecutter-python-app
 
 
 ..  _Cookiecutter: http://cookiecutter.readthedocs.org
