@@ -1,6 +1,6 @@
 """ Current version of the {{cookiecutter.repo_name}} application.
 
-This package uses the Semantic Versioning scheme in conjunction with PEP 0440:
+This project uses the Semantic Versioning scheme in conjunction with PEP 0440:
 
     <http://semver.org/>
     <https://www.python.org/dev/peps/pep-0440>
