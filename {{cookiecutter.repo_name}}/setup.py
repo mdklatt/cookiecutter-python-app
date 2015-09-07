@@ -1,4 +1,4 @@
-""" Setup script for the {{cookiecutter.repo_name}} application.
+""" Setup script for the {{ cookiecutter.repo_name }} application.
 
 """
 from setuptools import Command
@@ -11,22 +11,22 @@ from subprocess import CalledProcessError
 
 
 _CONFIG = {
-    "name": "{{cookiecutter.repo_name}}",
-    "author": "{{cookiecutter.author_name}}",
-    "author_email": "{{cookiecutter.author_email}}",
+    "name": "{{ cookiecutter.repo_name }}",
+    "author": "{{ cookiecutter.author_name }}",
+    "author_email": "{{ cookiecutter.author_email }}",
     "url": "",
     "package_dir": {"": "src"},
     "packages": find_packages("src"),
     "entry_points": {
-        "console_scripts": ("{{cookiecutter.repo_name}} = {{cookiecutter.repo_name}}.cli:main",),
-        "gui_scripts": ("{{cookiecutter.repo_name}} = {{cookiecutter.repo_name}}.gui:main",)}}
+        "console_scripts": ("{{ cookiecutter.repo_name }} = {{ cookiecutter.repo_name }}.cli:main",),
+        "gui_scripts": ("{{ cookiecutter.repo_name }} = {{ cookiecutter.repo_name }}.gui:main",)}}
 
 
 def version():
     """ Get the local package version.
 
     """
-    path = join("src", "{{cookiecutter.repo_name}}", "__version__.py")
+    path = join("src", _CONFIG["name"], "__version__.py")
     with open(path) as stream:
         exec(stream.read())
     return __version__

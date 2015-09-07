@@ -1,6 +1,6 @@
-""" Main entry point for the {{cookiecutter.repo_name}} application.
+""" Main entry point for the {{ cookiecutter.repo_name }} application.
 
-    python -m {{cookiecutter.repo_name}}  ...
+    python -m {{ cookiecutter.repo_name }}  ...
 
 """
 from __future__ import absolute_import

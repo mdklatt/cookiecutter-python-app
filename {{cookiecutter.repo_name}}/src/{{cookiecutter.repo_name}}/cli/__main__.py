@@ -1,6 +1,6 @@
-""" Entry point for the {{cookiecutter.repo_name}} CLI.
+""" Entry point for the {{ cookiecutter.repo_name }} CLI.
 
-    python -m {{cookiecutter.repo_name}}.cli ...
+    python -m {{ cookiecutter.repo_name }}.cli ...
 
 """
 from __future__ import absolute_import

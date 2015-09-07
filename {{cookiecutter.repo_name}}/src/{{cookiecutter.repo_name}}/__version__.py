@@ -1,4 +1,4 @@
-""" Current version of the {{cookiecutter.repo_name}} application.
+""" Current version of the {{ cookiecutter.repo_name }} application.
 
 This project uses the Semantic Versioning scheme in conjunction with PEP 0440:
 
@@ -14,4 +14,4 @@ Version 0.x should be considered a development version with an unstable API,
 and backwards compatibility is not guaranteed for minor versions.
 
 """
-__version__ = "{{cookiecutter.project_version}}"
+__version__ = "{{ cookiecutter.project_version }}"
