@@ -8,7 +8,7 @@ This is a `Cookiecutter`_ template for creating a Python application project.
 
 This template departs from the current Python `packaging guidelines`_ that
 discourage the use of a *src* directory, but moving the package out of the
-project root provides several advantages (*cf.* `Packaging a python library`_).
+project root provides several advantages (*cf.* `Packaging a Python library`_).
 
 
 ..  |travis.png| image:: https://travis-ci.org/mdklatt/cookiecutter-python-app.png?branch=master
@@ -18,7 +18,7 @@ project root provides several advantages (*cf.* `Packaging a python library`_).
 ..  _travis: https://travis-ci.org/mdklatt/cookiecutter-python-app
 ..  _Cookiecutter: http://cookiecutter.readthedocs.org
 ..  _packaging guidelines: https://packaging.python.org/en/latest/distributing.html#configuring-your-project
-..  _Packaging a python library: http://blog.ionelmc.ro/2014/05/25/python-packaging/
+..  _Packaging a Python library: http://blog.ionelmc.ro/2014/05/25/python-packaging/
 
 
 
