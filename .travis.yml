@@ -17,7 +17,6 @@ sudo: false
 before_install:
   # Install Cookiecutter and create template project.
   - pip install --requirement=requirements.txt
-  - cookiecutter --no-input .
   - cd ..
   - cookiecutter --no-input ${TRAVIS_BUILD_DIR}
 
