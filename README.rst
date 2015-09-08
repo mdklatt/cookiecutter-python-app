@@ -25,27 +25,34 @@ project root provides several advantages (*cf.* `Packaging a Python library`_).
 Template Project Features
 -------------------------
 
+* Python 2.7
 * `py.test`_ tests
 * `Sphinx`_ documentation
-* `MIT license`_
+* `MIT License`_
 * Custom setup.py command for creating `virtualenv`_ environments
 
 
 ..  _py.test: http://pytest.org
 ..  _Sphinx: http://sphinx-doc.org
-..  _MIT license: http://choosealicense.com/licenses/mit
+..  _MIT License: http://choosealicense.com/licenses/mit
 ..  _virtualenv: https://virtualenv.pypa.io
 
 
 Minimum Requirements
 --------------------
 
-* Python 2.7
-* `Cookiecutter`_ 1.0
+* `Cookiecutter`_ 1.0 (requires Python)
 
 
 Usage
 -----
+
+Install Python requirements for using the template:
+
+..  code-block::
+
+    $ pip install --requirement=requirements.txt --user 
+
 
 Create a new project directly from the template on `GitHub`_:
 
