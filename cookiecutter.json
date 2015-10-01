@@ -1,5 +1,7 @@
 {
     "repo_name": "pyapp",
+    "cli_script": "{{ cookiecutter.repo_name }}_cli",
+    "gui_script": "{{ cookiecutter.repo_name }}_gui",
     "author_name": "",
     "author_email": "",
     "project_version": "0.1.0.dev0",

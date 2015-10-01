@@ -1,4 +1,4 @@
-""" Main entry point for the {{ cookiecutter.repo_name }} application.
+""" Main application entry point.
 
     python -m {{ cookiecutter.repo_name }}  ...
 

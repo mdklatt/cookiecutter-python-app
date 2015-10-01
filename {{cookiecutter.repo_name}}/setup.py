@@ -18,8 +18,8 @@ _CONFIG = {
     "package_dir": {"": "src"},
     "packages": find_packages("src"),
     "entry_points": {
-        "console_scripts": ("{{ cookiecutter.repo_name }} = {{ cookiecutter.repo_name }}.cli:main",),
-        "gui_scripts": ("{{ cookiecutter.repo_name }} = {{ cookiecutter.repo_name }}.gui:main",)}}
+        "console_scripts": ("{{ cookiecutter.repo_name }}_cli = {{ cookiecutter.repo_name }}.cli:main",),
+        "gui_scripts": ("{{ cookiecutter.repo_name }}_gui = {{ cookiecutter.repo_name }}.gui:main",)}}
 
 
 def version():
