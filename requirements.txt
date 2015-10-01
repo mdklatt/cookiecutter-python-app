@@ -2,5 +2,5 @@
 ##
 ##    pip install --requirement=requirements.txt
 ##
-cookiecutter>=1.0.0
+cookiecutter>=1.0
 
