@@ -1,13 +1,11 @@
-""" Entry point for the {{ cookiecutter.repo_name }} CLI.
-
-    python -m {{ cookiecutter.repo_name }}.cli ...
+""" Implementation of the command line interface.
 
 """
 from __future__ import absolute_import
 
 
 def main():
-    """ Execute the application CLI.
+    """ Execute the CLI application.
 
     """
     raise NotImplementedError
