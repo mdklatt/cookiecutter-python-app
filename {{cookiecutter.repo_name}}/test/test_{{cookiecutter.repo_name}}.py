@@ -1,4 +1,4 @@
-""" Test suite for the {{ cookiecutter.repo_name }} application template.
+""" Test suite for the {{ cookiecutter.repo_name }} application.
 
 The script can be executed on its own or incorporated into a larger test suite.
 However the tests are run, be aware of which version of the package is actually
@@ -7,6 +7,8 @@ precedence over the version in this project directory. Use a virtualenv test
 environment or setuptools develop mode to test against the development version.
 
 """
+from yaml import dump
+
 import pytest
 
 
@@ -60,10 +62,11 @@ def test_web():
 
 
 def test_logger(capsys):
-    """ Test the core.logger module.
+    """ Test application logging.
     
     """
-    from {{ cookiecutter.repo_name }}.core.logger import *  # tests __all__
+    from {{ cookiecutter.repo_name }}.core import LOGGER
+    from {{ cookiecutter.repo_name }}.core import logger
     message = "core.logger test"
     LOGGER.critical(message)
     _, stderr = capsys.readouterr()
@@ -72,6 +75,24 @@ def test_logger(capsys):
     LOGGER.critical(message)
     _, stderr = capsys.readouterr()
     assert message in stderr
+    return
+
+
+def test_config(tmpdir):
+    """ Test application configuration.
+    
+    """
+    from {{ cookiecutter.repo_name }}.core import CONFIG
+    from {{ cookiecutter.repo_name }}.core import config
+    configs = (
+        (tmpdir.join("conf1.yml"), {"global": "conf1", "conf1": "conf1"}),
+        (tmpdir.join("conf2.yml"), {"global": "conf2", "conf2": "conf2"}))
+    for pathobj, data in configs:
+        # Write config data to each config file.
+        pathobj.write(dump(data))
+    assert not CONFIG  # empty until loaded
+    config(str(item[0]) for item in configs)
+    assert {"global": "conf2", "conf1": "conf1", "conf2": "conf2"} == CONFIG
     return
     
 

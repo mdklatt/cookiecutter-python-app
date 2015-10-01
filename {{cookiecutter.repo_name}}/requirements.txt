@@ -2,3 +2,4 @@
 ##
 ##    pip install --requirement=requirements.txt
 ##
+PyYAML>=3.11

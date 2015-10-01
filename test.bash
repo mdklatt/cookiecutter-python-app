@@ -1,7 +1,8 @@
 ## Test the python-app Cookiecutter template.
 ##
-## This verifies that a sample project can be created from the template, be
-## installed, and pass a basic test suite.
+## A template project is created in a temporary directory, the application is
+## installed into a self-contained virtualenv environment, and the application
+## test suite is run.
 ##
 set -e  # exit immediately on failure
 if [[ "$(uname)" == "Darwin" ]]
@@ -14,12 +15,10 @@ template=$(pwd)
 project=$(${MKTEMP})
 trap "rm -rf $project" EXIT  # remove on exit
 pushd $project
-echo $template
-echo $project
 cookiecutter $template --no-input
 cd pyapp
-python setup.py virtualenv -r requirements-test.txt
-venv/bin/pip install .
+python setup.py virtualenv
+venv/bin/pip install . -r requirements.txt -r requirements-test.txt
 venv/bin/py.test --verbose test/
 popd
 exit 0
