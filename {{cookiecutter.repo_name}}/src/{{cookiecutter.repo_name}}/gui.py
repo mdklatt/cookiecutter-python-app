@@ -1,13 +1,11 @@
-""" Entry point for the {{ cookiecutter.repo_name }} GUI.
-
-    python -m {{ cookiecutter.repo_name }}.gui ...
+""" Implementation of the graphical user interface.
 
 """
 from __future__ import absolute_import
 
 
 def main():
-    """ Execute the application GUI.
+    """ Execute the GUI application.
 
     """
     raise NotImplementedError
