@@ -30,7 +30,7 @@ def test_main():
 
 
 def test_cli():
-    """ Test the CLI entry point.
+    """ Test the cli module.
 
     """
     from {{ cookiecutter.repo_name }}.cli import main
@@ -40,10 +40,20 @@ def test_cli():
 
 
 def test_gui():
-    """ Test the GUI entry point.
+    """ Test the gui module.
 
     """
     from {{ cookiecutter.repo_name }}.gui import main
+    with pytest.raises(NotImplementedError):
+        main()
+    return
+
+
+def test_web():
+    """ Test the web module.
+
+    """
+    from {{ cookiecutter.repo_name }}.web import main
     with pytest.raises(NotImplementedError):
         main()
     return
