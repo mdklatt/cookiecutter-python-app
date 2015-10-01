@@ -26,9 +26,9 @@ Template Project Features
 -------------------------
 
 * Python 2.7
+* `MIT License`_
 * `py.test`_ tests
 * `Sphinx`_ documentation
-* `MIT License`_
 * Custom setup.py command for creating `virtualenv`_ environments
 
 

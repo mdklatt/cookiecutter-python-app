@@ -15,7 +15,7 @@ def test_version():
 
     """
     from {{ cookiecutter.repo_name }} import __version__
-    assert __version__ == "{{ cookiecutter.project_version }}"
+    assert "{{ cookiecutter.project_version }}" == __version__
     return
 
 
@@ -58,6 +58,22 @@ def test_web():
         main()
     return
 
+
+def test_logger(capsys):
+    """ Test the core.logger module.
+    
+    """
+    from {{ cookiecutter.repo_name }}.core.logger import *  # tests __all__
+    message = "core.logger test"
+    LOGGER.critical(message)
+    _, stderr = capsys.readouterr()
+    assert not stderr  # no output until LOGGER is initialized
+    logger()
+    LOGGER.critical(message)
+    _, stderr = capsys.readouterr()
+    assert message in stderr
+    return
+    
 
 # Make the module executable.
 
