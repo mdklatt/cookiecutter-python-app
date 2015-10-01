@@ -38,10 +38,14 @@ Template Project Features
 ..  _virtualenv: https://virtualenv.pypa.io
 
 
-Minimum Requirements
---------------------
+Template Application Features
+-----------------------------
+* Modular structure
+* Logging
+* Hierarchical `YAML`_ configuration
 
-* `Cookiecutter`_ 1.0 (requires Python)
+
+..  _YAML: http://pyyaml.org/wiki/PyYAML
 
 
 Usage
