@@ -11,7 +11,7 @@ branches:
 
 sudo: false
 
-before_install:
+before_script:
   - pip install --requirement=requirements.txt
 
 script:
