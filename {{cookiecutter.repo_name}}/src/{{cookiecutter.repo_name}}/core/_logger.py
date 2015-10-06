@@ -18,7 +18,7 @@ __all__ = "LOGFMT", "LOGGER", "logger"
 
 LOGFMT = "%(asctime)s;%(levelname)s;%(name)s;%(msg)s"
 LOGGER = getLogger(__name__.split(".")[0])
-LOGGER.addHandler(NullHandler())
+LOGGER.addHandler(NullHandler())  # default to no output
 
 
 def logger():
@@ -32,6 +32,8 @@ def logger():
     different logging requirements.
 
     """
+    # Removing the NullHandler first might be premature optimization, but
+    # there's no reason to keep it around.
     handler = LOGGER.handlers[0]
     assert isinstance(handler, NullHandler)
     LOGGER.removeHandler(handler)

@@ -8,7 +8,7 @@ from __future__ import absolute_import
 
 from yaml import load
 
-from .logger import LOGGER
+from . import LOGGER
 
 
 __all__ = "CONFIG", "config"
