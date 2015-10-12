@@ -21,11 +21,11 @@ LOGGER = getLogger(__name__.split(".")[0])
 LOGGER.addHandler(NullHandler())  # default to no output
 
 
-def logger():
+def logger(level="WARN"):
     """ Basic LOGGER configuration.
 
-    Output is written to stderr with a default logging level of WARN. Call
-    LOGGER.setLevel() to change the logging level.
+    Output is written to stderr with a default logging level of WARN, or change
+    this using the optional 'level' argument.
 
     This is intended to be called by main(), although different interfaces
     are free to do their own configuration, e.g. a CLI and a GUI may have
@@ -40,4 +40,5 @@ def logger():
     handler = StreamHandler()
     handler.setFormatter(Formatter(LOGFMT))
     LOGGER.addHandler(handler)
+    LOGGER.setLevel(level.upper())
     return

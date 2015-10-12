@@ -71,8 +71,8 @@ def test_logger(capsys):
     LOGGER.critical(message)
     _, stderr = capsys.readouterr()
     assert not stderr  # no output until LOGGER is initialized
-    logger()
-    LOGGER.critical(message)
+    logger("debug")
+    LOGGER.debug(message)
     _, stderr = capsys.readouterr()
     assert message in stderr
     return
