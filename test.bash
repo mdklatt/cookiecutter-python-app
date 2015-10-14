@@ -12,9 +12,9 @@ else  # assume Linux/GNU or similar
     MKTEMP="mktemp -d"
 fi
 template=$(pwd)
-project=$(${MKTEMP})
-trap "rm -rf $project" EXIT  # remove on exit
-pushd $project
+tmpdir=$(${MKTEMP})
+trap "rm -rf $tmpdir" EXIT  # remove on exit
+pushd $tmpdir
 cookiecutter $template --no-input
 cd pyapp
 python setup.py virtualenv
