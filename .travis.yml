@@ -1,6 +1,9 @@
 ## Travis CI configuration for the cookiecutter-python-app project template.
 ##
+##   <https://travis-ci.org/mdklatt/cookiecutter-python-app>
+##
 language: python
+
 python:
   - "2.7"
 
@@ -16,4 +19,3 @@ before_script:
 
 script:
   - bash test.bash 
-
