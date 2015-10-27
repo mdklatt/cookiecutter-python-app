@@ -1,13 +1,23 @@
 """ Setup script for the {{ cookiecutter.repo_name }} application.
 
 """
-from setuptools import Command
-from setuptools import find_packages
-from setuptools import setup
 from distutils import log
+from functools import partial
 from os.path import join
 from subprocess import check_call
 from subprocess import CalledProcessError
+
+from setuptools import Command
+from setuptools import find_packages
+from setuptools import setup
+
+
+_ETC_FILES = {
+    # Files are keyed by their project directory location and will be installed
+    # into the same location under the Python installation path, e.g. the
+    # application virtualenv environment.
+    "etc": ("config.yml",),
+}
 
 
 _CONFIG = {
@@ -19,7 +29,10 @@ _CONFIG = {
     "packages": find_packages("src"),
     "entry_points": {
         "console_scripts": ("{{ cookiecutter.repo_name }}_cli = {{ cookiecutter.repo_name }}.cli:main",),
-        "gui_scripts": ("{{ cookiecutter.repo_name }}_gui = {{ cookiecutter.repo_name }}.gui:main",)}}
+        "gui_scripts": ("{{ cookiecutter.repo_name }}_gui = {{ cookiecutter.repo_name }}.gui:main",)},
+    "data_files": [(root, map(partial(join, root), paths)) for (root, paths)
+                   in _ETC_FILES.iteritems()],
+}
 
 
 def version():
@@ -73,7 +86,8 @@ class UpdateCommand(_CustomCommand):
     description = "update from a remote branch"
     user_options = [
         ("remote=", "r", "remote name [default: tracking remote]"),
-        ("branch=", "b", "branch name [default: tracking branch]")]
+        ("branch=", "b", "branch name [default: tracking branch]"),
+    ]
 
     def initialize_options(self):
         """ Set the default values for all user options.
@@ -105,7 +119,8 @@ class VirtualenvCommand(_CustomCommand):
     user_options = [
         ("name=", "m", "environment name [default: venv]"),
         ("python=", "p", "Python interpreter"),
-        ("requirements=", "r", "pip requirements file")]
+        ("requirements=", "r", "pip requirements file"),
+    ]
 
     def initialize_options(self):
         """ Set the default values for all user options.
@@ -142,7 +157,8 @@ def main():
     _CONFIG["version"] = version()
     _CONFIG["cmdclass"] = {
         "virtualenv": VirtualenvCommand,
-        "update": UpdateCommand}
+        "update": UpdateCommand,
+    }
     setup(**_CONFIG)
     return 0
 
