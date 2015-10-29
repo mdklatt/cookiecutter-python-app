@@ -25,8 +25,8 @@ _CONFIG = {
     "author": "{{ cookiecutter.author_name }}",
     "author_email": "{{ cookiecutter.author_email }}",
     "url": "",
-    "package_dir": {"": "src"},
-    "packages": find_packages("src"),
+    "package_dir": {"": "lib"},
+    "packages": find_packages("lib"),
     "entry_points": {
         "console_scripts": ("{{ cookiecutter.repo_name }}_cli = {{ cookiecutter.repo_name }}.cli:main",),
         "gui_scripts": ("{{ cookiecutter.repo_name }}_gui = {{ cookiecutter.repo_name }}.gui:main",)},
@@ -39,7 +39,7 @@ def version():
     """ Get the local package version.
 
     """
-    path = join("src", _CONFIG["name"], "__version__.py")
+    path = join("lib", _CONFIG["name"], "__version__.py")
     with open(path) as stream:
         exec(stream.read())
     return __version__

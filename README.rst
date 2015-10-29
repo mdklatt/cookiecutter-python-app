@@ -7,9 +7,8 @@ Overview |travis.png|
 This is a `Cookiecutter`_ template for creating a Python application project.
 
 This template departs from the current Python `packaging guidelines`_ that
-discourage the use of a *src* directory, but moving the package out of the
+discourage the use of a source directory, but moving the package out of the
 project root provides several advantages (*cf.* `Packaging a Python library`_).
-
 
 ..  |travis.png| image:: https://travis-ci.org/mdklatt/cookiecutter-python-app.png?branch=master
     :alt: Travis CI build status
