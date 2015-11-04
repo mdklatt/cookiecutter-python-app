@@ -8,7 +8,7 @@ from __future__ import absolute_import
 
 from yaml import load
 
-from . import LOGGER
+from . import logger
 
 
 __all__ = "CONFIG", "config"
@@ -29,6 +29,6 @@ def config(paths):
     """
     for path in paths:
         with open(path, "r") as stream:
-            LOGGER.info("reading config data from {:s}".format(path))
+            logger.info("reading config data from {:s}".format(path))
             CONFIG.update(load(stream))
     return

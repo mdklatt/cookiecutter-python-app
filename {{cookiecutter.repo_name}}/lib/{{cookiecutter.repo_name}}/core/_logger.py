@@ -13,18 +13,20 @@ from logging import StreamHandler
 from logging import Formatter
 
 
-__all__ = "LOGFMT", "LOGGER", "logger"
+__all__ = "LOGFMT", "logger", "start_logger"
 
 
 LOGFMT = "%(asctime)s;%(levelname)s;%(name)s;%(msg)s"
-LOGGER = getLogger(__name__.split(".")[0])
-LOGGER.addHandler(NullHandler())  # default to no output
 
 
-def logger(level="WARN"):
-    """ Basic LOGGER configuration.
+logger = getLogger(__name__.split(".")[0])
+logger.addHandler(NullHandler())  # default to no output
 
-    Output is written to stderr with a default logging level of WARN, or change
+
+def start_logger(level="WARN"):
+    """ Enable the application root logger.
+
+    Output is written to STDERR with a default logging level of WARN, or change
     this using the optional 'level' argument.
 
     This is intended to be called by main(), although different interfaces
@@ -34,11 +36,11 @@ def logger(level="WARN"):
     """
     # Removing the NullHandler first might be premature optimization, but
     # there's no reason to keep it around.
-    handler = LOGGER.handlers[0]
+    handler = logger.handlers[0]
     assert isinstance(handler, NullHandler)
-    LOGGER.removeHandler(handler)
+    logger.removeHandler(handler)
     handler = StreamHandler()
     handler.setFormatter(Formatter(LOGFMT))
-    LOGGER.addHandler(handler)
-    LOGGER.setLevel(level.upper())
+    logger.addHandler(handler)
+    logger.setLevel(level.upper())
     return
