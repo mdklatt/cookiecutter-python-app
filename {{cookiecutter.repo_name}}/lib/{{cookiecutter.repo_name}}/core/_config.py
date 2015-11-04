@@ -11,13 +11,13 @@ from yaml import load
 from . import logger
 
 
-__all__ = "CONFIG", "config"
+__all__ = "config", "load_config"
 
 
-CONFIG = {}
+config = {}
 
 
-def config(paths):
+def load_config(paths):
     """ Load configuration files.
 
     Configuration values are read from a sequence of one or more YAML files.
@@ -30,5 +30,5 @@ def config(paths):
     for path in paths:
         with open(path, "r") as stream:
             logger.info("reading config data from {:s}".format(path))
-            CONFIG.update(load(stream))
+            config.update(load(stream))
     return

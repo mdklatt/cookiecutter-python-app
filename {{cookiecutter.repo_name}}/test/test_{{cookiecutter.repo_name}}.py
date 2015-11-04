@@ -82,17 +82,17 @@ def test_config(tmpdir):
     """ Test application configuration.
     
     """
-    from {{ cookiecutter.repo_name }}.core import CONFIG
     from {{ cookiecutter.repo_name }}.core import config
+    from {{ cookiecutter.repo_name }}.core import load_config
     configs = (
         (tmpdir.join("conf1.yml"), {"global": "conf1", "conf1": "conf1"}),
         (tmpdir.join("conf2.yml"), {"global": "conf2", "conf2": "conf2"}))
     for pathobj, data in configs:
         # Write config data to each config file.
         pathobj.write(dump(data))
-    assert not CONFIG  # empty until loaded
-    config(str(item[0]) for item in configs)
-    assert {"global": "conf2", "conf1": "conf1", "conf2": "conf2"} == CONFIG
+    assert not config  # empty until loaded
+    load_config(str(item[0]) for item in configs)
+    assert {"global": "conf2", "conf1": "conf1", "conf2": "conf2"} == config
     return
     
 
