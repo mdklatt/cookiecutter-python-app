@@ -66,15 +66,15 @@ def test_logger(capsys):
     
     """
     from {{ cookiecutter.repo_name }}.core import logger
-    from {{ cookiecutter.repo_name }}.core import start_logger
     message = "core.logger test"
     logger.critical(message)
     _, stderr = capsys.readouterr()
-    assert not stderr  # no output until LOGGER is initialized
-    start_logger("debug")
-    logger.debug(message)
+    assert not stderr  # no output until logger is started
+    logger.start("debug")
+    logger.critical(message)
     _, stderr = capsys.readouterr()
     assert message in stderr
+    logger.stop()
     return
 
 
