@@ -8,6 +8,11 @@ dist/
 *.pyo
 
 
+# py.test
+
+.cache/
+
+
 # Sphinx
 
 _build/
