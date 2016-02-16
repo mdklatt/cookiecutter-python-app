@@ -61,40 +61,6 @@ def test_web():
     return
 
 
-def test_logger(capsys):
-    """ Test application logging.
-    
-    """
-    from {{ cookiecutter.repo_name }}.core import logger
-    message = "core.logger test"
-    logger.critical(message)
-    _, stderr = capsys.readouterr()
-    assert not stderr  # no output until logger is started
-    logger.start("debug")
-    logger.critical(message)
-    _, stderr = capsys.readouterr()
-    assert message in stderr
-    logger.stop()
-    return
-
-
-def test_config(tmpdir):
-    """ Test application configuration.
-    
-    """
-    from {{ cookiecutter.repo_name }}.core import config
-    configs = (
-        (tmpdir.join("conf1.yml"), {"global": "conf1", "conf1": "conf1"}),
-        (tmpdir.join("conf2.yml"), {"global": "conf2", "conf2": "conf2"}))
-    for pathobj, data in configs:
-        # Write config data to each config file.
-        pathobj.write(dump(data))
-    assert not config  # empty until loaded
-    config.load(str(item[0]) for item in configs)
-    assert {"global": "conf2", "conf1": "conf1", "conf2": "conf2"} == config
-    return
-    
-
 # Make the module executable.
 
 if __name__ == "__main__":
