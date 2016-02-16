@@ -35,14 +35,17 @@ def test_config(tmpdir):
     
     """
     configs = (
-        (tmpdir.join("conf1.yml"), {"global": "conf1", "conf1": "conf1"}),
-        (tmpdir.join("conf2.yml"), {"global": "conf2", "conf2": "conf2"}))
+        (tmpdir.join("conf1.yml"), {"global": "%x1;", "%x1;": "%x1;"}),
+        (tmpdir.join("conf2.yml"), {"global": "%x2;", "%x2;": "%x2;"}),
+    )
     for pathobj, data in configs:
         # Write config data to each config file.
         pathobj.write(dump(data))
     assert not config  # empty until loaded
-    config.load(str(item[0]) for item in configs)
+    params = {"x1": "conf1", "x2": "conf2"}
+    config.load((str(item[0]) for item in configs), params)
     assert {"global": "conf2", "conf1": "conf1", "conf2": "conf2"} == config
+    assert "conf1" == config.conf1  # TODO: need to test nested attributes
     return
     
 
