@@ -1,8 +1,7 @@
 """ Global application logging.
 
-This module defines a global logger. Other modules should use this logger or
-create a sublogger from it. No logging output will be emitted until at least
-one handler is defined.
+All modules use the same global logging object. No messages will be emitted
+until the logger is started.
 
 """
 from __future__ import absolute_import

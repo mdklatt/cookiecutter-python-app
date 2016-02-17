@@ -7,6 +7,7 @@ precedence over the version in this project directory. Use a virtualenv test
 environment or setuptools develop mode to test against the development version.
 
 """
+from logging import DEBUG
 from yaml import dump
 
 import pytest
@@ -23,6 +24,7 @@ def test_logger(capsys):
     _, stderr = capsys.readouterr()
     assert not stderr  # no output until logger is started
     logger.start("debug")
+    assert logger.level() == DEBUG
     logger.critical(message)
     _, stderr = capsys.readouterr()
     assert message in stderr
