@@ -13,12 +13,21 @@ Minimum Requirements
 Optional Requirements
 =====================
 
+..  _py.test: http://pytest.org
+..  _Sphinx: http://sphinx-doc.org
+
 * `py.test`_ 2.7 (for running the test suite)
 * `Sphinx`_ 1.3 (for generating documentation)
 
 
 Basic Setup
 ===========
+
+Install for the current user:
+
+..  code-block::
+
+    $ python setup.py install --user
 
 Run the test suite:
 
@@ -33,18 +42,17 @@ Build documentation:
     $ cd doc
     $ make html
 
-Install for the current user:
-
-..  code-block::
-
-    $ python setup.py install --user
-
 Run the application:
 
 ..  code-block::
 
     $ python -m {{ cookiecutter.app_name }}
+    
+    
+Deploy the application in a self-contained `Virtualenv`_ environment:
 
+..  _Virtualenv: https://virtualenv.readthedocs.org
 
-..  _py.test: http://pytest.org
-..  _Sphinx: http://sphinx-doc.org
+..  code-block::
+
+    $ python deploy.py /path/to/apps
