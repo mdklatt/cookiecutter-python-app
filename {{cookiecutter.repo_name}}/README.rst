@@ -1,7 +1,7 @@
 Overview
 ========
 
-This is the {{ cookiecutter.repo_name }} application.
+This is the {{ cookiecutter.app_name }} application.
 
 
 Minimum Requirements
@@ -43,7 +43,7 @@ Run the application:
 
 ..  code-block::
 
-    $ python -m {{ cookiecutter.repo_name }}
+    $ python -m {{ cookiecutter.app_name }}
 
 
 ..  _py.test: http://pytest.org

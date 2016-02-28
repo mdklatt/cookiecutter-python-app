@@ -1,4 +1,4 @@
-""" Deploy the {{ cookiecutter.repo_name }} application.
+""" Deploy the {{ cookiecutter.app_name }} application.
 
 The project will be cloned from a Git repo and installed into a self-contained
 virtualenv environment. By default the repo's master branch is deployed, but an
@@ -19,7 +19,7 @@ from subprocess import check_call
 from tempfile import mkdtemp
 
 
-NAME = "{{ cookiecutter.repo_name }}"
+NAME = "{{ cookiecutter.app_name }}"
 REPO = None 
 
 

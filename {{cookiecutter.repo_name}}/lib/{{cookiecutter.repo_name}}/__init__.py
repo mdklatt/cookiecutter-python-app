@@ -1,4 +1,4 @@
-""" Package for the {{ cookiecutter.repo_name }} application.
+""" Package for the {{ cookiecutter.app_name }} application.
 
 """
 from __future__ import absolute_import

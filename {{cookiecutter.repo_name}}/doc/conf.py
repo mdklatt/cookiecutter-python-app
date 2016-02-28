@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# {{ cookiecutter.repo_name }} documentation build configuration file.
+# {{ cookiecutter.app_name }} documentation build configuration file.
 #
 # This file is execfile()d with the current directory set to its
 # containing dir.
@@ -45,7 +45,7 @@ source_suffix = '.rst'
 master_doc = 'index'
 
 # General information about the project.
-project = u'{{ cookiecutter.repo_name }}'
+project = u'{{ cookiecutter.app_name }}'
 copyright = u'{{ cookiecutter.copyright_year }}, {{ cookiecutter.author_name }}'
 author = u'{{ cookiecutter.author_name }}'
 
@@ -199,7 +199,7 @@ html_static_path = ['_static']
 #html_search_scorer = 'scorer.js'
 
 # Output file base name for HTML help builder.
-htmlhelp_basename = '{{ cookiecutter.repo_name }}doc'
+htmlhelp_basename = '{{ cookiecutter.app_name }}doc'
 
 # -- Options for LaTeX output ---------------------------------------------
 
@@ -221,7 +221,7 @@ latex_elements = {
 # (source start file, target name, title,
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
-  (master_doc, '{{ cookiecutter.repo_name }}.tex', u'{{ cookiecutter.repo_name }} Documentation',
+  (master_doc, '{{ cookiecutter.app_name }}.tex', u'{{ cookiecutter.app_name }} Documentation',
    u'{{ cookiecutter.author_name }}', 'manual'),
 ]
 
@@ -251,7 +251,7 @@ latex_documents = [
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
 man_pages = [
-    (master_doc, 'projectname', u'{{ cookiecutter.repo_name }} Documentation',
+    (master_doc, 'projectname', u'{{ cookiecutter.app_name }} Documentation',
      [author], 1)
 ]
 
@@ -265,8 +265,8 @@ man_pages = [
 # (source start file, target name, title, author,
 #  dir menu entry, description, category)
 texinfo_documents = [
-  (master_doc, '{{ cookiecutter.repo_name }}', u'{{ cookiecutter.repo_name }} Documentation',
-   author, '{{ cookiecutter.repo_name }}', 'One line description of project.',
+  (master_doc, '{{ cookiecutter.app_name }}', u'{{ cookiecutter.app_name }} Documentation',
+   author, '{{ cookiecutter.app_name }}', 'One line description of project.',
    'Miscellaneous'),
 ]
 

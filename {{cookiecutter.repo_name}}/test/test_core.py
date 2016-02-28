@@ -11,8 +11,8 @@ from logging import DEBUG
 from yaml import dump
 
 import pytest
-from {{ cookiecutter.repo_name }}.core import logger
-from {{ cookiecutter.repo_name }}.core import config
+from {{ cookiecutter.app_name }}.core import logger
+from {{ cookiecutter.app_name }}.core import config
 
 
 def test_logger(capsys):

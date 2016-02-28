@@ -1,4 +1,4 @@
-""" Setup script for the {{ cookiecutter.repo_name }} application.
+""" Setup script for the {{ cookiecutter.app_name }} application.
 
 """
 from distutils import log
@@ -21,15 +21,15 @@ _ETC_FILES = {
 
 
 _CONFIG = {
-    "name": "{{ cookiecutter.repo_name }}",
+    "name": "{{ cookiecutter.app_name }}",
     "author": "{{ cookiecutter.author_name }}",
     "author_email": "{{ cookiecutter.author_email }}",
     "url": "",
     "package_dir": {"": "lib"},
     "packages": find_packages("lib"),
     "entry_points": {
-        "console_scripts": ("{{ cookiecutter.repo_name }}_cli = {{ cookiecutter.repo_name }}.cli:main",),
-        "gui_scripts": ("{{ cookiecutter.repo_name }}_gui = {{ cookiecutter.repo_name }}.gui:main",)},
+        "console_scripts": ("{{ cookiecutter.app_name }}_cli = {{ cookiecutter.app_name }}.cli:main",),
+        "gui_scripts": ("{{ cookiecutter.app_name }}_gui = {{ cookiecutter.app_name }}.gui:main",)},
     "data_files": [(root, map(partial(join, root), paths)) for (root, paths)
                    in _ETC_FILES.iteritems()],
 }
