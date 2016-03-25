@@ -75,7 +75,10 @@ class _Config(_AttrDict):
                 # substitution as the file is parsed.
                 logger.info("reading config data from {:s}".format(path))
                 yaml = regex.sub(replace, stream.read())
-            self.update(load(yaml))
+            try:
+                self.update(load(yaml))
+            except TypeError:  # load() returned None
+                logger.warn("config file '{:s}' is empty".format(yaml))
         return
 
 

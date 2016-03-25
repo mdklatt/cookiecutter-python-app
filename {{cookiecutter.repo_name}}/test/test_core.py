@@ -37,6 +37,7 @@ def test_config(tmpdir):
     
     """
     configs = (
+        (tmpdir.join("empty.yml"), None),
         (tmpdir.join("conf1.yml"), {"global": "%x1;", "%x1;": "%x1;"}),
         (tmpdir.join("conf2.yml"), {"global": "%x2;", "%x2;": "%x2;"}),
     )
