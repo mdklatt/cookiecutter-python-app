@@ -40,7 +40,7 @@ class _Logger(Logger):
         self.active = False
         return
 
-    def start(self, level=None):
+    def start(self, level="WARN"):
         """ Start logging with this logger.
 
         Until the logger is started, no messages will be emitted. This applies

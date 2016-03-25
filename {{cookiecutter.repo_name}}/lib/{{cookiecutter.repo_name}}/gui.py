@@ -3,15 +3,27 @@
 """
 from __future__ import absolute_import
 
+from .core import config
+from .core import logger
+
+
+__all__ = "main",
+
 
 def main():
-    """ Execute the GUI application.
+    """ Execute the application GUI.
 
     """
-    raise NotImplementedError
+    logger.start()
+    config.load(["etc/config.yml"])
+    return 0
+    
 
-
-# Make the script executable.
+# Make the module executable.
 
 if __name__ == "__main__":
-    raise SystemExit(main())
+    try:
+        raise SystemExit(main())
+    except:
+        logger.critical("shutting down due to fatal error")
+        raise  # print stack trace
