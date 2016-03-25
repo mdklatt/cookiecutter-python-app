@@ -10,6 +10,9 @@ from .core import config
 from .core import logger
 
 
+__all__ = "main",
+
+
 def _cmdline(argv=None):
     """ Parse command line arguments.
 
