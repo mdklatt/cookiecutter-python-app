@@ -28,8 +28,9 @@ _CONFIG = {
     "package_dir": {"": "lib"},
     "packages": find_packages("lib"),
     "entry_points": {
-        "console_scripts": ("{{ cookiecutter.app_name }}_cli = {{ cookiecutter.app_name }}.cli:main",),
-        "gui_scripts": ("{{ cookiecutter.app_name }}_gui = {{ cookiecutter.app_name }}.gui:main",)},
+        "console_scripts": ("cli = {{ cookiecutter.app_name }}.cli:main",),
+        "gui_scripts": ("gui = {{ cookiecutter.app_name }}.gui:main",)
+    },
     "data_files": [(root, map(partial(join, root), paths)) for (root, paths)
                    in _ETC_FILES.iteritems()],
 }
