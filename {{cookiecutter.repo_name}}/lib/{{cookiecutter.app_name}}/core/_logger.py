@@ -20,8 +20,7 @@ class _Logger(Logger):
     """ Log messages to STDERR.
 
     """
-    _LOGFMT = "%(asctime)s;%(levelname)s;%(name)s;%(msg)s"
-    _METHODS = {"debug", "info", "warn", "error", "critical"}
+    LOGFMT = "%(asctime)s;%(levelname)s;%(name)s;%(msg)s"
 
     def __init__(self, name=None):
         """ Initialize this logger.
@@ -31,12 +30,8 @@ class _Logger(Logger):
         'parent.child' defines a logger that is a descendant of 'parent'.
 
         """
-        self._logobj = getLogger(name or __name__.split(".")[0])
-        self._logobj.addHandler(NullHandler())  # default to no output
-        for name in self._METHODS:
-            # Map logging methods to the underlying object. Method names
-            # correspond to the desired priority.
-            setattr(self, name, getattr(self._logobj, name))
+        super(_Logger, self).__init__(name or __name__.split(".")[0])
+        self.addHandler(NullHandler())  # default to no output
         self.active = False
         return
 
@@ -51,19 +46,19 @@ class _Logger(Logger):
         successful run should produce no diagnostic output. Available levels
         and their suggested meanings:
 
-        DEBUG    - output useful for developers
-        INFO     - trace normal program flow, especially external interactions
-        WARN     - an abnormal condition was detected that might need attention
-        ERROR    - an error was detected but execution continued
-        CRITICAL - an error was detected and execution was halted
+          DEBUG - output useful for developers
+          INFO - trace normal program flow, especially external interactions
+          WARN - an abnormal condition was detected that might need attention
+          ERROR - an error was detected but execution continued
+          CRITICAL - an error was detected and execution was halted
 
         """
         if self.active:
             return
         handler = StreamHandler()  # stderr
-        handler.setFormatter(Formatter(self._LOGFMT))
-        self._logobj.addHandler(handler)
-        self._logobj.setLevel(level.upper())
+        handler.setFormatter(Formatter(self.LOGFMT))
+        self.addHandler(handler)
+        self.setLevel(level.upper())
         self.active = True
         return
 
@@ -73,15 +68,9 @@ class _Logger(Logger):
         """
         if not self.active:
             return
-        self._logobj.removeHandler(self._logobj.handlers[-1])
+        self.removeHandler(self.handlers[-1])
         self.active = False
         return
-
-    def level(self):
-        """ Return the priority level for this logger.
-
-        """
-        return self._logobj.getEffectiveLevel()
 
 
 logger = _Logger()

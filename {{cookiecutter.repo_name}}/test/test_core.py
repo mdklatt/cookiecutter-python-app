@@ -11,8 +11,7 @@ from logging import DEBUG
 from yaml import dump
 
 import pytest
-from {{ cookiecutter.app_name }}.core import logger
-from {{ cookiecutter.app_name }}.core import config
+from {{ cookiecutter.app_name }}.core import *  # tests __all__
 
 
 def test_logger(capsys):
@@ -24,7 +23,7 @@ def test_logger(capsys):
     _, stderr = capsys.readouterr()
     assert not stderr  # no output until logger is started
     logger.start("debug")
-    assert logger.level() == DEBUG
+    assert logger.level == DEBUG
     logger.critical(message)
     _, stderr = capsys.readouterr()
     assert message in stderr
