@@ -29,24 +29,26 @@ Install for the current user:
 
     $ python setup.py install --user
 
+
+Run the application:
+
+..  code-block::
+
+    $ python -m {{ cookiecutter.app_name }} --help
+
+
 Run the test suite:
 
 ..  code-block::
    
     $ py.test test/
 
+
 Build documentation:
 
 ..  code-block::
 
-    $ cd doc
-    $ make html
-
-Run the application:
-
-..  code-block::
-
-    $ python -m {{ cookiecutter.app_name }}
+    $ cd doc && make html
     
     
 Deploy the application in a self-contained `Virtualenv`_ environment:
@@ -56,3 +58,4 @@ Deploy the application in a self-contained `Virtualenv`_ environment:
 ..  code-block::
 
     $ python deploy.py /path/to/apps
+    $ cd /path/to/apps/ && {{ cookiecutter.app_name }}/bin/cli --help

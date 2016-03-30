@@ -3,6 +3,11 @@ Python Application Project Template
 
 Overview |travis.png|
 ---------------------
+..  _travis: https://travis-ci.org/mdklatt/cookiecutter-python-app
+..  _Cookiecutter: http://cookiecutter.readthedocs.org
+..  _packaging guidelines: https://packaging.python.org/en/latest/distributing.html#configuring-your-project
+..  _Packaging a Python library: http://blog.ionelmc.ro/2014/05/25/python-packaging/
+
 
 This is a `Cookiecutter`_ template for creating a Python application project.
 
@@ -14,42 +19,37 @@ project root provides several advantages (*cf.* `Packaging a Python library`_).
     :alt: Travis CI build status
     :target: `travis`_
 
-..  _travis: https://travis-ci.org/mdklatt/cookiecutter-python-app
-..  _Cookiecutter: http://cookiecutter.readthedocs.org
-..  _packaging guidelines: https://packaging.python.org/en/latest/distributing.html#configuring-your-project
-..  _Packaging a Python library: http://blog.ionelmc.ro/2014/05/25/python-packaging/
-
-
 
 Template Project Features
 -------------------------
+..  _pytest: http://pytest.org
+..  _Sphinx: http://sphinx-doc.org
+..  _MIT License: http://choosealicense.com/licenses/mit
+..  _Virtualenv: https://virtualenv.pypa.io
+
 
 * Python 2.7
 * `MIT License`_
-* `py.test`_ tests
+* `pytest`_ tests
 * `Sphinx`_ documentation
-* Custom setup.py command for creating `virtualenv`_ environments
+* `Virtualenv`_ deployment
 
-
-..  _py.test: http://pytest.org
-..  _Sphinx: http://sphinx-doc.org
-..  _MIT License: http://choosealicense.com/licenses/mit
-..  _virtualenv: https://virtualenv.pypa.io
 
 
 Template Application Features
 -----------------------------
-* Modular structure
+..  _YAML: http://pyyaml.org/wiki/PyYAML
+
+
+* CLI with subcommands
 * Logging
 * Hierarchical `YAML`_ configuration
-* CLI with subcommands
-
-
-..  _YAML: http://pyyaml.org/wiki/PyYAML
 
 
 Usage
 -----
+..  _GitHub: https://github.com/mdklatt/cookiecutter-python-app
+
 
 Install Python requirements for using the template:
 
@@ -63,6 +63,3 @@ Create a new project directly from the template on `GitHub`_:
 ..  code-block::
    
     $ cookiecutter gh:mdklatt/cookiecutter-python-app
-
-
-..  _GitHub: https://github.com/mdklatt/cookiecutter-python-app
