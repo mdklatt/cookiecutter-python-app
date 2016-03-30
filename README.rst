@@ -42,6 +42,7 @@ Template Application Features
 * Modular structure
 * Logging
 * Hierarchical `YAML`_ configuration
+* CLI with subcommands
 
 
 ..  _YAML: http://pyyaml.org/wiki/PyYAML
