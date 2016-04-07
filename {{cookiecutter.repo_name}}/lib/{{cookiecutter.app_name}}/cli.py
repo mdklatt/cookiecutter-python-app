@@ -8,8 +8,8 @@ from argparse import ArgumentParser
 from . import __version__
 from .core import config
 from .core import logger
-from .subcmd import cmd1
-from .subcmd import cmd2
+from .command import cmd1
+from .command import cmd2
 
 
 __all__ = "main",

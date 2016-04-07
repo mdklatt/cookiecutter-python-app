@@ -1,4 +1,4 @@
-""" Application subcommands.
+""" Application commands common to all interfaces.
 
 """
 from .cmd1 import main as cmd1
