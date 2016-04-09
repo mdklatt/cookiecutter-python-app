@@ -32,7 +32,12 @@ def _cmdline(argv=None):
     cmd1_parser.set_defaults(command=cmd1)
     cmd2_parser = subparsers.add_parser("cmd2")
     cmd2_parser.set_defaults(command=cmd2)
-    return parser.parse_args(argv)
+    args = parser.parse_args(argv)
+    if not args.config:
+        # Don't specify this as an argument default or else it will always be
+        # included in the list.
+        args.config = ["etc/config.yml"]
+    return args
 
 
 def main(argv=None):
