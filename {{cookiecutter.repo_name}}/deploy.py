@@ -1,29 +1,47 @@
 """ Deploy the {{ cookiecutter.app_name }} application.
 
 The project will be cloned from a Git repo and installed into a self-contained
-virtualenv environment. By default the repo's master branch is deployed, but an
-optional branch, tag, or commit can be specified. The resulting deployment will
-have it's own complete set of Python libraries.
+virtualenv environment. By default the repo HEAD will be deployed, but an
+optional branch, tag, or commit can be specified. The deployed application will
+have its own complete set of Python libraries.
 
-The deployment machine must have Python 2.7, pip, and virtualenv installed.
+The target machine must have Python 2.7, pip, and virtualenv installed.
 
 """
 from argparse import ArgumentParser
 from contextlib import contextmanager
 from os import chdir
-from os import getcwd
+from os.path import abspath
 from os.path import join
 from shutil import rmtree
-from sys import argv
 from subprocess import check_call
 from tempfile import mkdtemp
 
 
-NAME = "{{ cookiecutter.app_name }}"
-REPO = None 
+_NAME = "{{ cookiecutter.app_name }}"
+_REPO = None  # TODO: specify the default Git repo to use
 
 
-def main():
+def _cmdline(argv=None):
+    """ Parse command line arguments.
+
+    By default, sys.argv is parsed.
+
+    """
+    parser = ArgumentParser()
+    parser.add_argument("--checkout", default="HEAD",
+                        help="branch, tag, or commit to use [HEAD]")
+    parser.add_argument("--name", default=_NAME,
+                        help="application name [{:s}]".format(_NAME))
+    parser.add_argument("--repo", default=_REPO,
+                        help="source repo [{:s}]".format(_REPO))
+    parser.add_argument("--test", action="store_true",
+                        help="run test suite after installation")
+    parser.add_argument("root", help="installation root")
+    return parser.parse_args(argv)
+
+
+def main(argv=None):
     """ Script execution.
 
     The project repo will be cloned to a temporary directory, and the desired
@@ -31,17 +49,6 @@ def main():
     installed into a self-contained virtualenv environment.
 
     """
-    @contextmanager
-    def chwdir(path):
-        """ Temporarily change the working directory. """
-        cwd = getcwd()
-        chdir(path)
-        try:
-            yield
-        finally:
-            chdir(cwd)
-        return
-
     @contextmanager
     def tmpdir():
         """ Create a self-deleting temporary directory. """
@@ -52,27 +59,32 @@ def main():
             rmtree(path)
         return
 
-    parser = ArgumentParser()
-    parser.add_argument("--repo", default=REPO,
-        help="source repo [{:s}]".format(REPO))
-    parser.add_argument("--checkout", default="master",
-        help="branch, tag, or commit to use [master]")
-    parser.add_argument("root", help="root path for the virtualenv")
-    args = parser.parse_args(argv[1:])
+    def test():
+        """ Execute the test suite. """
+        install = "{:s} install -r requirements-test.txt"
+        check_call(install.format(pip).split())
+        pytest = join(path, "bin", "py.test")
+        test = "{:s} test/".format(pytest)
+        check_call(test.split())
+        uninstall = "{:s} uninstall -y -r requirements-test.txt"
+        check_call(uninstall.format(pip).split())
+        return
 
+    args = _cmdline(argv)
+    path = join(abspath(args.root), args.name)
     with tmpdir() as tmp:
-        git = "git clone {:s} {:s}".format(args.repo, tmp)
-        check_call(git.split())
-        with chwdir(tmp):
-            git = "git checkout {:s}".format(args.checkout)
-            check_call(git.split())
-        path = join(args.root, NAME)
-        venv = "virtualenv {:s}".format(path)
-        check_call(venv.split())
-        with chwdir(path):
-            pip = "bin/pip install -r {0:s}/requirements.txt {0:s}".format(tmp)
-            check_call(pip.split())
-
+        clone = "git clone {:s} {:s}".format(args.repo, tmp)
+        check_call(clone.split())
+        chdir(tmp)
+        checkout = "git checkout {:s}".format(args.checkout)
+        check_call(checkout.split())
+        virtualenv = "virtualenv {:s}".format(path)
+        check_call(virtualenv.split())
+        pip = join(path, "bin", "pip")
+        install = "{:s} install -U -r requirements.txt .".format(pip)
+        check_call(install.split())
+        if args.test:
+            test()
     return 0
 
 
