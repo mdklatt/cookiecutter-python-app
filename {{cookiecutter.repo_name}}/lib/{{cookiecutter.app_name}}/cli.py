@@ -59,7 +59,9 @@ def main(argv=None):
 
 if __name__ == "__main__":
     try:
-        raise SystemExit(main())
+        status = main()
     except:
         logger.critical("shutting down due to fatal error")
         raise  # print stack trace
+    else:
+        raise SystemExit(status)
