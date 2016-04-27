@@ -18,4 +18,4 @@ before_script:
   - pip install --requirement=requirements.txt
 
 script:
-  - bash test.bash 
+  - python test.py
