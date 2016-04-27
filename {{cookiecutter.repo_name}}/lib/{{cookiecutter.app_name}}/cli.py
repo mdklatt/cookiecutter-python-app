@@ -6,10 +6,10 @@ from __future__ import absolute_import
 from argparse import ArgumentParser
 
 from . import __version__
+from .api import cmd1
+from .api import cmd2
 from .core import config
 from .core import logger
-from .command import cmd1
-from .command import cmd2
 
 
 __all__ = "main",
