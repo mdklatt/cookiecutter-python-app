@@ -11,15 +11,17 @@ The target machine must have Python 2.7, pip, and virtualenv installed.
 from argparse import ArgumentParser
 from contextlib import contextmanager
 from os import chdir
+from os import getcwd
 from os.path import abspath
 from os.path import join
+from shlex import split
 from shutil import rmtree
 from subprocess import check_call
 from tempfile import mkdtemp
 
 
 _NAME = "{{ cookiecutter.app_name }}"
-_REPO = None  # TODO: specify the default Git repo to use
+_REPO = None  # FIXME: specify the default Git repo to use
 
 
 def _cmdline(argv=None):
@@ -51,38 +53,41 @@ def main(argv=None):
     """
     @contextmanager
     def tmpdir():
-        """ Create a self-deleting temporary directory. """
-        path = mkdtemp()
+        """ Enter a self-deleting temporary directory. """
+        cwd = getcwd()
+        tmp = mkdtemp()
         try:
-            yield path
+            chdir(tmp)
+            yield tmp
         finally:
-            rmtree(path)
+            rmtree(tmp)
+            chdir(cwd)
         return
 
     def test():
         """ Execute the test suite. """
-        install = "{:s} install -r requirements-test.txt"
-        check_call(install.format(pip).split())
-        pytest = join(path, "bin", "py.test")
-        test = "{:s} test/".format(pytest)
+        install = "{:s} install -r requirements-test.txt".format(pip)
+        check_call(split(install))
+        python = join(path, "bin", "python")
+        test = "{:s} -m pytest test".format(python)
         check_call(test.split())
-        uninstall = "{:s} uninstall -y -r requirements-test.txt"
-        check_call(uninstall.format(pip).split())
+        uninstall = "{:s} uninstall -y -r requirements-test.txt".format(pip)
+        check_call(split(uninstall))
         return
 
     args = _cmdline(argv)
     path = join(abspath(args.root), args.name)
-    with tmpdir() as tmp:
-        clone = "git clone {:s} {:s}".format(args.repo, tmp)
-        check_call(clone.split())
-        chdir(tmp)
+    with tmpdir():
+        clone = "git clone {:s} {{ cookiecutter.repo_name }}".format(args.repo)
+        check_call(split(clone))
+        chdir("{{ cookiecutter.repo_name }}")
         checkout = "git checkout {:s}".format(args.checkout)
-        check_call(checkout.split())
+        check_call(split(checkout))
         virtualenv = "virtualenv {:s}".format(path)
-        check_call(virtualenv.split())
+        check_call(split(virtualenv))
         pip = join(path, "bin", "pip")
         install = "{:s} install -U -r requirements.txt .".format(pip)
-        check_call(install.split())
+        check_call(split(install))
         if args.test:
             test()
     return 0
