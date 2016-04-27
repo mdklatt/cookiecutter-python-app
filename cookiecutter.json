@@ -2,7 +2,6 @@
     "repo_name": "pyapp",
     "app_name": "{{ cookiecutter.repo_name }}",
     "cli_script": "cli",
-    "gui_script": "gui",
     "author_name": "",
     "author_email": "",
     "project_version": "0.1.0.dev0",
