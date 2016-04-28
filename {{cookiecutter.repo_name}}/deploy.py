@@ -78,9 +78,9 @@ def main(argv=None):
     args = _cmdline(argv)
     path = join(abspath(args.root), args.name)
     with tmpdir():
-        clone = "git clone {:s} {{ cookiecutter.repo_name }}".format(args.repo)
+        clone = "git clone {:s} {:s}".format(args.repo, _NAME)
         check_call(split(clone))
-        chdir("{{ cookiecutter.repo_name }}")
+        chdir(_NAME)
         checkout = "git checkout {:s}".format(args.checkout)
         check_call(split(checkout))
         virtualenv = "virtualenv {:s}".format(path)
