@@ -23,11 +23,13 @@ def test_logger(capsys):
     _, stderr = capsys.readouterr()
     assert not stderr  # no output until logger is started
     logger.start("debug")
-    assert logger.level == DEBUG
-    logger.critical(message)
+    try:
+        assert logger.level == DEBUG
+        logger.critical(message)
+    finally:
+        logger.stop()
     _, stderr = capsys.readouterr()
     assert message in stderr
-    logger.stop()
     return
 
 
