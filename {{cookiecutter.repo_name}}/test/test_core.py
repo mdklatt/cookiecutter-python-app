@@ -47,9 +47,13 @@ def test_config(tmpdir):
         pathobj.write(dump(data))
     assert not config  # empty until loaded
     params = {"x1": "conf1", "x2": "conf2"}
+    merged = {"global": "conf2", "conf1": "conf1", "conf2": "conf2"}
     config.load((str(item[0]) for item in configs), params)
-    assert {"global": "conf2", "conf1": "conf1", "conf2": "conf2"} == config
-    assert "conf1" == config.conf1  # TODO: need to test nested attributes
+    try:
+        assert merged == config
+        assert "conf1" == config.conf1  # TODO: need to test nested attributes
+    finally:
+        config.clear()
     return
     
 
