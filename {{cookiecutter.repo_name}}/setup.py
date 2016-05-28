@@ -2,7 +2,8 @@
 
 """
 from distutils import log
-from functools import partial
+from itertools import chain
+from os import walk
 from os.path import join
 from subprocess import check_call
 from subprocess import CalledProcessError
@@ -12,13 +13,16 @@ from setuptools import find_packages
 from setuptools import setup
 
 
-_ETC_FILES = {
-    # Files are keyed by their project directory location and will be installed
-    # into the same location under the Python installation path, e.g. the
-    # application virtualenv environment.
-    "etc": ("config.yml",),
-}
+def _listdir(root):
+    """ Recursively list all files under 'root'.
 
+    """
+    for path, _, names in walk(root):
+        yield path, tuple(join(path, name) for name in names)
+    return
+
+
+_DATA = "etc/",
 
 _CONFIG = {
     "name": "{{ cookiecutter.app_name }}",
@@ -30,8 +34,7 @@ _CONFIG = {
     "entry_points": {
         "console_scripts": ("{{ cookiecutter.cli_script }} = {{ cookiecutter.app_name }}.cli:main",),
     },
-    "data_files": [(root, map(partial(join, root), paths)) for (root, paths)
-                   in _ETC_FILES.iteritems()],
+    "data_files": list(chain.from_iterable(_listdir(root) for root in _DATA))
 }
 
 
