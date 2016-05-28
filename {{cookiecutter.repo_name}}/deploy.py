@@ -13,6 +13,7 @@ from contextlib import contextmanager
 from os import chdir
 from os import getcwd
 from os.path import abspath
+from os.path imort isdir
 from os.path import join
 from shlex import split
 from shutil import rmtree
@@ -77,8 +78,9 @@ def main(argv=None):
 
     args = _cmdline(argv)
     path = join(abspath(args.root), args.name)
+    repo = abspath(args.repo) if isdir(args.repo) else args.repo
     with tmpdir():
-        clone = "git clone {:s} {:s}".format(args.repo, _NAME)
+        clone = "git clone {:s} {:s}".format(repo, _NAME)
         check_call(split(clone))
         chdir(_NAME)
         checkout = "git checkout {:s}".format(args.checkout)
