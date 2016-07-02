@@ -74,12 +74,12 @@ class _Config(_AttrDict):
                 # excluded from replacement. A more elegant (but complex)
                 # approach would be to use PyYAML's various hooks to do the
                 # substitution as the file is parsed.
-                logger.info("reading config data from {:s}".format(path))
+                logger.info("reading config data from '{:s}'".format(path))
                 yaml = regex.sub(replace, stream.read())
             try:
                 self.update(load(yaml))
             except TypeError:  # load() returned None
-                logger.warn("config file '{:s}' is empty".format(yaml))
+                logger.warn("config file '{:s}' is empty".format(path))
         return
 
 
