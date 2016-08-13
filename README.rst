@@ -1,8 +1,9 @@
+===================================
 Python Application Project Template
 ===================================
 
 Overview |travis.png|
----------------------
+=====================
 ..  _travis: https://travis-ci.org/mdklatt/cookiecutter-python-app
 ..  _Cookiecutter: http://cookiecutter.readthedocs.org
 ..  _packaging guidelines: https://packaging.python.org/en/latest/distributing.html#configuring-your-project
@@ -21,7 +22,7 @@ project root provides several advantages (*cf.* `Packaging a Python library`_).
 
 
 Template Project Features
--------------------------
+=========================
 ..  _pytest: http://pytest.org
 ..  _Sphinx: http://sphinx-doc.org
 ..  _MIT License: http://choosealicense.com/licenses/mit
@@ -37,7 +38,7 @@ Template Project Features
 
 
 Template Application Features
------------------------------
+=============================
 ..  _YAML: http://pyyaml.org/wiki/PyYAML
 
 
@@ -47,7 +48,7 @@ Template Application Features
 
 
 Usage
------
+=====
 ..  _GitHub: https://github.com/mdklatt/cookiecutter-python-app
 
 
