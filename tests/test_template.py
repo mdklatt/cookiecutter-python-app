@@ -6,13 +6,18 @@ test suite is run.
 
 """
 from contextlib import contextmanager
+from json import load
 from os import chdir
 from os import getcwd
+from os.path import abspath
+from os.path import dirname
+from os.path import join
 from shlex import split
 from shutil import rmtree
 from subprocess import check_call
 from tempfile import mkdtemp
 
+from cookiecutter.main import cookiecutter
 
 def main():
     """ Execute the test.
@@ -31,11 +36,11 @@ def main():
             chdir(cwd)
         return
 
-    template = getcwd()
+    template = dirname(dirname(abspath(__file__)))
+    defaults = load(open(join(template, "cookiecutter.json")))
     with tmpdir():
-        cookiecutter = "cookiecutter {:s} --no-input".format(template)
-        check_call(split(cookiecutter))
-        chdir("pyapp")
+        cookiecutter(template, no_input=True)
+        chdir(defaults["project_name"])
         virtualenv = "virtualenv venv"
         check_call(split(virtualenv))
         install = "venv/bin/pip install ."
