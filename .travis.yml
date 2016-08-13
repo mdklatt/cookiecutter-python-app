@@ -15,7 +15,7 @@ branches:
 sudo: false
 
 before_script:
-  - pip install --requirement=requirements.txt
+  - pip install -r requirements.txt -r tests/requirements.txt
 
 script:
-  - python test.py
+  - python tests/test_template.py
