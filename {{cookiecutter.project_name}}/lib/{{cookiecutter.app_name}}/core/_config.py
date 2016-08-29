@@ -42,7 +42,7 @@ class _Config(_AttrDict):
         """
         super(_Config, self).__init__()
         if paths:
-            self.load(paths)
+            self.load(paths, params)
         return
 
     def load(self, paths, params=None):
