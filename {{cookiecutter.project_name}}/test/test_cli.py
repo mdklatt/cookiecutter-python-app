@@ -46,4 +46,4 @@ def test_script(command):
 # Make the script executable.
 
 if __name__ == "__main__":
-    raise SystemExit(pytest.main(__file__))
+    raise SystemExit(pytest.main([__file__]))

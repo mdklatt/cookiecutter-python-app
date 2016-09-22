@@ -60,4 +60,4 @@ def test_config(tmpdir):
 # Make the module executable.
 
 if __name__ == "__main__":
-    raise SystemExit(pytest.main(__file__))
+    raise SystemExit(pytest.main([__file__]))
