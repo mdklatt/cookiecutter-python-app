@@ -38,14 +38,15 @@ _CONFIG = {
 }
 
 
-def version():
+def _version():
     """ Get the local package version.
 
     """
     path = join("lib", _CONFIG["name"], "__version__.py")
+    namespace = {}
     with open(path) as stream:
-        exec(stream.read())
-    return __version__
+        exec(stream.read(), namespace)
+    return namespace["__version__"]
 
 
 class _CustomCommand(Command):
@@ -110,7 +111,7 @@ class UpdateCommand(_CustomCommand):
             check_call(cmdl.split())
         except CalledProcessError:
             raise SystemExit(1)
-        log.info("package version is now {:s}".format(version()))
+        log.info("package version is now {:s}".format(_version()))
         return
 
 
@@ -157,7 +158,7 @@ def main():
     """ Execute the setup commands.
 
     """
-    _CONFIG["version"] = version()
+    _CONFIG["version"] = _version()
     _CONFIG["cmdclass"] = {
         "virtualenv": VirtualenvCommand,
         "update": UpdateCommand,
