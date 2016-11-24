@@ -30,6 +30,10 @@ class _Logger(Logger):
         'parent.child' defines a logger that is a descendant of 'parent'.
 
         """
+        # With a NullHandler, client code may make logging calls without regard
+        # to whether the logger has been started yet. The standard Logger API
+        # may be used to add and remove additional handlers, but the
+        # NullHandler should always be left in place. 
         super(_Logger, self).__init__(name or __name__.split(".")[0])
         self.addHandler(NullHandler())  # default to no output
         self.active = False
@@ -66,9 +70,9 @@ class _Logger(Logger):
         """ Stop logging with this logger.
 
         """
-        if not self.active:
-            return
-        self.removeHandler(self.handlers[-1])
+        for handler in self.handlers[1:]:
+            # Remove everything but the NullHandler.
+            self.removeHandler(handler)
         self.active = False
         return
 

@@ -29,6 +29,7 @@ def test_logger(capsys):
     finally:
         logger.stop()
     _, stderr = capsys.readouterr()
+    assert not logger.active
     assert message in stderr
     return
 
