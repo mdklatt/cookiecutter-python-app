@@ -62,7 +62,6 @@ class _Config(_AttrDict):
             # This allows for multi-pattern substitution in a single pass.
             return params[match.group(0)]
 
-        self.clear()
         params = {r"%{:s};".format(key): val for (key, val) in
                   params.iteritems()} if params else {}
         regex = compile("|".join(params) or r"^(?!)")
