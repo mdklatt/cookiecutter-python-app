@@ -1,4 +1,4 @@
-# Python
+# Ignore Python build artifacts.
 
 MANIFEST
 build/
@@ -8,29 +8,17 @@ dist/
 *.pyo
 
 
-# py.test
-
-.cache/
-
-
-# Sphinx
-
-_build/
-_static/
-_templates/
-
-
-# virtualenv
+# Ignore virtualenv environments.
 
 venv*/
 
 
-# Vagrant
+# Ignore Vagrant runtime files.
 
 .vagrant/
 
 
-# IDE settings
+# Ignore settings for various IDEs.
 
 .idea/
 .project/
@@ -38,6 +26,6 @@ venv*/
 nbproject/
 
 
-# OS-specific
+# Ignore OS metadata files.
 
 .DS_Store
