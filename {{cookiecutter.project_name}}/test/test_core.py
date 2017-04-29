@@ -8,17 +8,18 @@ environment or setuptools develop mode to test against the development version.
 
 """
 from logging import DEBUG
+from io import BytesIO
 from yaml import dump
 
 import pytest
 from {{ cookiecutter.app_name }}.core import *  # tests __all__
 
 
-def test_logger(capsys):
-    """ Test application logging.
+def test_logger_stderr(capsys):
+    """ Test application logging to stderr.
     
     """
-    message = "core.logger test"
+    message = "test_logger"
     logger.critical(message)
     _, stderr = capsys.readouterr()
     assert not stderr  # no output until logger is started
@@ -34,6 +35,23 @@ def test_logger(capsys):
     return
 
 
+def test_logger_stream():
+    """ Test application logging to a stream.
+    
+    """
+    message = "test_logger_stream"
+    stream = BytesIO()
+    logger.start("debug", stream)
+    try:
+        assert logger.level == DEBUG
+        logger.critical(message)
+    finally:
+        logger.stop()
+    assert not logger.active
+    assert message in stream.getvalue()
+    return
+    
+    
 def test_config(tmpdir):
     """ Test application configuration.
     

@@ -39,11 +39,12 @@ class _Logger(Logger):
         self.active = False
         return
 
-    def start(self, level="WARN"):
+    def start(self, level="WARN", stream=None):
         """ Start logging with this logger.
 
         Until the logger is started, no messages will be emitted. This applies
-        to all loggers with the same name and any child loggers.
+        to all loggers with the same name and any child loggers. By default,
+        messages are logged to stderr, or specify a different stream.
 
         Messages less than the given priority level will be ignored. The
         default level is 'WARN', which conforms to the *nix convention that a
@@ -59,7 +60,7 @@ class _Logger(Logger):
         """
         if self.active:
             return
-        handler = StreamHandler()  # stderr
+        handler = StreamHandler(stream)
         handler.setFormatter(Formatter(self.LOGFMT))
         self.addHandler(handler)
         self.setLevel(level.upper())
