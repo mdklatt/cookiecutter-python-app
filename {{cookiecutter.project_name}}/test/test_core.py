@@ -69,8 +69,10 @@ def test_config(tmpdir):
     merged = {"global": "conf2", "conf1": "conf1", "conf2": "conf2"}
     config.load((str(item[0]) for item in configs), params)
     try:
-        assert merged == config
-        assert "conf1" == config.conf1  # TODO: need to test nested attributes
+        # TODO: Need to test nested values.
+        assert config == merged
+        assert config["conf1"] == "conf1"  # item access
+        assert config.conf1 == "conf1"  # attribute access
     finally:
         config.clear()
     return

@@ -19,15 +19,22 @@ class _AttrDict(dict):
     """ A dict with attribute access.
 
     """
-    def __getattr__(self, name):
-        """ Access a dict value as an attribute.
+    def __getitem__(self, name):
+        """ Access dict values by key.
 
         """
-        value = self[name]
-        if isinstance(value, dict):
-            # Allow recursive attribute access.
-            value = _AttrDict(value)
-        return value
+        item = super(_AttrDict, self).__getitem__(name)
+        if isinstance(item, dict):
+            # Prefer this to catching an exception if item is not a dict
+            # because exceptions are expected to be relatively frequent. 
+            item = _AttrDict(item)
+        return item
+
+    def __getattr__(self, name):
+        """ Access dict values as attributes.
+
+        """
+        return self[name]
 
 
 class _Config(_AttrDict):
