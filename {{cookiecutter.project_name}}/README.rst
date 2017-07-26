@@ -1,7 +1,7 @@
-{{ "=" * cookiecutter.app_name|length }}
+{% set delim = "=" * cookiecutter.app_name|length %}
+{{ delim }}
 {{ cookiecutter.app_name }}
-{{ "=" * cookiecutter.app_name|length }}
-
+{{ delim }}
 
 This is the {{ cookiecutter.app_name }} application.
 
