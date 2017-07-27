@@ -52,30 +52,65 @@ def test_logger_stream():
     return
     
     
-def test_config(tmpdir):
-    """ Test application configuration.
-    
+class ConfigTest(object):
+    """ Test suite for the config object.
+
     """
-    configs = (
-        (tmpdir.join("empty.yml"), None),
-        (tmpdir.join("conf1.yml"), {"global": "%x1;", "%x1;": "%x1;"}),
-        (tmpdir.join("conf2.yml"), {"global": "%x2;", "%x2;": "%x2;"}),
-    )
-    for pathobj, data in configs:
-        # Write config data to each config file.
-        pathobj.write(dump(data))
-    assert not config  # empty until loaded
-    params = {"x1": "conf1", "x2": "conf2"}
-    merged = {"global": "conf2", "conf1": "conf1", "conf2": "conf2"}
-    config.load((str(item[0]) for item in configs), params)
-    try:
-        # TODO: Need to test nested values.
-        assert config == merged
-        assert config["conf1"] == "conf1"  # item access
-        assert config.conf1 == "conf1"  # attribute access
-    finally:
+    @classmethod
+    @pytest.fixture
+    def clear(cls):
+        """ Clear the config object after each test.
+
+        """
+        yield
         config.clear()
-    return
+        return
+
+    @classmethod
+    @pytest.fixture
+    def files(cls, tmpdir):
+        """ Write config files for testing.
+
+        """
+        configs = (
+            (tmpdir.join("empty.yml"), None),
+            (tmpdir.join("conf1.yml"), {"global": "%x1;", "%x1;": "%x1;"}),
+            (tmpdir.join("conf2.yml"), {"global": "%x2;", "%x2;": "%x2;"}),
+        )
+        for pathobj, values in configs:
+            pathobj.write(dump(values))
+        return tuple(pathobj.strpath for pathobj, _ in configs)
+
+    @pytest.mark.usefixtures("clear")
+    def test_item(self):
+        """ Test item access.
+
+        """
+        config["root"] = {}
+        config["root"]["key"] = "value"
+        assert config["root"]["key"] == "value"
+        return
+
+    @pytest.mark.usefixtures("clear")
+    def test_attr(self):
+        """ Test attribute access.
+
+        """
+        config.root = {}
+        config.root.key = "value"
+        assert config.root.key == "value"
+        return
+
+    @pytest.mark.usefixtures("clear")
+    def test_load(self, files):
+        """ Test the load() method.
+
+        """
+        merged = {"global": "conf2", "conf1": "conf1", "conf2": "conf2"}
+        params = {"x1": "conf1", "x2": "conf2"}
+        config.load(files, params)
+        assert config == merged
+        return
     
 
 # Make the module executable.

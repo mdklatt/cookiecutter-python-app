@@ -16,25 +16,37 @@ __all__ = "config",
 
 
 class _AttrDict(dict):
-    """ A dict with attribute access.
+    """ A dict-like object with attribute access.
 
     """
-    def __getitem__(self, name):
+    def __getitem__(self, key):
         """ Access dict values by key.
 
         """
-        item = super(_AttrDict, self).__getitem__(name)
-        if isinstance(item, dict):
-            # Prefer this to catching an exception if item is not a dict
-            # because exceptions are expected to be relatively frequent. 
-            item = _AttrDict(item)
-        return item
+        value = super(_AttrDict, self).__getitem__(key)
+        if isinstance(value, dict):
+            # For mixed recursive assignment (e.g. `a["b"].c = value` to work
+            # as expected, all dict-like values must themselves be _AttrDicts.
+            # The "right way" to do this would be to convert to an _AttrDict on
+            # assignment, but that requires overriding both __setitem__
+            # (straightforward) and __init__ (good luck). An explicit type
+            # check is used here instead of EAFP because exceptions would be
+            # frequent for hierarchical data with lots of nested dicts.
+            self[key] = value = _AttrDict(value)
+        return value
 
-    def __getattr__(self, name):
-        """ Access dict values as attributes.
+    def __getattr__(self, key):
+        """ Get dict values as attributes.
 
         """
-        return self[name]
+        return self[key]
+
+    def __setattr__(self, key, value):
+        """ Set dict values as attributes.
+
+        """
+        self[key] = value
+        return
 
 
 class _Config(_AttrDict):
