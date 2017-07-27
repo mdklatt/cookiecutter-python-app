@@ -15,41 +15,56 @@ import pytest
 from {{ cookiecutter.app_name }}.core import *  # tests __all__
 
 
-def test_logger_stderr(capsys):
-    """ Test application logging to stderr.
+class LoggerTest(object):
+    """ Test suite for the logger object.
     
     """
-    message = "test_logger"
-    logger.critical(message)
-    _, stderr = capsys.readouterr()
-    assert not stderr  # no output until logger is started
-    logger.start("debug")
-    try:
-        assert logger.level == DEBUG
-        logger.critical(message)
-    finally:
-        logger.stop()
-    _, stderr = capsys.readouterr()
-    assert not logger.active
-    assert message in stderr
-    return
+    @classmethod
+    @pytest.fixture
+    def reset(cls):
+        """ Reset the logger object after each test.
 
-
-def test_logger_stream():
-    """ Test application logging to a stream.
-    
-    """
-    message = "test_logger_stream"
-    stream = BytesIO()
-    logger.start("debug", stream)
-    try:
-        assert logger.level == DEBUG
-        logger.critical(message)
-    finally:
+        """
+        yield
         logger.stop()
-    assert not logger.active
-    assert message in stream.getvalue()
-    return
+        return
+
+    @pytest.mark.usefixtures("reset")
+    def test_stop(self, capsys):
+        """ Test the stop() method.
+        
+        """
+        logger.stop()
+        logger.critical("test")
+        _, stderr = capsys.readouterr()
+        assert not logger.active
+        assert not stderr
+        return
+        
+    @pytest.mark.usefixtures("reset")
+    def test_start(self, capsys):
+        """ Test the start method.
+        
+        """
+        message = "test message"
+        logger.start("debug")
+        logger.debug(message)
+        _, stderr = capsys.readouterr()
+        assert logger.level == DEBUG
+        assert message in stderr
+        return
+
+    @pytest.mark.usefixtures("reset")
+    def test_stream(self):
+        """ Test output to an alternate stream.
+        
+        """
+        message = "test message"
+        stream = BytesIO()
+        logger.start("debug", stream)
+        logger.debug(message)
+        assert message in stream.getvalue()
+        return
     
     
 class ConfigTest(object):
@@ -58,8 +73,8 @@ class ConfigTest(object):
     """
     @classmethod
     @pytest.fixture
-    def clear(cls):
-        """ Clear the config object after each test.
+    def reset(cls):
+        """ Reset the config object after each test.
 
         """
         yield
@@ -81,7 +96,7 @@ class ConfigTest(object):
             pathobj.write(dump(values))
         return tuple(pathobj.strpath for pathobj, _ in configs)
 
-    @pytest.mark.usefixtures("clear")
+    @pytest.mark.usefixtures("reset")
     def test_item(self):
         """ Test item access.
 
@@ -91,7 +106,7 @@ class ConfigTest(object):
         assert config["root"]["key"] == "value"
         return
 
-    @pytest.mark.usefixtures("clear")
+    @pytest.mark.usefixtures("reset")
     def test_attr(self):
         """ Test attribute access.
 
@@ -101,7 +116,7 @@ class ConfigTest(object):
         assert config.root.key == "value"
         return
 
-    @pytest.mark.usefixtures("clear")
+    @pytest.mark.usefixtures("reset")
     def test_load(self, files):
         """ Test the load() method.
 
