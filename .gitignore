@@ -1,0 +1,16 @@
+# Ignore pyenv files.
+
+.python-version
+
+
+# Ignore settings for various IDEs.
+
+.idea/
+.project/
+.pydevproject/
+nbproject/
+
+
+# Ignore OS metadata files.
+
+.DS_Store
