@@ -4,8 +4,15 @@
 ##
 language: python
 
+# This will fail for Python 3.4+ on Travis Ubuntu workers. The problem seems to
+# be Ubuntu's crippled Python 3, which is made worse with Travis. The Python 3
+# version of the test script relies on the now-standard pip command and venv
+# module, but these are missing from the default Ubuntu Python installation.
+
 python:
-  - "2.7"
+  - "3.4"
+  - "3.5"
+  - "3.6"
 
 branches:
   only:
@@ -14,7 +21,7 @@ branches:
 
 sudo: false
 
-before_script:
+install:
   - pip install -r requirements.txt -r tests/requirements.txt
 
 script:

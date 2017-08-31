@@ -16,6 +16,7 @@ from shlex import split
 from shutil import rmtree
 from subprocess import check_call
 from tempfile import mkdtemp
+from venv import create
 
 from cookiecutter.main import cookiecutter
 
@@ -41,8 +42,7 @@ def main():
     with tmpdir():
         cookiecutter(template, no_input=True)
         chdir(defaults["project_name"])
-        virtualenv = "virtualenv venv"
-        check_call(split(virtualenv))
+        create("venv", with_pip=True)
         install = "venv/bin/pip install ."
         for name in "requirements.txt", "test/requirements.txt":
             install = " ".join((install, "--requirement={:s}".format(name)))

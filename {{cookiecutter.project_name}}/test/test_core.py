@@ -8,7 +8,7 @@ environment or setuptools develop mode to test against the development version.
 
 """
 from logging import DEBUG
-from io import BytesIO
+from io import StringIO
 from yaml import dump
 
 import pytest
@@ -60,7 +60,7 @@ class LoggerTest(object):
         
         """
         message = "test message"
-        stream = BytesIO()
+        stream = StringIO()
         logger.start("debug", stream)
         logger.debug(message)
         assert message in stream.getvalue()
