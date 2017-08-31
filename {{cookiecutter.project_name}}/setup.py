@@ -115,54 +115,12 @@ class UpdateCommand(_CustomCommand):
         return
 
 
-class VirtualenvCommand(_CustomCommand):
-    """ Custom setup command to create a virtualenv environment.
-
-    """
-    description = "create a virtualenv environment"
-    user_options = [
-        ("name=", "m", "environment name [default: venv]"),
-        ("python=", "p", "Python interpreter"),
-        ("requirements=", "r", "pip requirements file"),
-    ]
-
-    def initialize_options(self):
-        """ Set the default values for all user options.
-
-        """
-        self.name = "venv"
-        self.python = None  # default to version used to install virtualenv
-        self.requirements = None
-        return
-
-    def run(self):
-        """ Execute the command.
-
-        """
-        venv = "virtualenv {:s}"
-        if self.python:
-            venv += " -p {:s}"
-        pip = "{0:s}/bin/pip install -r {2:s}" if self.requirements else None
-        args = self.name, self.python, self.requirements
-        try:
-            check_call(venv.format(*args).split())
-            if pip:
-                log.info("installing requirements")
-                check_call(pip.format(*args).split())
-        except CalledProcessError:
-            raise SystemExit(1)
-        return
-
-
 def main():
     """ Execute the setup commands.
 
     """
     _CONFIG["version"] = _version()
-    _CONFIG["cmdclass"] = {
-        "virtualenv": VirtualenvCommand,
-        "update": UpdateCommand,
-    }
+    _CONFIG["cmdclass"] = {"update": UpdateCommand}
     setup(**_CONFIG)
     return 0
 
