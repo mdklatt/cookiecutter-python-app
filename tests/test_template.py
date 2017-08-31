@@ -1,8 +1,8 @@
 """ Test the python-app Cookiecutter template.
 
 A template project is created in a temporary directory, the application is
-installed into a self-contained virtualenv environment, and the application
-test suite is run.
+installed into a self-contained venv environment, and the application test 
+suite is run.
 
 """
 from contextlib import contextmanager
@@ -14,6 +14,7 @@ from os.path import dirname
 from os.path import join
 from shlex import split
 from shutil import rmtree
+from shutil import which
 from subprocess import check_call
 from tempfile import mkdtemp
 from venv import create
@@ -43,12 +44,16 @@ def main():
         cookiecutter(template, no_input=True)
         chdir(defaults["project_name"])
         create("venv", with_pip=True)
-        install = "venv/bin/pip install ."
-        for name in "requirements.txt", "test/requirements.txt":
-            install = " ".join((install, "--requirement={:s}".format(name)))
+        path = join("venv", "bin")
+        pip = which("pip", path=path) or "pip"  # Travis CI workaround
+        install = "{:s} install .".format(pip)
+        for req in (join(root, "requirements.txt") for root in (".", "test")):
+            # Add each requirements file to the install.
+            install = " ".join((install, "--requirement={:s}".format(req)))
         check_call(split(install))
-        pytest = "venv/bin/pytest --verbose test"
-        check_call(split(pytest))
+        pytest = which("pytest", path=path) or "pytest"  # Travis CI workaround
+        test = "{:s} --verbose test".format(pytest)
+        check_call(split(test))
     return 0
     
     
