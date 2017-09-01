@@ -15,7 +15,22 @@ from .core import logger
 __all__ = "main",
 
 
-def _cmdline(argv=None):
+def main(argv=None):
+    """ Execute the application CLI.
+
+    Arguments are taken from sys.argv by default.
+
+    """
+    args = _args(argv)
+    logger.start(args.warn)
+    logger.info("starting execution")
+    config.load(args.config)
+    args.command(**vars(args))
+    logger.info("successful completion")
+    return 0
+ 
+
+def _args(argv=None):
     """ Parse command line arguments.
 
     """
@@ -25,8 +40,8 @@ def _cmdline(argv=None):
     parser.add_argument("-v", "--version", action="version",
             version="{{ cookiecutter.app_name }} {:s}".format(__version__),
             help="print version and exit")
-    parser.add_argument("-w", "--warn", default="WARNING",
-            help="logger warning level [WARNING]")
+    parser.add_argument("-w", "--warn", default="WARN",
+            help="logger warning level [WARN]")
     subparsers = parser.add_subparsers(title="commands")
     cmd1_parser = subparsers.add_parser("cmd1")
     cmd1_parser.set_defaults(command=cmd1)
@@ -38,21 +53,6 @@ def _cmdline(argv=None):
         # included in the list.
         args.config = ["etc/config.yml"]
     return args
-
-
-def main(argv=None):
-    """ Execute the application CLI.
-
-    Arguments are taken from sys.argv by default.
-
-    """
-    args = _cmdline(argv)
-    logger.start(args.warn)
-    logger.info("starting execution")
-    config.load(args.config)
-    args.command(**vars(args))
-    logger.info("successful completion")
-    return 0
  
 
 # Make the module executable.
