@@ -117,14 +117,18 @@ class ConfigTest(object):
         return
 
     @pytest.mark.usefixtures("reset")
-    def test_load(self, files):
+    @pytest.mark.parametrize("root", (None, "root"))
+    def test_load(self, files, root):
         """ Test the load() method.
 
         """
         merged = {"global": "conf2", "conf1": "conf1", "conf2": "conf2"}
         params = {"x1": "conf1", "x2": "conf2"}
-        config.load(files, params)
-        assert config == merged
+        config.load(files, root, params)
+        if root:
+            assert config == {root: merged}
+        else:
+            assert config == merged
         return
     
 
