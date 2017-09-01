@@ -55,21 +55,22 @@ class _Config(_AttrDict):
     Data can be accessed as dict values or object attributes.
 
     """
-    def __init__(self, paths=None, params=None):
+    def __init__(self, paths=None, root=None, params=None):
         """ Initialize this object.
 
         """
         super(_Config, self).__init__()
         if paths:
-            self.load(paths, params)
+            self.load(paths, root, params)
         return
 
-    def load(self, paths, params=None):
+    def load(self, paths, root=None, params=None):
         """ Load data from configuration files.
 
         Configuration values are read from a sequence of one or more YAML
         files. Files are read in the given order, and a duplicate value will
-        overwrite the existing value.
+        overwrite the existing value. If 'root' is specified the config data
+        will be loaded under that attribute instead of the dict root.
 
         The optional 'params' argument is a dict-like object to use for
         parameter substitution in the config files. Any text matching "%key;"
@@ -94,10 +95,14 @@ class _Config(_AttrDict):
                 # substitution as the file is parsed.
                 logger.info("reading config data from '{:s}'".format(path))
                 yaml = regex.sub(replace, stream.read())
+            data = load(yaml)
             try:
-                self.update(load(yaml))
-            except TypeError:  # load() returned None
-                logger.warn("config file '{:s}' is empty".format(path))
+                if root:
+                    self.setdefault(root, {}).update(data)
+                else:
+                    self.update(data)
+            except TypeError:  # data is None
+                logger.warn("config file {:s} is empty".format(path))
         return
 
 
