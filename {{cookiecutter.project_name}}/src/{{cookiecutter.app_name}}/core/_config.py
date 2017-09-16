@@ -55,17 +55,17 @@ class _Config(_AttrDict):
     Data can be accessed as dict values or object attributes.
 
     """
-    def __init__(self, paths=None, root=None, params=None):
+    def __init__(self, path=None, root=None, macros=None):
         """ Initialize this object.
 
         """
         super(_Config, self).__init__()
-        if paths:
-            self.load(paths, root, params)
+        if path:
+            self.load(path, root, macros)
         return
 
-    def load(self, paths, root=None, params=None):
-        """ Load data from configuration files.
+    def load(self, path, root=None, macros=None):
+        """ Load data from YAML configuration files.
 
         Configuration values are read from a sequence of one or more YAML
         files. Files are read in the given order, and a duplicate value will
@@ -78,17 +78,17 @@ class _Config(_AttrDict):
 
         """
         def replace(match):
-            """ Callback for re.sub to do parameter replacement. """
+            """ Callback for re.sub to do macro replacement. """
             # This allows for multi-pattern substitution in a single pass.
-            return params[match.group(0)]
+            return macros[match.group(0)]
 
-        params = {r"%{:s};".format(key): val for (key, val) in
-                  params.items()} if params else {}
-        regex = compile("|".join(params) or r"^(?!)")
-        for path in paths:
+        macros = {r"%{:s};".format(key): val for (key, val) in
+                  macros.items()} if macros else {}
+        regex = compile("|".join(macros) or r"^(?!)")
+        for path in [path] if isinstance(path, str) else path:
             with open(path, "r") as stream:
-                # Global text substitution is used for parameter replacement.
-                # Two drawbacks of this are 1) the entire config file has to be
+                # Global text substitution is used for macro replacement. Two
+                # drawbacks of this are 1) the entire config file has to be
                 # read into memory first; 2) it might be nice if comments were
                 # excluded from replacement. A more elegant (but complex)
                 # approach would be to use PyYAML's various hooks to do the
