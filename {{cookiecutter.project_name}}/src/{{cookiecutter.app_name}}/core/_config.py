@@ -12,7 +12,7 @@ from yaml import load
 from ._logger import logger
 
 
-__all__ = "config",
+__all__ = "Config", "config"
 
 
 class _AttrDict(dict):
@@ -49,7 +49,7 @@ class _AttrDict(dict):
         return
 
 
-class _Config(_AttrDict):
+class Config(_AttrDict):
     """ Store configuration data.
 
     Data can be accessed as dict values or object attributes.
@@ -59,7 +59,7 @@ class _Config(_AttrDict):
         """ Initialize this object.
 
         """
-        super(_Config, self).__init__()
+        super(Config, self).__init__()
         if path:
             self.load(path, root, macros)
         return
@@ -106,4 +106,4 @@ class _Config(_AttrDict):
         return
 
 
-config = _Config()
+config = Config()

@@ -7,15 +7,15 @@ until the logger is started.
 from __future__ import absolute_import
 
 from logging import Formatter
-from logging import Logger
+from logging import Logger as _Logger
 from logging import NullHandler
 from logging import StreamHandler
 
 
-__all__ = "logger",
+__all__ = "Logger", "logger"
 
 
-class _Logger(Logger):
+class Logger(_Logger):
     """ Log messages to STDERR.
 
     """
@@ -33,7 +33,7 @@ class _Logger(Logger):
         # to whether the logger has been started yet. The standard Logger API
         # may be used to add and remove additional handlers, but the
         # NullHandler should always be left in place. 
-        super(_Logger, self).__init__(name or __name__.split(".")[0])
+        super(Logger, self).__init__(name or __name__.split(".")[0])
         self.addHandler(NullHandler())  # default to no output
         self.active = False
         return
@@ -77,4 +77,4 @@ class _Logger(Logger):
         return
 
 
-logger = _Logger()
+logger = Logger()
