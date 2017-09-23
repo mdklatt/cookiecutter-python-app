@@ -15,58 +15,6 @@ import pytest
 from {{ cookiecutter.app_name }}.core import *  # tests __all__
 
 
-class LoggerTest(object):
-    """ Test suite for the logger object.
-    
-    """
-    @classmethod
-    @pytest.fixture
-    def reset(cls):
-        """ Reset the logger object after each test.
-
-        """
-        yield
-        logger.stop()
-        return
-
-    @pytest.mark.usefixtures("reset")
-    def test_stop(self, capsys):
-        """ Test the stop() method.
-        
-        """
-        logger.stop()
-        logger.critical("test")
-        _, stderr = capsys.readouterr()
-        assert not logger.active
-        assert not stderr
-        return
-        
-    @pytest.mark.usefixtures("reset")
-    def test_start(self, capsys):
-        """ Test the start method.
-        
-        """
-        message = "test message"
-        logger.start("debug")
-        logger.debug(message)
-        _, stderr = capsys.readouterr()
-        assert logger.level == DEBUG
-        assert message in stderr
-        return
-
-    @pytest.mark.usefixtures("reset")
-    def test_stream(self):
-        """ Test output to an alternate stream.
-        
-        """
-        message = "test message"
-        stream = BytesIO()
-        logger.start("debug", stream)
-        logger.debug(message)
-        assert message in stream.getvalue()
-        return
-    
-    
 class ConfigTest(object):
     """ Test suite for the config object.
 
@@ -130,7 +78,58 @@ class ConfigTest(object):
         else:
             assert config == merged
         return
+
+
+class LoggerTest(object):
+    """ Test suite for the logger object.
     
+    """
+    @classmethod
+    @pytest.fixture
+    def reset(cls):
+        """ Reset the logger object after each test.
+
+        """
+        yield
+        logger.stop()
+        return
+
+    @pytest.mark.usefixtures("reset")
+    def test_start(self, capsys):
+        """ Test the start method.
+        
+        """
+        message = "test message"
+        logger.start("debug")
+        logger.debug(message)
+        _, stderr = capsys.readouterr()
+        assert logger.level == DEBUG
+        assert message in stderr
+        return
+
+    @pytest.mark.usefixtures("reset")
+    def test_stop(self, capsys):
+        """ Test the stop() method.
+        
+        """
+        logger.stop()
+        logger.critical("test")
+        _, stderr = capsys.readouterr()
+        assert not stderr
+        return
+
+    @pytest.mark.usefixtures("reset")
+    def test_stream(self):
+        """ Test output to an alternate stream.
+        
+        """
+        message = "test message"
+        stream = BytesIO()
+        logger.start("debug", stream)
+        logger.debug(message)
+        assert message in stream.getvalue()
+        return
+
 
 # Make the module executable.
 
