@@ -12,7 +12,7 @@ from logging import NullHandler
 from logging import StreamHandler
 
 
-__all__ = "Logger", "logger"
+__all__ = "logger", "Logger"
 
 
 class Logger(_Logger):
@@ -35,35 +35,36 @@ class Logger(_Logger):
         # NullHandler should always be left in place. 
         super(Logger, self).__init__(name or __name__.split(".")[0])
         self.addHandler(NullHandler())  # default to no output
-        self.active = False
         return
 
     def start(self, level="WARN", stream=None):
-        """ Start logging with this logger.
+        """ Start logging to a stream.
 
         Until the logger is started, no messages will be emitted. This applies
         to all loggers with the same name and any child loggers. By default,
         messages are logged to stderr, or specify a different stream.
 
+        Multiple streams can be logged to by calling start() for each one.
+        Calling start() more than once for the same stream will result in
+        duplicate records to that stream.
+
         Messages less than the given priority level will be ignored. The
         default level is 'WARN', which conforms to the *nix convention that a
-        successful run should produce no diagnostic output. Available levels
-        and their suggested meanings:
+        successful run should produce no diagnostic output. Call setLevel() to
+        change the logger's priority level after it has been stared. Available 
+        levels and their suggested meanings:
 
-          DEBUG - output useful for developers
-          INFO - trace normal program flow, especially external interactions
-          WARN - an abnormal condition was detected that might need attention
-          ERROR - an error was detected but execution continued
-          CRITICAL - an error was detected and execution was halted
+            DEBUG - output useful for developers
+            INFO - trace normal program flow, especially external interactions
+            WARN - an abnormal condition was detected that might need attention
+            ERROR - an error was detected but execution continued
+            CRITICAL - an error was detected and execution was halted
 
         """
-        if self.active:
-            return
         handler = StreamHandler(stream)
         handler.setFormatter(Formatter(self.LOGFMT))
         self.addHandler(handler)
         self.setLevel(level.upper())
-        self.active = True
         return
 
     def stop(self):
@@ -73,7 +74,6 @@ class Logger(_Logger):
         for handler in self.handlers[1:]:
             # Remove everything but the NullHandler.
             self.removeHandler(handler)
-        self.active = False
         return
 
 
