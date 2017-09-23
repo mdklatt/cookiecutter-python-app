@@ -12,7 +12,7 @@ from yaml import load
 from ._logger import logger
 
 
-__all__ = "Config", "config"
+__all__ = "config", "YamlConfig"
 
 
 class _AttrDict(dict):
@@ -49,22 +49,22 @@ class _AttrDict(dict):
         return
 
 
-class Config(_AttrDict):
-    """ Store configuration data.
+class YamlConfig(_AttrDict):
+    """ Store YAML configuration data.
 
     Data can be accessed as dict values or object attributes.
 
     """
-    def __init__(self, path=None, root=None, macros=None):
+    def __init__(self, path=None, root=None, params=None):
         """ Initialize this object.
 
         """
-        super(Config, self).__init__()
+        super(YamlConfig, self).__init__()
         if path:
-            self.load(path, root, macros)
+            self.load(path, root, params)
         return
 
-    def load(self, path, root=None, macros=None):
+    def load(self, path, root=None, params=None):
         """ Load data from YAML configuration files.
 
         Configuration values are read from a sequence of one or more YAML
@@ -72,20 +72,20 @@ class Config(_AttrDict):
         overwrite the existing value. If 'root' is specified the config data
         will be loaded under that attribute instead of the dict root.
 
-        The optional 'macros' argument is a dict-like object to use for macro
-        substitution in the config files. Any text matching "%key;" will be
-        replaced with the value for 'key' in macros.
+        The optional 'params' argument is a dict-like object to use for 
+        parameter substitution in the config files. Any text matching "%key;" 
+        will be replaced with the value for 'key' in params.
 
         """
         def replace(match):
             """ Callback for re.sub to do macro replacement. """
             # This allows for multi-pattern substitution in a single pass.
-            return macros[match.group(0)]
+            return params[match.group(0)]
 
-        macros = {r"%{:s};".format(key): val for (key, val) in
-                  macros.iteritems()} if macros else {}
-        regex = compile("|".join(macros) or r"^(?!)")
-        for path in [path] if isinstance(path, basestring) else path:
+        params = {r"%{:s};".format(key): val for (key, val) in
+                  params.iteritems()} if params else {}
+        regex = compile("|".join(params) or r"^(?!)")
+        for path in [path] if isinstance(path, str) else path:
             with open(path, "r") as stream:
                 # Global text substitution is used for macro replacement. Two
                 # drawbacks of this are 1) the entire config file has to be
@@ -106,4 +106,4 @@ class Config(_AttrDict):
         return
 
 
-config = Config()
+config = YamlConfig()
