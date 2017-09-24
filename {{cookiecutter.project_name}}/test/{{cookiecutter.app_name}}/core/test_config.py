@@ -1,4 +1,4 @@
-""" Test suite for the core.py module.
+""" Test suite for the core._config module.
 
 The script can be executed on its own or incorporated into a larger test suite.
 However the tests are run, be aware of which version of the package is actually
@@ -7,28 +7,16 @@ precedence over the version in this project directory. Use a virtualenv test
 environment or setuptools develop mode to test against the development version.
 
 """
-from logging import DEBUG
-from io import StringIO
 from yaml import dump
 
 import pytest
-from {{ cookiecutter.app_name }}.core import *  # tests __all__
+from {{ cookiecutter.app_name }}.core._config import *  # tests __all__
 
 
-class ConfigTest(object):
-    """ Test suite for the config object.
+class YamlConfigTest(object):
+    """ Test suite for the YamlConfig class.
 
     """
-    @classmethod
-    @pytest.fixture
-    def reset(cls):
-        """ Reset the config object after each test.
-
-        """
-        yield
-        config.clear()
-        return
-
     @classmethod
     @pytest.fixture
     def files(cls, tmpdir):
@@ -44,27 +32,40 @@ class ConfigTest(object):
             pathobj.write(dump(values))
         return tuple(pathobj.strpath for pathobj, _ in configs)
 
-    @pytest.mark.usefixtures("reset")
     def test_item(self):
         """ Test item access.
 
         """
+        config = YamlConfig()
         config["root"] = {}
         config["root"]["key"] = "value"
         assert config["root"]["key"] == "value"
         return
 
-    @pytest.mark.usefixtures("reset")
     def test_attr(self):
         """ Test attribute access.
 
         """
+        config = YamlConfig()
         config.root = {}
         config.root.key = "value"
         assert config.root.key == "value"
         return
 
-    @pytest.mark.usefixtures("reset")
+    @pytest.mark.parametrize("root", (None, "root"))
+    def test_init(self, files, root):
+        """ Test the __init__() method for loading a file.
+        
+        """
+        merged = {"global": "conf2", "conf1": "conf1", "conf2": "conf2"}
+        params = {"x1": "conf1", "x2": "conf2"}
+        config = YamlConfig(files, root, params)
+        if root:
+            assert config == {root: merged}
+        else:
+            assert config == merged
+        return
+
     @pytest.mark.parametrize("root", (None, "root"))
     def test_load(self, files, root):
         """ Test the load() method.
@@ -72,62 +73,12 @@ class ConfigTest(object):
         """
         merged = {"global": "conf2", "conf1": "conf1", "conf2": "conf2"}
         params = {"x1": "conf1", "x2": "conf2"}
+        config = YamlConfig()
         config.load(files, root, params)
         if root:
             assert config == {root: merged}
         else:
             assert config == merged
-        return
-
-
-class LoggerTest(object):
-    """ Test suite for the logger object.
-    
-    """
-    @classmethod
-    @pytest.fixture
-    def reset(cls):
-        """ Reset the logger object after each test.
-
-        """
-        yield
-        logger.stop()
-        return
-
-    @pytest.mark.usefixtures("reset")
-    def test_start(self, capsys):
-        """ Test the start method.
-
-        """
-        message = "test message"
-        logger.start("debug")
-        logger.debug(message)
-        _, stderr = capsys.readouterr()
-        assert logger.level == DEBUG
-        assert message in stderr
-        return
-
-    @pytest.mark.usefixtures("reset")
-    def test_stop(self, capsys):
-        """ Test the stop() method.
-
-        """
-        logger.stop()
-        logger.critical("test")
-        _, stderr = capsys.readouterr()
-        assert not stderr
-        return
-
-    @pytest.mark.usefixtures("reset")
-    def test_stream(self):
-        """ Test output to an alternate stream.
-
-        """
-        message = "test message"
-        stream = StringIO()
-        logger.start("debug", stream)
-        logger.debug(message)
-        assert message in stream.getvalue()
         return
 
 
