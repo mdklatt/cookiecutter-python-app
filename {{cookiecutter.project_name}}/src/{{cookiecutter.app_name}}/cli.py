@@ -4,6 +4,7 @@
 from __future__ import absolute_import
 
 from argparse import ArgumentParser
+from inspect import getargspec
 
 from . import __version__
 from .api import cmd1
@@ -23,10 +24,21 @@ def main(argv=None):
     """
     args = _args(argv)
     logger.start(args.warn)
-    logger.info("starting execution")
+    logger.debug("starting execution")
     config.load(args.config)
-    args.command(**vars(args))
-    logger.info("successful completion")
+    config.core.logging = args.warn
+    command = args.command
+    args = vars(args)
+    spec = getargspec(command)
+    if not spec.keywords:
+        # No kwargs, remove unexpected arguments.
+        args = {key: args[key] for key in args if key in spec.args}
+    try:
+        command(**args)
+    except RuntimeError as err:
+        logger.critical(err)
+        return 1
+    logger.debug("successful completion")
     return 0
  
 
@@ -42,18 +54,36 @@ def _args(argv=None):
             help="print version and exit")
     parser.add_argument("-w", "--warn", default="WARN",
             help="logger warning level [WARN]")
-    subparsers = parser.add_subparsers(title="commands")
-    cmd1_parser = subparsers.add_parser("cmd1")
-    cmd1_parser.set_defaults(command=cmd1)
-    cmd2_parser = subparsers.add_parser("cmd2")
-    cmd2_parser.set_defaults(command=cmd2)
+    common = ArgumentParser(add_help=False)  # common subcommand arguments
+    common.add_argument("--name", "-n", default="World", help="greeting name")
+    subparsers = parser.add_subparsers(title="subcommands")
+    _cmd1(subparsers, common)
+    _cmd2(subparsers, common)
     args = parser.parse_args(argv)
     if not args.config:
         # Don't specify this as an argument default or else it will always be
         # included in the list.
-        args.config = ["etc/config.yml"]
+        args.config = "etc/config.yml"
     return args
  
+
+def _cmd1(subparsers, common):
+    """ CLI adaptor for the api.cmd1 command.
+
+    """
+    parser = subparsers.add_parser("cmd1", parents=[common])
+    parser.set_defaults(command=cmd1)
+    return
+
+
+def _cmd2(subparsers, common):
+    """ CLI adaptor for the api.cmd2 command.
+
+    """
+    parser = subparsers.add_parser("cmd2", parents=[common])
+    parser.set_defaults(command=cmd2)
+    return
+
 
 # Make the module executable.
 
