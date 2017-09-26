@@ -2,14 +2,15 @@
 
 """
 from __future__ import absolute_import
+from __future__ import print_function
 
 from ..core import logger
 
 
-def main(**kwargs):
+def main(name="World"):
     """ Execute the command.
     
     """
-    # Using kwargs to provide a generic interface across all commands.
     logger.debug("executing cmd2 command")
-    return 0
+    print("Hello, {:s}!".format(name))
+    return
