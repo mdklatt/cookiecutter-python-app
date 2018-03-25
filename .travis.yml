@@ -9,8 +9,7 @@ python:
 
 branches:
   only:
-    - master
-    - dev
+    - py27
 
 sudo: false
 
