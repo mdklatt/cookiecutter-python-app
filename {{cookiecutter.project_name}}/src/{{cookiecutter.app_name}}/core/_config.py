@@ -83,7 +83,7 @@ class YamlConfig(_AttrDict):
             return params[match.group(0)]
 
         params = {r"%{:s};".format(key): val for (key, val) in
-                  params.iteritems()} if params else {}
+                  params.items()} if params else {}
         regex = compile("|".join(params) or r"^(?!)")
         for path in [path] if isinstance(path, str) else path:
             with open(path, "r") as stream:

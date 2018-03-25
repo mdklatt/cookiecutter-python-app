@@ -9,7 +9,7 @@ This is the {{ cookiecutter.app_name }} application.
 Minimum Requirements
 ====================
 
-- Python 2.7
+- Python 3.4
 
 
 Optional Requirements
@@ -51,13 +51,3 @@ Build documentation:
 .. code-block:: console
 
     $ cd doc && make html
-    
-    
-Deploy the application in a self-contained `Virtualenv`_ environment:
-
-.. _Virtualenv: https://virtualenv.readthedocs.org
-
-.. code-block:: console
-
-    $ python deploy.py /path/to/apps
-    $ cd /path/to/apps/{{ cookiecutter.app_name }} && bin/cli --help

@@ -8,7 +8,7 @@ environment or setuptools develop mode to test against the development version.
 
 """
 from logging import DEBUG
-from io import BytesIO
+from io import StringIO
 
 import pytest
 from {{ cookiecutter.app_name }}.core._logger import *  # tests __all__
@@ -48,7 +48,7 @@ class LoggerTest(object):
         
         """
         message = "test message"
-        stream = BytesIO()
+        stream = StringIO()
         logger = Logger()
         logger.start("debug", stream)
         logger.debug(message)
