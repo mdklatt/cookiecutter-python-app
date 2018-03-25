@@ -42,7 +42,7 @@ def main():
     defaults = load(open(join(template, "cookiecutter.json")))
     with tmpdir():
         cookiecutter(template, no_input=True)
-        chdir(defaults["project_name"])
+        chdir(defaults["project_slug"])
         create("venv", with_pip=True)
         path = join("venv", "bin")
         pip = which("pip", path=path) or "pip"  # Travis CI workaround
