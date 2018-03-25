@@ -11,14 +11,13 @@ python:
 
 branches:
   only:
-    # TODO: master 
-    # TODO: dev
-    - py34
+    - master 
+    - dev
 
 sudo: false
 
 install:
-  - pip install --requirement=requirements.txt --requirement=tests/requirements.txt
+  - python -m pip install --requirement=requirements.txt --requirement=tests/requirements.txt
 
 script:
   - python tests/test_template.py
