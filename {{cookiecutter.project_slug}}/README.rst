@@ -50,4 +50,4 @@ Build documentation:
 
 .. code-block:: console
 
-    $ cd doc && make html
+    $ sphinx-build -b html doc doc/_build/html

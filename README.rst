@@ -68,4 +68,4 @@ Create a new project directly from the template on `GitHub`_:
 
 .. code-block:: console
    
-    $ cookiecutter https://github.com/mdklatt/cookiecutter-python-app.git
+    $ cookiecutter gh:mdklatt/cookiecutter-python-app
