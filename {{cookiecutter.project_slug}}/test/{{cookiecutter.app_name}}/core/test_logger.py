@@ -11,7 +11,7 @@ from logging import DEBUG
 from io import StringIO
 
 import pytest
-from {{ cookiecutter.app_name }}.core._logger import *  # tests __all__
+from {{ cookiecutter.app_name }}.core.logger import *  # tests __all__
 
 
 class LoggerTest(object):

@@ -4,4 +4,4 @@
 from __future__ import absolute_import
 
 from .config import config
-from ._logger import logger
+from .logger import logger

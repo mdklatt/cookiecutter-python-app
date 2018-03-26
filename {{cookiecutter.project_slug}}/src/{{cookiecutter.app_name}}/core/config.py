@@ -9,7 +9,7 @@ from __future__ import absolute_import
 from re import compile
 from yaml import load
 
-from ._logger import logger
+from .logger import logger
 
 
 __all__ = "config", "YamlConfig"
