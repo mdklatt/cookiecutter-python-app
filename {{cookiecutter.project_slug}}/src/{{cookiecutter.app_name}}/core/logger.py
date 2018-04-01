@@ -4,8 +4,6 @@ All modules use the same global logging object. No messages will be emitted
 until the logger is started.
 
 """
-from __future__ import absolute_import
-
 from logging import Formatter
 from logging import Logger as _Logger
 from logging import NullHandler

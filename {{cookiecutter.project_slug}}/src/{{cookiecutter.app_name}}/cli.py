@@ -1,8 +1,6 @@
 """ Implementation of the command line interface.
 
 """
-from __future__ import absolute_import
-
 from argparse import ArgumentParser
 from inspect import getargspec
 

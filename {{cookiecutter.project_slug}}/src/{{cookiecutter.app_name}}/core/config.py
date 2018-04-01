@@ -4,8 +4,6 @@ This module defines a global configuration object. Other modules should use
 this object to store application-wide configuration values.
 
 """
-from __future__ import absolute_import
-
 from re import compile
 from yaml import load
 

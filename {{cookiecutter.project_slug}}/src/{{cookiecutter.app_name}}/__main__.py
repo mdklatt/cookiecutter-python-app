@@ -3,9 +3,6 @@
     python -m {{ cookiecutter.app_name }}  ...
 
 """
-from __future__ import absolute_import
-
-
 def main():
     """ Execute the application.
 

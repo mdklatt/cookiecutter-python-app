@@ -1,9 +1,6 @@
 """ Implement the cmd2 command.
 
 """
-from __future__ import absolute_import
-from __future__ import print_function
-
 from ..core import logger
 
 
