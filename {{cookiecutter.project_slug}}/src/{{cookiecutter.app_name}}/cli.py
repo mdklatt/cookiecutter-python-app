@@ -2,7 +2,7 @@
 
 """
 from argparse import ArgumentParser
-from inspect import getargspec
+from inspect import getfullargspec
 
 from . import __version__
 from .api import cmd1
@@ -27,7 +27,7 @@ def main(argv=None):
     config.core.logging = args.warn
     command = args.command
     args = vars(args)
-    spec = getargspec(command)
+    spec = getfullargspec(command)
     if not spec.keywords:
         # No kwargs, remove unexpected arguments.
         args = {key: args[key] for key in args if key in spec.args}
