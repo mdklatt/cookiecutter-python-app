@@ -28,7 +28,7 @@ def main(argv=None):
     command = args.command
     args = vars(args)
     spec = getfullargspec(command)
-    if not spec.keywords:
+    if not spec.varkw:
         # No kwargs, remove unexpected arguments.
         args = {key: args[key] for key in args if key in spec.args}
     try:
