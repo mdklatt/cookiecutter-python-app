@@ -15,7 +15,7 @@ dist/
 
 # Ignore virtualenv environments.
 
-venv*/
+.venv*/
 
 
 # Ignore Vagrant runtime files.
