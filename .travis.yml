@@ -16,8 +16,5 @@ branches:
 
 sudo: false
 
-install:
-  - python -m pip install --requirement=requirements.txt --requirement=tests/requirements.txt
-
 script:
   - python tests/test_template.py
