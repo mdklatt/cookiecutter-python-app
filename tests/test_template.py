@@ -8,15 +8,13 @@ suite is run.
 from contextlib import contextmanager
 from json import load
 from os import chdir
-from os import getcwd
 from os.path import abspath
 from os.path import dirname
 from os.path import join
 from shlex import split
-from shutil import rmtree
 from shutil import which
 from subprocess import check_call
-from tempfile import mkdtemp
+from tempfile import TemporaryDirectory
 from venv import create
 
 from cookiecutter.main import cookiecutter
@@ -25,24 +23,12 @@ def main():
     """ Execute the test.
     
     """
-    @contextmanager
-    def tmpdir():
-        """ Enter a self-deleting temporary directory. """
-        cwd = getcwd()
-        tmp = mkdtemp()
-        try:
-            chdir(tmp)
-            yield tmp
-        finally:
-            rmtree(tmp)
-            chdir(cwd)
-        return
-
     template = dirname(dirname(abspath(__file__)))
     defaults = load(open(join(template, "cookiecutter.json")))
-    with tmpdir():
+    with TemporaryDirectory() as tmpdir:
+        chdir(tmpdir)
         cookiecutter(template, no_input=True)
-        chdir(defaults["project_slug"])
+        chdir(join(tmpdir, defaults["project_slug"]))
         create("venv", with_pip=True)
         path = join("venv", "bin")
         pip = which("pip", path=path) or "pip"  # Travis CI workaround
