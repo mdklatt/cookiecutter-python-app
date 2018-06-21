@@ -28,7 +28,9 @@ dist/
 .idea/
 .project/
 .pydevproject/
+.vscode/
 nbproject/
+*.code-workspace
 
 
 # Ignore OS metadata files.
