@@ -1,6 +1,18 @@
+# Ignore Python build artifacts.
+
+*.egg-info/
+*.pyc
+*.pyo
+
+
 # Ignore pyenv files.
 
 .python-version
+
+
+# Ignore virtualenv environments.
+
+.venv*/
 
 
 # Ignore settings for various IDEs.
@@ -8,7 +20,9 @@
 .idea/
 .project/
 .pydevproject/
+.vscode/
 nbproject/
+*.code-workspace
 
 
 # Ignore OS metadata files.
