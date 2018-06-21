@@ -1,5 +1,0 @@
-## Python requirements for running the python-app tests.
-##
-##    pip install --requirement=requirements.txt
-##
-virtualenv>=13.1
