@@ -100,7 +100,7 @@ class YamlConfig(_AttrDict):
                 else:
                     self.update(data)
             except TypeError:  # data is None
-                logger.warn("config file {:s} is empty".format(path))
+                logger.warning("config file {:s} is empty".format(path))
         return
 
 
