@@ -58,8 +58,8 @@ class YamlConfigTest(object):
         
         """
         merged = {"global": "conf2", "conf1": "conf1", "conf2": "conf2"}
-        params = {"x1": "conf1", "x2": "conf2"}
-        config = YamlConfig(files, root, params)
+        macros = {"x1": "conf1", "x2": "conf2"}
+        config = YamlConfig(files, root, macros)
         if root:
             assert config == {root: merged}
         else:
@@ -72,9 +72,9 @@ class YamlConfigTest(object):
 
         """
         merged = {"global": "conf2", "conf1": "conf1", "conf2": "conf2"}
-        params = {"x1": "conf1", "x2": "conf2"}
+        macros = {"x1": "conf1", "x2": "conf2"}
         config = YamlConfig()
-        config.load(files, root, params)
+        config.load(files, root, macros)
         if root:
             assert config == {root: merged}
         else:

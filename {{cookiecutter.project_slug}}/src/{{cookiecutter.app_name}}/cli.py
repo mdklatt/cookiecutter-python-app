@@ -17,8 +17,7 @@ __all__ = "main",
 def main(argv=None):
     """ Execute the application CLI.
 
-    Arguments are taken from sys.argv by default.
-
+    :param argv: argument list to parse (sys.argv by default)
     """
     args = _args(argv)
     logger.start(args.warn)
@@ -40,9 +39,10 @@ def main(argv=None):
     return 0
  
 
-def _args(argv=None):
+def _args(argv):
     """ Parse command line arguments.
 
+    :param argv: argument list to parse
     """
     parser = ArgumentParser()
     parser.add_argument("-c", "--config", action="append",
@@ -68,6 +68,8 @@ def _args(argv=None):
 def _cmd1(subparsers, common):
     """ CLI adaptor for the api.cmd1 command.
 
+    :param subparsers: subcommand parsers
+    :param common: parser for common subcommand arguments
     """
     parser = subparsers.add_parser("cmd1", parents=[common])
     parser.set_defaults(command=cmd1)
@@ -77,6 +79,8 @@ def _cmd1(subparsers, common):
 def _cmd2(subparsers, common):
     """ CLI adaptor for the api.cmd2 command.
 
+    :param subparsers: subcommand parsers
+    :param common: parser for common subcommand arguments
     """
     parser = subparsers.add_parser("cmd2", parents=[common])
     parser.set_defaults(command=cmd2)

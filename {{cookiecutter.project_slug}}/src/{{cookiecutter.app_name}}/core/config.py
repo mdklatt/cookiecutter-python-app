@@ -20,6 +20,7 @@ class _AttrDict(dict):
     def __getitem__(self, key):
         """ Access dict values by key.
 
+        :param key: key to retrieve
         """
         value = super(_AttrDict, self).__getitem__(key)
         if isinstance(value, dict):
@@ -36,12 +37,15 @@ class _AttrDict(dict):
     def __getattr__(self, key):
         """ Get dict values as attributes.
 
+        :param key: key to retrieve
         """
         return self[key]
 
     def __setattr__(self, key, value):
         """ Set dict values as attributes.
 
+        :param key: key to set
+        :param value: new value for key
         """
         self[key] = value
         return
@@ -53,16 +57,19 @@ class YamlConfig(_AttrDict):
     Data can be accessed as dict values or object attributes.
 
     """
-    def __init__(self, path=None, root=None, params=None):
+    def __init__(self, path=None, root=None, macros=None):
         """ Initialize this object.
 
+        :param path: config file path to load
+        :param root: place config values at this root
+        :param macros: macro substitutions
         """
         super(YamlConfig, self).__init__()
         if path:
-            self.load(path, root, params)
+            self.load(path, root, macros)
         return
 
-    def load(self, path, root=None, params=None):
+    def load(self, path, root=None, macros=None):
         """ Load data from YAML configuration files.
 
         Configuration values are read from a sequence of one or more YAML
@@ -70,19 +77,22 @@ class YamlConfig(_AttrDict):
         overwrite the existing value. If 'root' is specified the config data
         will be loaded under that attribute instead of the dict root.
 
-        The optional 'params' argument is a dict-like object to use for 
-        parameter substitution in the config files. Any text matching "%key;" 
-        will be replaced with the value for 'key' in params.
+        The optional 'macros' argument is a dict-like object to use for macro
+        substitution in the config files. Any text matching "%key;" will be
+        replaced with the value for 'key' in 'macros'.
 
+        :param path: config file path to load
+        :param root: place config values at this root
+        :param macros: macro substitutions
         """
         def replace(match):
             """ Callback for re.sub to do macro replacement. """
             # This allows for multi-pattern substitution in a single pass.
-            return params[match.group(0)]
+            return macros[match.group(0)]
 
-        params = {r"%{:s};".format(key): val for (key, val) in
-                  params.items()} if params else {}
-        regex = compile("|".join(params) or r"^(?!)")
+        macros = {r"%{:s};".format(key): val for (key, val) in
+                  macros.items()} if macros else {}
+        regex = compile("|".join(macros) or r"^(?!)")
         for path in [path] if isinstance(path, str) else path:
             with open(path, "r") as stream:
                 # Global text substitution is used for macro replacement. Two

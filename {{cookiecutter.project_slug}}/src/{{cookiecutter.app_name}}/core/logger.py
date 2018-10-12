@@ -22,10 +22,11 @@ class Logger(_Logger):
     def __init__(self, name=None):
         """ Initialize this logger.
 
-        The name defaults to the application name. Loggers with the same name
-        refer to the same underlying object. Names are hierarchical, e.g.
-        'parent.child' defines a logger that is a descendant of 'parent'.
+        Loggers with the same name refer to the same underlying object. 
+        Names are hierarchical, e.g. 'parent.child' defines a logger that is a 
+        descendant of 'parent'.
 
+        :param name: logger name (application name by default)
         """
         # With a NullHandler, client code may make logging calls without regard
         # to whether the logger has been started yet. The standard Logger API
@@ -39,18 +40,17 @@ class Logger(_Logger):
         """ Start logging to a stream.
 
         Until the logger is started, no messages will be emitted. This applies
-        to all loggers with the same name and any child loggers. By default,
-        messages are logged to stderr, or specify a different stream.
+        to all loggers with the same name and any child loggers. 
 
         Multiple streams can be logged to by calling start() for each one.
         Calling start() more than once for the same stream will result in
         duplicate records to that stream.
 
         Messages less than the given priority level will be ignored. The
-        default level is 'WARN', which conforms to the *nix convention that a
-        successful run should produce no diagnostic output. Call setLevel() to
-        change the logger's priority level after it has been stared. Available 
-        levels and their suggested meanings:
+        default level conforms to the *nix convention that a successful run 
+        should produce no diagnostic output. Call setLevel() to change the 
+        logger's priority level after it has been stared. Available levels and 
+        their suggested meanings:
 
             DEBUG - output useful for developers
             INFO - trace normal program flow, especially external interactions
@@ -58,6 +58,8 @@ class Logger(_Logger):
             ERROR - an error was detected but execution continued
             CRITICAL - an error was detected and execution was halted
 
+        :param level: logger priority level
+        :param stream: output stream (stderr by default)
         """
         handler = StreamHandler(stream)
         handler.setFormatter(Formatter(self.LOGFMT))
