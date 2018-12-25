@@ -1,4 +1,4 @@
-{% set delim = "=" * cookiecutter.app_name|length %}
+{% set delim = "=" * cookiecutter.app_name|length -%}
 {{ delim }}
 {{ cookiecutter.app_name }}
 {{ delim }}
