@@ -7,8 +7,8 @@ from inspect import getfullargspec
 from . import __version__
 from .api import cmd1
 from .api import cmd2
-from .core import config
-from .core import logger
+from .core.config import config
+from .core.logger import logger
 
 
 __all__ = "main",

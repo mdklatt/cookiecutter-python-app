@@ -1,7 +1,7 @@
 """ Implement the cmd1 command.
 
 """
-from ..core import logger
+from ..core.logger import logger
 
 
 def main(name="World"):
