@@ -35,7 +35,7 @@ Template Project Features
 .. _Sphinx: http://sphinx-doc.org
 .. _MIT License: http://choosealicense.com/licenses/mit
 
-- Python 3.4+
+- Python 3.5+
 - `MIT License`_
 - `pytest`_ test suite
 - `Sphinx`_ documentation
