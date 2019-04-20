@@ -1,9 +1,9 @@
-===================================
+###################################
 Python Application Project Template
-===================================
+###################################
 
 .. _travis: https://travis-ci.org/mdklatt/cookiecutter-python-app
-.. |travis.png| image:: https://travis-ci.org/mdklatt/cookiecutter-python-app.png?branch=py34
+.. |travis.png| image:: https://travis-ci.org/mdklatt/cookiecutter-python-app.png
    :alt: Travis CI build status
    :target: `travis`_
 
@@ -17,8 +17,8 @@ Python Application Project Template
 This is a `Cookiecutter`_ template for creating a Python application project.
 
 The project layout is based on the `Python Packaging User Guide`_. The current
-conventional wisdom forgoes the use of a source directory, but moving the 
-package out of the project root provides several advantages (*cf.* 
+conventional wisdom forgoes the use of a source directory, but moving the
+package out of the project root provides several advantages (*cf.*
 `Packaging a Python library`_).
 
 
@@ -26,10 +26,11 @@ package out of the project root provides several advantages (*cf.*
 
 The `py27`_ branch is for Python 2.7 compatibility; it is no longer actively
 maintained.
- 
 
-Template Project Features
-=========================
+
+================
+Project Features
+================
 
 .. _pytest: http://pytest.org
 .. _Sphinx: http://sphinx-doc.org
@@ -41,8 +42,9 @@ Template Project Features
 - `Sphinx`_ documentation
 
 
-Template Application Features
-=============================
+====================
+Application Features
+====================
 
 .. _YAML: http://pyyaml.org/wiki/PyYAML
 
@@ -51,6 +53,7 @@ Template Application Features
 - Hierarchical `YAML`_ configuration
 
 
+=====
 Usage
 =====
 
@@ -61,11 +64,11 @@ Install Python requirements for using the template:
 
 .. code-block:: console
 
-    $ python -m pip install --requirement=requirements.txt --user 
+  $ python -m pip install --user --requirement=requirements.txt
 
 
 Create a new project directly from the template on `GitHub`_:
 
 .. code-block:: console
-   
-    $ cookiecutter gh:mdklatt/cookiecutter-python-app
+
+  $ cookiecutter gh:mdklatt/cookiecutter-python-app
