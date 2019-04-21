@@ -28,3 +28,4 @@ nbproject/
 # Ignore OS metadata files.
 
 .DS_Store
+Thumbs.db
