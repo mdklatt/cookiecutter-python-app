@@ -8,10 +8,65 @@ environment or setuptools develop mode to test against the development version.
 
 """
 from logging import DEBUG
+from logging import ERROR
 from io import StringIO
+from weakref import ref
 
 import pytest
 from {{ cookiecutter.app_name }}.core.logger import *  # tests __all__
+
+
+@pytest.fixture
+def smtp(monkeypatch):
+    """ Mock the smtplib.SMTP class for testing.
+
+    """
+    class SMTP(object):
+        """ Mock SMTP class. 
+        
+        """
+        messages = []
+
+        def __init__(self, *_, **__):
+            """ Initialize this object. """
+            for method in "ehlo", "login", "starttls", "quit":
+                # Define dummy methods.
+                setattr(self, method, lambda *_: None)
+            return
+
+        def send_message(self, msg):
+            """ Queue the sent message for inspection. """
+            self.messages.append(msg)
+            return
+
+    # This requires knowledge of the internal alias for smtplib.SMTP in the 
+    # core.logger module.
+    monkeypatch.setattr("{{ cookiecutter.app_name }}.core.logger.SMTP", SMTP)
+    return SMTP.messages
+
+
+class EmailHandlerTest(object):
+    """ Test suite for the EmailHandler class.
+
+    """
+    def test_handler(self, smtp):
+        """ Testing....
+        
+        """
+        logger = Logger()
+        handler = EmailHandler("host", "from", ["to1", "to2"], "testing")
+        handler.setLevel(ERROR)
+        logger.start()
+        logger.addHandler(handler)
+        logger.debug("debug")
+        logger.error("error")
+        logger.critical("critical")
+        handler.flush()
+        #handler.close()  # FIXME: doesn't call flush?
+        del handler  # doesn't work because logger retains reference
+        records = smtp[0].get_content().split("\n")
+        assert all(x in y for (x, y) in zip(("error", "critical"), records))
+        return
 
 
 class LoggerTest(object):
