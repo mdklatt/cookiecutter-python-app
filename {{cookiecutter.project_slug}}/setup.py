@@ -2,6 +2,7 @@
 
 """
 from itertools import chain
+from os import walk
 from pathlib import Path
 
 from setuptools import find_packages
@@ -26,10 +27,12 @@ def main():
     """ Execute the setup command.
 
     """
-    def files(*dirs):
-        """ Recursively list all files. """
-        dirs = (Path(root).rglob("*") for root in dirs)
-        return map(str, chain.from_iterable(dirs))
+    def file_tree(*dirs):
+        """ Recursively list all directories and their file names. """
+        items = chain.from_iterable((walk(root) for root in dirs))
+        for root, _, files in items:
+            yield root, tuple(str(Path(root, name)) for name in files)
+        return
 
     def version():
         """ Get the local package version. """
@@ -39,11 +42,10 @@ def main():
         return namespace["__version__"]
 
     _config.update({
-        "data_files": list(files(*_config["data_files"])),  # expand files
+        "data_files": list(file_tree(*_config["data_files"])),  # expand files
         "version": version(),
     })
     setup(**_config)
-    return 0
 
 
 # Make the script executable.
