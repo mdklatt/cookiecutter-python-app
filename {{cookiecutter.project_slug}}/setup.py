@@ -1,7 +1,6 @@
 """ Setup script for the {{ cookiecutter.app_name }} application.
 
 """
-from itertools import chain
 from os import walk
 from pathlib import Path
 
@@ -27,11 +26,14 @@ def main():
     """ Execute the setup command.
 
     """
-    def file_tree(*dirs):
-        """ Recursively list all directories and their file names. """
-        items = chain.from_iterable((walk(root) for root in dirs))
-        for root, _, files in items:
-            yield root, tuple(str(Path(root, name)) for name in files)
+    def data_files(*paths):
+        """ Expand path contents for the `data_files` config variable.  """
+        for path in map(Path, paths):
+            if path.is_dir():
+                for root, _, files in walk(str(path)):
+                    yield root, tuple(str(Path(root, name)) for name in files)
+            else:
+                yield str(path.parent), (str(path),)
         return
 
     def version():
@@ -42,10 +44,11 @@ def main():
         return namespace["__version__"]
 
     _config.update({
-        "data_files": list(file_tree(*_config["data_files"])),  # expand files
+        "data_files": list(data_files(*_config["data_files"])),
         "version": version(),
     })
     setup(**_config)
+    return 0
 
 
 # Make the script executable.
