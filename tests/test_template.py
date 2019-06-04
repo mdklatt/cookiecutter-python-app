@@ -1,16 +1,12 @@
-""" Test the python-app Cookiecutter template.
+""" Test the Cookiecutter template.
 
 A template project is created in a temporary directory, the application is
 installed into a self-contained venv environment, and the application test 
 suite is run.
 
 """
-from contextlib import contextmanager
-from json import load
-from os import chdir
-from os.path import abspath
-from os.path import dirname
-from os.path import join
+from json import loads
+from pathlib import Path
 from shlex import split
 from shutil import which
 from subprocess import check_call
@@ -19,27 +15,27 @@ from venv import create
 
 from cookiecutter.main import cookiecutter
 
-def main():
+
+def main() -> int:
     """ Execute the test.
     
     """
-    template = dirname(dirname(abspath(__file__)))
-    defaults = load(open(join(template, "cookiecutter.json")))
+    # TODO: Convert to f-strings when Python 3.5 support is dropped.
+    template = Path(__file__).resolve().parents[1]
+    defaults = loads(template.joinpath("cookiecutter.json").read_text())
     with TemporaryDirectory() as tmpdir:
-        chdir(tmpdir)
-        cookiecutter(template, no_input=True)
-        chdir(join(tmpdir, defaults["project_slug"]))
-        create("venv", with_pip=True)
-        path = join("venv", "bin")
-        pip = which("pip", path=path) or "pip"  # Travis CI workaround
+        cookiecutter(str(template), no_input=True, output_dir=tmpdir)
+        cwd = Path(tmpdir) / defaults["project_slug"]
+        create(str(cwd / "venv"), with_pip=True)
+        bin = str(cwd / "venv" / "bin")  # TODO: Python 3.5 workaround
+        pip = which("pip", path=bin) or "pip"  # Travis CI workaround
         install = "{:s} install .".format(pip)
-        for req in (join(root, "requirements.txt") for root in (".", "test")):
-            # Add each requirements file to the install.
-            install = " ".join((install, "--requirement={:s}".format(req)))
-        check_call(split(install))
-        pytest = which("pytest", path=path) or "pytest"  # Travis CI workaround
-        test = "{:s} --verbose test".format(pytest)
-        check_call(split(test))
+        for req in cwd.glob("**/requirements.txt"):
+            install = " ".join((install, "--requirement={!s}".format(req)))
+        cwd = str(cwd)  # TODO: Python 3.5 workaround
+        check_call(split(install), cwd=cwd)
+        pytest = which("pytest", path=bin) or "pytest"  # Travis CI workaround
+        check_call(split("{:s} --verbose test".format(pytest)), cwd=cwd)
     return 0
     
     
