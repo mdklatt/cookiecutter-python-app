@@ -1,5 +1,6 @@
 {
     "project_slug": "pyapp",
+    "project_url": "",
     "app_name": "{{ cookiecutter.project_slug }}",
     "cli_script": "{{ cookiecutter.app_name }}",
     "author_name": "",
