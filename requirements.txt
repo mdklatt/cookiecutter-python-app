@@ -2,4 +2,4 @@
 ##
 ##   python -m pip install --requirement=requirements.txt
 ##
-cookiecutter>=1.5
+cookiecutter>=1.6
