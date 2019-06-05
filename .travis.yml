@@ -7,14 +7,15 @@ language: python
 python:
   - "3.5"
   - "3.6"
-  - "3.7-dev"
+  - "3.7"
+  - "3.8-dev"
 
 branches:
   only:
     - master 
     - dev
 
-sudo: false
+dist: xenial
 
 script:
   - python tests/test_template.py
