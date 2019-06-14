@@ -9,7 +9,7 @@ This is the {{ cookiecutter.app_name }} application.
 Minimum Requirements
 ====================
 
-- Python 3.4
+- Python 3.5+
 
 
 Optional Requirements
@@ -29,7 +29,7 @@ Install for the current user:
 
 .. code-block:: console
 
-    $ python setup.py install --user
+    $ python -m pip install . --user
 
 
 Run the application:

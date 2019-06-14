@@ -20,10 +20,14 @@ def main(argv=None):
     :param argv: argument list to parse (sys.argv by default)
     """
     args = _args(argv)
-    logger.start(args.warn)
+    logger.start(args.warn or "DEBUG")  # can't use default from config yet
     logger.debug("starting execution")
     config.load(args.config)
-    config.core.logging = args.warn
+    config.core.config = args.config
+    if args.warn:
+        config.core.logging = args.warn
+    logger.stop()  # clear handlers to prevent duplicate records
+    logger.start(config.core.logging)
     command = args.command
     args = vars(args)
     spec = getfullargspec(command)
