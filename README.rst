@@ -3,11 +3,11 @@ Python Application Project Template
 ###################################
 
 .. _travis: https://travis-ci.org/mdklatt/cookiecutter-python-app
-.. |travis.png| image:: https://travis-ci.org/mdklatt/cookiecutter-python-app.png
+.. |badge| image:: https://travis-ci.org/mdklatt/cookiecutter-python-app.png
    :alt: Travis CI build status
    :target: `travis`_
 
-|travis.png|
+|badge|
 
 .. _Cookiecutter: http://cookiecutter.readthedocs.org
 .. _Python Packaging User Guide: https://packaging.python.org/en/latest/distributing.html#configuring-your-project
