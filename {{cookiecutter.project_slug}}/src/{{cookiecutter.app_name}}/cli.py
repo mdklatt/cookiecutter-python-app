@@ -6,7 +6,6 @@ from inspect import getfullargspec
 
 from . import __version__
 from .api import hello
-from .api import cmd2
 from .core.config import config
 from .core.logger import logger
 
@@ -61,7 +60,6 @@ def _args(argv):
     common.add_argument("--name", "-n", default="World", help="greeting name")
     subparsers = parser.add_subparsers(title="subcommands")
     _hello(subparsers, common)
-    _cmd2(subparsers, common)
     args = parser.parse_args(argv)
     if not args.config:
         # Don't specify this as an argument default or else it will always be
@@ -78,17 +76,6 @@ def _hello(subparsers, common):
     """
     parser = subparsers.add_parser("hello", parents=[common])
     parser.set_defaults(command=hello)
-    return
-
-
-def _cmd2(subparsers, common):
-    """ CLI adaptor for the api.cmd2 command.
-
-    :param subparsers: subcommand parsers
-    :param common: parser for common subcommand arguments
-    """
-    parser = subparsers.add_parser("cmd2", parents=[common])
-    parser.set_defaults(command=cmd2)
     return
 
 
