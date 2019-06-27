@@ -14,7 +14,7 @@ import pytest
 from {{ cookiecutter.app_name }}.cli import *  # test __all__
 
 
-@pytest.fixture(params=("cmd1", "cmd2"))
+@pytest.fixture(params=("hello", "cmd2"))
 def command(request):
     """ Return the command to run.
 

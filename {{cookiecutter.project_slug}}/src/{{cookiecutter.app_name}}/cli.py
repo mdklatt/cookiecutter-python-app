@@ -5,7 +5,7 @@ from argparse import ArgumentParser
 from inspect import getfullargspec
 
 from . import __version__
-from .api import cmd1
+from .api import hello
 from .api import cmd2
 from .core.config import config
 from .core.logger import logger
@@ -14,10 +14,11 @@ from .core.logger import logger
 __all__ = "main",
 
 
-def main(argv=None):
+def main(argv=None) -> int:
     """ Execute the application CLI.
 
     :param argv: argument list to parse (sys.argv by default)
+    :return: exit status
     """
     args = _args(argv)
     logger.start(args.warn or "DEBUG")  # can't use default from config yet
@@ -59,7 +60,7 @@ def _args(argv):
     common = ArgumentParser(add_help=False)  # common subcommand arguments
     common.add_argument("--name", "-n", default="World", help="greeting name")
     subparsers = parser.add_subparsers(title="subcommands")
-    _cmd1(subparsers, common)
+    _hello(subparsers, common)
     _cmd2(subparsers, common)
     args = parser.parse_args(argv)
     if not args.config:
@@ -69,14 +70,14 @@ def _args(argv):
     return args
  
 
-def _cmd1(subparsers, common):
-    """ CLI adaptor for the api.cmd1 command.
+def _hello(subparsers, common):
+    """ CLI adaptor for the api.hello command.
 
     :param subparsers: subcommand parsers
     :param common: parser for common subcommand arguments
     """
-    parser = subparsers.add_parser("cmd1", parents=[common])
-    parser.set_defaults(command=cmd1)
+    parser = subparsers.add_parser("hello", parents=[common])
+    parser.set_defaults(command=hello)
     return
 
 
