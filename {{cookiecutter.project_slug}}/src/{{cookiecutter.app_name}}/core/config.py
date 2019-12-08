@@ -94,14 +94,16 @@ class YamlConfig(_AttrDict):
                   macros.items()} if macros else {}
         regex = compile("|".join(macros) or r"^(?!)")
         for path in [path] if isinstance(path, str) else path:
-            with open(path, "r") as stream:
+            # TODO: Use f-strings with Python 3.6+.
+            # TODO: Don't need open(str(path)) with Python 3.6+
+            with open(str(path), "r") as stream:
                 # Global text substitution is used for macro replacement. Two
                 # drawbacks of this are 1) the entire config file has to be
                 # read into memory first; 2) it might be nice if comments were
                 # excluded from replacement. A more elegant (but complex)
                 # approach would be to use PyYAML's various hooks to do the
                 # substitution as the file is parsed.
-                logger.info("reading config data from '{:s}'".format(path))
+                logger.info("reading config data from '{!s}'".format(path))
                 yaml = regex.sub(replace, stream.read())
             data = safe_load(yaml)
             try:
@@ -110,7 +112,7 @@ class YamlConfig(_AttrDict):
                 else:
                     self.update(data)
             except TypeError:  # data is None
-                logger.warning("config file {:s} is empty".format(path))
+                logger.warning("config file {!s} is empty".format(path))
         return
 
 

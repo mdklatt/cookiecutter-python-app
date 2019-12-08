@@ -19,18 +19,18 @@ class YamlConfigTest(object):
     """
     @classmethod
     @pytest.fixture
-    def files(cls, tmpdir):
+    def files(cls, tmp_path):
         """ Write config files for testing.
 
         """
         configs = (
-            (tmpdir.join("empty.yml"), None),
-            (tmpdir.join("conf1.yml"), {"global": "%x1;", "%x1;": "%x1;"}),
-            (tmpdir.join("conf2.yml"), {"global": "%x2;", "%x2;": "%x2;"}),
+            (tmp_path / "empty.yml", None),
+            (tmp_path / "conf1.yml", {"global": "%x1;", "%x1;": "%x1;"}),
+            (tmp_path / "conf2.yml", {"global": "%x2;", "%x2;": "%x2;"}),
         )
-        for pathobj, values in configs:
-            pathobj.write(dump(values))
-        return tuple(pathobj.strpath for pathobj, _ in configs)
+        for path, values in configs:
+            path.write_text(dump(values))
+        return tuple(path for path, _ in configs)
 
     def test_item(self):
         """ Test item access.
