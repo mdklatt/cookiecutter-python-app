@@ -43,6 +43,19 @@ class LoggerTest(object):
         assert not stderr
         return
 
+    def test_restart(self, capsys):
+        """ Test a restart.
+
+        """
+        message = "debug message"
+        logger.start()
+        logger.stop()
+        logger.start("INFO")
+        logger.debug("debug message")  # should not be emitted
+        _, stderr = capsys.readouterr()
+        assert message not in stderr
+        return
+
     def test_stream(self):
         """ Test output to an alternate stream.
         

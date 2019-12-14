@@ -61,10 +61,11 @@ class Logger(_Logger):
         :param level: logger priority level
         :param stream: output stream (stderr by default)
         """
+        self.setLevel(level.upper())
         handler = StreamHandler(stream)
         handler.setFormatter(Formatter(self.LOGFMT))
+        handler.setLevel(self.level)
         self.addHandler(handler)
-        self.setLevel(level.upper())
         return
 
     def stop(self):
