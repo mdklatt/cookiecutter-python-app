@@ -69,7 +69,6 @@ class LoggerTest(object):
         """
         message = "test message"
         stream = StringIO()
-        logger = Logger()
         logger.start("debug", stream)
         logger.debug(message)
         assert message in stream.getvalue()
