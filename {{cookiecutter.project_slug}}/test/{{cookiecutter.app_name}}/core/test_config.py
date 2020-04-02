@@ -1,4 +1,4 @@
-""" Test suite for the core._config module.
+""" Test suite for the core.config module.
 
 The script can be executed on its own or incorporated into a larger test suite.
 However the tests are run, be aware of which version of the package is actually
@@ -7,7 +7,8 @@ precedence over the version in this project directory. Use a virtualenv test
 environment or setuptools develop mode to test against the development version.
 
 """
-from yaml import dump
+from os import environ
+from pathlib import Path
 
 import pytest
 from {{ cookiecutter.app_name }}.core.config import *  # tests __all__
@@ -20,17 +21,20 @@ class YamlConfigTest(object):
     @classmethod
     @pytest.fixture
     def files(cls, tmp_path):
-        """ Write config files for testing.
+        """ Return configuration files for testing.
 
         """
-        configs = (
-            (tmp_path / "empty.yml", None),
-            (tmp_path / "conf1.yml", {"global": "%x1;", "%x1;": "%x1;"}),
-            (tmp_path / "conf2.yml", {"global": "%x2;", "%x2;": "%x2;"}),
-        )
-        for path, values in configs:
-            path.write_text(dump(values))
-        return tuple(path for path, _ in configs)
+        files = "conf1.yml", "conf2.yml"
+        return tuple(Path("test/data", item) for item in files)
+
+    @classmethod
+    @pytest.fixture
+    def params(cls):
+        """ Define configuration parameters.
+
+        """
+        environ.update({"env1": "ENV1", "env2": "ENV2"})
+        return {"var1": "VAR1", "var2": "VAR2", "var3": "VAR3", "env2": "VAR2"}
 
     def test_item(self):
         """ Test item access.
@@ -53,13 +57,12 @@ class YamlConfigTest(object):
         return
 
     @pytest.mark.parametrize("root", (None, "root"))
-    def test_init(self, files, root):
+    def test_init(self, files, params, root):
         """ Test the __init__() method for loading a file.
-        
+
         """
-        merged = {"global": "conf2", "conf1": "conf1", "conf2": "conf2"}
-        macros = {"x1": "conf1", "x2": "conf2"}
-        config = YamlConfig(files, root, macros)
+        merged = {"str": "$str", "env": "ENV1VAR2", "var": "VAR1VAR3"}
+        config = YamlConfig(files, root, params)
         if root:
             assert config == {root: merged}
         else:
@@ -67,14 +70,13 @@ class YamlConfigTest(object):
         return
 
     @pytest.mark.parametrize("root", (None, "root"))
-    def test_load(self, files, root):
+    def test_load(self, files, params, root):
         """ Test the load() method.
 
         """
-        merged = {"global": "conf2", "conf1": "conf1", "conf2": "conf2"}
-        macros = {"x1": "conf1", "x2": "conf2"}
+        merged = {"str": "$str", "env": "ENV1VAR2", "var": "VAR1VAR3"}
         config = YamlConfig()
-        config.load(files, root, macros)
+        config.load(files, root, params)
         if root:
             assert config == {root: merged}
         else:

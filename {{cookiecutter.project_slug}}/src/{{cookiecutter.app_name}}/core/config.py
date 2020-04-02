@@ -4,8 +4,13 @@ This module defines a global configuration object. Other modules should use
 this object to store application-wide configuration values.
 
 """
-from re import compile
+from dotenv import load_dotenv
+from yaml import Node
+from yaml import SafeLoader
 from yaml import safe_load
+from os import environ
+from re import compile
+from string import Template
 
 from .logger import logger
 
@@ -17,7 +22,7 @@ class _AttrDict(dict):
     """ A dict-like object with attribute access.
 
     """
-    def __getitem__(self, key):
+    def __getitem__(self, key: str):
         """ Access dict values by key.
 
         :param key: key to retrieve
@@ -34,14 +39,14 @@ class _AttrDict(dict):
             self[key] = value = _AttrDict(value)
         return value
 
-    def __getattr__(self, key):
+    def __getattr__(self, key: str) -> object:
         """ Get dict values as attributes.
 
         :param key: key to retrieve
         """
         return self[key]
 
-    def __setattr__(self, key, value):
+    def __setattr__(self, key: str, value: object):
         """ Set dict values as attributes.
 
         :param key: key to set
@@ -54,58 +59,46 @@ class _AttrDict(dict):
 class YamlConfig(_AttrDict):
     """ Store YAML configuration data.
 
-    Data can be accessed as dict values or object attributes.
+    Parameters can be embedded in the YAML file using e.g. $param or ${param}.
+    Parameter lookup is performed against the current environment and an
+    optional user-specified mapping (user parameters take precedence).
+
+    After loading, data can be accessed as dict values or object attributes.
 
     """
-    def __init__(self, path=None, root=None, macros=None):
+    def __init__(self, path=None, root=None, params=None):
         """ Initialize this object.
 
         :param path: config file path to load
         :param root: place config values at this root
-        :param macros: macro substitutions
+        :param params: macro substitutions
         """
         super(YamlConfig, self).__init__()
         if path:
-            self.load(path, root, macros)
+            self.load(path, root, params)
         return
 
-    def load(self, path, root=None, macros=None):
+    def load(self, path, root=None, params=None):
         """ Load data from YAML configuration files.
 
         Configuration values are read from a sequence of one or more YAML
         files. Files are read in the given order, and a duplicate value will
-        overwrite the existing value. If 'root' is specified the config data
-        will be loaded under that attribute instead of the dict root.
-
-        The optional 'macros' argument is a dict-like object to use for macro
-        substitution in the config files. Any text matching "%key;" will be
-        replaced with the value for 'key' in 'macros'.
+        overwrite the existing value. If a root is specified the config data
+        will be loaded under that attribute.
 
         :param path: config file path to load
         :param root: place config values at this root
-        :param macros: macro substitutions
+        :param params: mapping of parameter substitutions
         """
-        def replace(match):
-            """ Callback for re.sub to do macro replacement. """
-            # This allows for multi-pattern substitution in a single pass.
-            return macros[match.group(0)]
-
-        macros = {r"%{:s};".format(key): val for (key, val) in
-                  macros.items()} if macros else {}
-        regex = compile("|".join(macros) or r"^(?!)")
+        load_dotenv()
+        tag = _ParameterTag(params)
+        tag.add(SafeLoader)
         for path in [path] if isinstance(path, str) else path:
             # TODO: Use f-strings with Python 3.6+.
             # TODO: Don't need open(str(path)) with Python 3.6+
             with open(str(path), "r") as stream:
-                # Global text substitution is used for macro replacement. Two
-                # drawbacks of this are 1) the entire config file has to be
-                # read into memory first; 2) it might be nice if comments were
-                # excluded from replacement. A more elegant (but complex)
-                # approach would be to use PyYAML's various hooks to do the
-                # substitution as the file is parsed.
                 logger.info("reading config data from '{!s}'".format(path))
-                yaml = regex.sub(replace, stream.read())
-            data = safe_load(yaml)
+                data = safe_load(stream)
             try:
                 if root:
                     self.setdefault(root, {}).update(data)
@@ -113,6 +106,49 @@ class YamlConfig(_AttrDict):
                     self.update(data)
             except TypeError:  # data is None
                 logger.warning("config file {!s} is empty".format(path))
+        return
+
+
+class _ParameterTag(object):
+    """ YAML tag for performing parameter substitution on a scalar node.
+
+    Enable this tag by calling add_constructor() for the SafeLoader class.
+
+    """
+    NAME = "param"
+
+    def __init__(self, params=None):
+        """ Initialize this object.
+
+        :param params: key-value replacement mapping
+        """
+        self._params = environ.copy()
+        try:
+            self._params.update(params)
+        except TypeError:
+            pass  # params is None
+        return
+
+    def __call__(self, loader: SafeLoader, node: Node) -> str:
+        """ Implement the tag constructor interface.
+
+        :param loader: YAML loader
+        :param node: YAML node to process
+        :return: final value
+        """
+        value = loader.construct_scalar(node)
+        return Template(value).substitute(self._params)
+
+    def add(self, loader: type(SafeLoader)):
+        """ Add this tag to the SafeLoader class.
+
+        This adds a the tag constructor and an implicit resolver to the
+        loader
+
+        :param loader: loader class
+        """
+        loader.add_implicit_resolver(self.NAME, compile(r"(?=.*$)"), None)
+        loader.add_constructor(self.NAME, self)
         return
 
 
