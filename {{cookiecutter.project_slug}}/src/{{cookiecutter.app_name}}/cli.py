@@ -61,10 +61,17 @@ def _args(argv):
     subparsers = parser.add_subparsers(title="subcommands")
     _hello(subparsers, common)
     args = parser.parse_args(argv)
+    
+    if not hasattr(args, 'command'):
+        parser.print_help()
+        exit(1)
+
     if not args.config:
         # Don't specify this as an argument default or else it will always be
         # included in the list.
         args.config = "etc/config.yml"
+        
+    
     return args
  
 
