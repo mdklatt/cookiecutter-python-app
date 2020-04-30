@@ -56,22 +56,20 @@ def _args(argv):
             help="print version and exit")
     parser.add_argument("-w", "--warn", default="WARN",
             help="logger warning level [WARN]")
+    parser.set_defaults(command=None)
+    subparsers = parser.add_subparsers(title="subcommands")
     common = ArgumentParser(add_help=False)  # common subcommand arguments
     common.add_argument("--name", "-n", default="World", help="greeting name")
-    subparsers = parser.add_subparsers(title="subcommands")
     _hello(subparsers, common)
-    args = parser.parse_args(argv)
-    
-    if not hasattr(args, 'command'):
+    args = parser.parse_args(argv)    
+    if not args.command:
+        # No sucommand was specified.
         parser.print_help()
-        exit(1)
-
+        raise SystemExit(1)
     if not args.config:
         # Don't specify this as an argument default or else it will always be
         # included in the list.
-        args.config = "etc/config.yml"
-        
-    
+        args.config = "etc/config.yml"          
     return args
  
 
