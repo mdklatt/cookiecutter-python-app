@@ -48,7 +48,7 @@ def test_script(command):
 
     """
     # Call with the --help option as a basic sanity check.
-    cmdl = "{:s} -m {{ cookiecutter.app_name }}.cli {:s} --help".format(executable, command)
+    cmdl = f"{executable} -m {{ cookiecutter.app_name }}.cli {command} --help"
     assert 0 == call(cmdl.split())
     return
 

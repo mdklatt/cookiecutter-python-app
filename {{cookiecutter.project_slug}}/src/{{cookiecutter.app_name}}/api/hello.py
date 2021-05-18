@@ -10,4 +10,4 @@ def main(name="World") -> str:
     :param name: name to use in greeting
     """
     logger.debug("executing hello command")
-    return "Hello, {:s}!".format(name)  # TODO: use f-string for Python 3.6+
+    return f"Hello, {name}!"

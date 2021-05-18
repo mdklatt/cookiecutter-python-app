@@ -52,7 +52,7 @@ def _args(argv):
     parser.add_argument("-c", "--config", action="append",
             help="config file [etc/config.yml]")
     parser.add_argument("-v", "--version", action="version",
-            version="{{ cookiecutter.app_name }} {:s}".format(__version__),
+            version=f"{{ cookiecutter.app_name }} {__version__}",
             help="print version and exit")
     parser.add_argument("-w", "--warn", default="WARN",
             help="logger warning level [WARN]")

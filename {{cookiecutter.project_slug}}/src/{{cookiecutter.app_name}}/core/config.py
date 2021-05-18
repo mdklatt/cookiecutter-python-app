@@ -94,10 +94,8 @@ class YamlConfig(_AttrDict):
         tag = _ParameterTag(params)
         tag.add(SafeLoader)
         for path in [path] if isinstance(path, str) else path:
-            # TODO: Use f-strings with Python 3.6+.
-            # TODO: Don't need open(str(path)) with Python 3.6+
-            with open(str(path), "r") as stream:
-                logger.info("reading config data from '{!s}'".format(path))
+            with open(path, "r") as stream:
+                logger.info(f"reading config data from '{path}'")
                 data = safe_load(stream)
             try:
                 if root:
@@ -105,7 +103,7 @@ class YamlConfig(_AttrDict):
                 else:
                     self.update(data)
             except TypeError:  # data is None
-                logger.warning("config file {!s} is empty".format(path))
+                logger.warning(f"config file {path} is empty")
         return
 
 
