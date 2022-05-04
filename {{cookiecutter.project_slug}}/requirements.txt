@@ -1,6 +1,2 @@
-## Python requirements for using the {{ cookiecutter.app_name }} application.
-##
-##   pyhon -m pip install --requirement=requirements.txt
-##
-python-dotenv>=0.12
-PyYAML>=3.11
+python-dotenv==0.20.0
+PyYAML==6.0
