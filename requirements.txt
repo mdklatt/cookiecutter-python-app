@@ -1,5 +1,1 @@
-## Python requirements for using the python-app template. 
-##
-##   python -m pip install --requirement=requirements.txt
-##
-cookiecutter>=1.6
+cookiecutter==1.7.3
