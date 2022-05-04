@@ -25,15 +25,14 @@ def main() -> int:
     with TemporaryDirectory() as tmpdir:
         cookiecutter(str(template), no_input=True, output_dir=tmpdir)
         cwd = Path(tmpdir) / defaults["project_slug"]
-        create(str(cwd / "venv"), with_pip=True)
-        bin = cwd / "venv" / "bin"
-        pip = which("pip", path=str(bin)) or "pip"  # Travis CI workaround
-        install = f"{pip} install ."
+        venv = cwd / ".venv"
+        create(venv, with_pip=True)
+        python = venv / "bin" / "python"
+        install = f"{python} -m pip install ."
         for req in cwd.glob("**/requirements.txt"):
             install = " ".join((install, f"--requirement={req}"))
         check_call(split(install), cwd=cwd)
-        pytest = which("pytest", path=str(bin)) or "pytest"  # Travis CI workaround
-        check_call(split(f"{pytest} --verbose test"), cwd=cwd)
+        check_call(split(f"{python} -m pytest --verbose test"), cwd=cwd)
     return 0
     
     

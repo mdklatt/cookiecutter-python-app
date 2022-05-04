@@ -1,5 +1,1 @@
-## Python requirements for running tests.
-##
-##   python -m pip install --requirement=requirements.txt
-##
-pytest>4.0
+pytest==7.1.2
