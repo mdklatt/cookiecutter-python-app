@@ -20,7 +20,7 @@ def main(argv=None) -> int:
     :return: exit status
     """
     args = _args(argv)
-    logger.start(args.warn or "DEBUG")  # can't use default from config yet
+    logger.start(args.warn or "WARNING")  # can't use default from config yet
     logger.debug("starting execution")
     config.load(args.config)
     config.core.config = args.config
@@ -89,7 +89,9 @@ def _hello(subparsers, common):
 if __name__ == "__main__":
     try:
         status = main()
-    except:
+    except Exception as err:
+        # Error handler of last resort.
+        logger.error(repr(err))
         logger.critical("shutting down due to fatal error")
         raise  # print stack trace
     else:
