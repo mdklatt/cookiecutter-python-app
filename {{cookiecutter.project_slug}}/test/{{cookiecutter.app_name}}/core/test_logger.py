@@ -1,4 +1,4 @@
-""" Test suite for the core._logger module.
+""" Test suite for the core.logger module.
 
 The script can be executed on its own or incorporated into a larger test suite.
 However the tests are run, be aware of which version of the package is actually
@@ -11,25 +11,27 @@ from logging import DEBUG
 from io import StringIO
 
 import pytest
-from {{ cookiecutter.app_name }}.core.logger import *  # tests __all__
+
+from {{ cookiecutter.app_name }}.core.logger import logger as _logger
 
 
 @pytest.fixture
 def logger():
-    """ Return a Logger object for testing.
+    """ Get the global logger object for testing.
 
     """
-    # Don't modify global object.
-    return Logger()
+    yield _logger
+    _logger.stop()  # reset logger after each test
+    return
 
 
 class LoggerTest(object):
     """ Test suite for the Logger class.
-    
+
     """
     def test_start(self, capsys, logger):
         """ Test the start method.
-        
+
         """
         message = "test message"
         logger.start("debug")
@@ -41,7 +43,7 @@ class LoggerTest(object):
 
     def test_stop(self, capsys, logger):
         """ Test the stop() method.
-        
+
         """
         logger.start("debug")
         logger.stop()
@@ -54,18 +56,21 @@ class LoggerTest(object):
         """ Test a restart.
 
         """
-        message = "debug message"
-        logger.start()
-        logger.stop()
+        debug_message = "debug message"
         logger.start("INFO")
-        logger.debug("debug message")  # should not be emitted
+        logger.debug(debug_message)
         _, stderr = capsys.readouterr()
-        assert message not in stderr
+        assert debug_message not in stderr
+        logger.stop()
+        logger.start("DEBUG")
+        logger.debug(debug_message)
+        _, stderr = capsys.readouterr()
+        assert debug_message in stderr
         return
 
     def test_stream(self, logger):
         """ Test output to an alternate stream.
-        
+
         """
         message = "test message"
         stream = StringIO()

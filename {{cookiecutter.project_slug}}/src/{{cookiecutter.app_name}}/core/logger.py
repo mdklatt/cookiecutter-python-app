@@ -4,16 +4,14 @@ All modules use the same global logging object. No messages will be emitted
 until the logger is started.
 
 """
-from logging import Formatter
-from logging import Logger as _Logger
-from logging import NullHandler
-from logging import StreamHandler
+from logging import getLogger, getLoggerClass, setLoggerClass
+from logging import Formatter, NullHandler, StreamHandler
 
 
-__all__ = "logger", "Logger"
+__all__ = "logger",
 
 
-class Logger(_Logger):
+class _Logger(getLoggerClass()):
     """ Message logger.
 
     """
@@ -32,7 +30,7 @@ class Logger(_Logger):
         # to whether the logger has been started yet. The standard Logger API
         # may be used to add and remove additional handlers, but the
         # NullHandler should always be left in place. 
-        super(Logger, self).__init__(name or __name__.split(".")[0])
+        super().__init__(name or __name__.split(".")[0])
         self.addHandler(NullHandler())  # default to no output
         return
 
@@ -78,4 +76,6 @@ class Logger(_Logger):
         return
 
 
-logger = Logger()
+# Never instantiate a Logger object directly, always use getLogger().
+setLoggerClass(_Logger)  # applies to all subsequent getLogger() calls
+logger = getLogger(__name__.split(".", 1)[0])  # use application name
