@@ -4,30 +4,27 @@ This module defines a global configuration object. Other modules should use
 this object to store application-wide configuration values.
 
 """
-from dotenv import load_dotenv
-from yaml import Node
-from yaml import SafeLoader
-from yaml import safe_load
 from os import environ
 from re import compile
 from string import Template
 
-from .logger import logger
+from dotenv import load_dotenv
+from yaml import Node, SafeLoader, safe_load
 
+from .logger import logger
 
 __all__ = "config", "YamlConfig"
 
 
 class _AttrDict(dict):
-    """ A dict-like object with attribute access.
+    """A dict-like object with attribute access."""
 
-    """
     def __getitem__(self, key: str):
-        """ Access dict values by key.
+        """Access dict values by key.
 
         :param key: key to retrieve
         """
-        value = super(_AttrDict, self).__getitem__(key)
+        value = super().__getitem__(key)
         if isinstance(value, dict):
             # For mixed recursive assignment (e.g. `a["b"].c = value` to work
             # as expected, all dict-like values must themselves be _AttrDicts.
@@ -40,14 +37,14 @@ class _AttrDict(dict):
         return value
 
     def __getattr__(self, key: str) -> object:
-        """ Get dict values as attributes.
+        """Get dict values as attributes.
 
         :param key: key to retrieve
         """
         return self[key]
 
     def __setattr__(self, key: str, value: object):
-        """ Set dict values as attributes.
+        """Set dict values as attributes.
 
         :param key: key to set
         :param value: new value for key
@@ -57,7 +54,7 @@ class _AttrDict(dict):
 
 
 class YamlConfig(_AttrDict):
-    """ Store YAML configuration data.
+    """Store YAML configuration data.
 
     Parameters can be embedded in the YAML file using e.g. $param or ${param}.
     Parameter lookup is performed against the current environment and an
@@ -66,20 +63,21 @@ class YamlConfig(_AttrDict):
     After loading, data can be accessed as dict values or object attributes.
 
     """
+
     def __init__(self, path=None, root=None, params=None):
-        """ Initialize this object.
+        """Initialize this object.
 
         :param path: config file path to load
         :param root: place config values at this root
         :param params: macro substitutions
         """
-        super(YamlConfig, self).__init__()
+        super().__init__()
         if path:
             self.load(path, root, params)
         return
 
     def load(self, path, root=None, params=None):
-        """ Load data from YAML configuration files.
+        """Load data from YAML configuration files.
 
         Configuration values are read from a sequence of one or more YAML
         files. Files are read in the given order, and a duplicate value will
@@ -94,7 +92,7 @@ class YamlConfig(_AttrDict):
         tag = _ParameterTag(params)
         tag.add(SafeLoader)
         for path in [path] if isinstance(path, str) else path:
-            with open(path, "r") as stream:
+            with open(path) as stream:
                 logger.info(f"reading config data from '{path}'")
                 data = safe_load(stream)
             try:
@@ -107,16 +105,17 @@ class YamlConfig(_AttrDict):
         return
 
 
-class _ParameterTag(object):
-    """ YAML tag for performing parameter substitution on a scalar node.
+class _ParameterTag:
+    """YAML tag for performing parameter substitution on a scalar node.
 
     Enable this tag by calling add_constructor() for the SafeLoader class.
 
     """
+
     NAME = "param"
 
     def __init__(self, params=None):
-        """ Initialize this object.
+        """Initialize this object.
 
         :param params: key-value replacement mapping
         """
@@ -128,7 +127,7 @@ class _ParameterTag(object):
         return
 
     def __call__(self, loader: SafeLoader, node: Node) -> str:
-        """ Implement the tag constructor interface.
+        """Implement the tag constructor interface.
 
         :param loader: YAML loader
         :param node: YAML node to process
@@ -138,7 +137,7 @@ class _ParameterTag(object):
         return Template(value).substitute(self._params)
 
     def add(self, loader: type(SafeLoader)):
-        """ Add this tag to the SafeLoader class.
+        """Add this tag to the SafeLoader class.
 
         This adds a the tag constructor and an implicit resolver to the
         loader

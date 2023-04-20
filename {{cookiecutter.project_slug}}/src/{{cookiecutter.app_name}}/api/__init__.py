@@ -3,5 +3,4 @@
 """
 from .hello import main as hello
 
-
-__all__ = "hello",
+__all__ = ("hello",)

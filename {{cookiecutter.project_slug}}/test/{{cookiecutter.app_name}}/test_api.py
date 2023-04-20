@@ -8,7 +8,7 @@ environment or setuptools develop mode to test against the development version.
 
 """
 import pytest
-from {{ cookiecutter.app_name }}.api import *  # tests __all__
+from {{cookiecutter.app_name}}.api import *  # tests __all__
 
 
 def test_hello():
