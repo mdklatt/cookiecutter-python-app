@@ -25,7 +25,19 @@ Optional Requirements
 Basic Setup
 ===========
 
-Install for the current user:
+Setup project dependencies
+
+.. code-block:: console
+
+    $ pip3 install -r requirements.txt -r test/requirements.txt -r docs/requirements.txt
+
+Install `pre-commit` hooks
+
+.. code-block:: console
+
+    $ pre-commit install
+
+Install this app for the current user:
 
 .. code-block:: console
 
@@ -36,7 +48,7 @@ Run the application:
 
 .. code-block:: console
 
-    $ python -m {{ cookiecutter.app_name }} --help
+    $ {{ cookiecutter.app_name }} --help
 
 
 Run the test suite:

@@ -4,10 +4,6 @@ on:
   push:
     branches:
       - main
-  pull_request:
-    types: [opened, reopened, synchronize]
-    branches:
-      - "*"
 
 jobs:
   build:
@@ -21,12 +17,14 @@ jobs:
     steps:
       - name: Check out project
         uses: actions/checkout@v2
+        {% raw %}
       - name: Set up Python ${{ matrix.python-version }}
         uses: actions/setup-python@v2
         with:
           python-version: ${{ matrix.python-version }}
+        {% endraw %}
           cache: pip
       - name: Install dependencies
-        run: pip3 install -r requirements.txt
+        run: pip3 install -r requirements.txt -r test/requirements.txt -r docs/requirements.txt
       - name: Run tests
-        run: python3 tests/test_template.py
+        run: pre-commit run --all-files
