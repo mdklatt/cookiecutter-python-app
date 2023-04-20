@@ -1,2 +1,4 @@
 python-dotenv==0.20.0
 PyYAML==6.0
+pytest==7.3.1
+Sphinx==6.1.3
