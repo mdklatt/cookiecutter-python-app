@@ -16,21 +16,16 @@ from {{cookiecutter.app_name}}.core.logger import *  # tests __all__
 
 @pytest.fixture
 def logger():
-    """ Return a Logger object for testing.
-
-    """
+    """Return a Logger object for testing."""
     # Don't modify global object.
     return Logger()
 
 
-class LoggerTest(object):
-    """ Test suite for the Logger class.
+class LoggerTest:
+    """Test suite for the Logger class."""
 
-    """
     def test_start(self, capsys, logger):
-        """ Test the start method.
-
-        """
+        """Test the start method."""
         message = "test message"
         logger.start("debug")
         logger.debug(message)
@@ -40,9 +35,7 @@ class LoggerTest(object):
         return
 
     def test_stop(self, capsys, logger):
-        """ Test the stop() method.
-
-        """
+        """Test the stop() method."""
         logger.start("debug")
         logger.stop()
         logger.critical("test")
@@ -51,9 +44,7 @@ class LoggerTest(object):
         return
 
     def test_restart(self, capsys, logger):
-        """ Test a restart.
-
-        """
+        """Test a restart."""
         message = "debug message"
         logger.start()
         logger.stop()
@@ -64,9 +55,7 @@ class LoggerTest(object):
         return
 
     def test_stream(self, logger):
-        """ Test output to an alternate stream.
-
-        """
+        """Test output to an alternate stream."""
         message = "test message"
         stream = StringIO()
         logger.start("debug", stream)

@@ -17,16 +17,12 @@ from {{cookiecutter.app_name}}.cli import *  # test __all__
 
 @pytest.fixture(params=("--help", "hello"))
 def command(request):
-    """ Return the command to run.
-
-    """
+    """Return the command to run."""
     return request.param
 
 
 def test_main(command):
-    """ Test the main() function.
-
-    """
+    """Test the main() function."""
     try:
         status = main(split(command))
     except SystemExit as ex:
@@ -34,19 +30,16 @@ def test_main(command):
     assert status == 0
     return
 
-def test_main_none():
-    """ Test the main() function with no arguments.
 
-    """
+def test_main_none():
+    """Test the main() function with no arguments."""
     with pytest.raises(SystemExit) as exinfo:
         main([])  # displays a help message and exits gracefully
     assert exinfo.value.code == 1
 
 
 def test_script(command):
-    """ Test command line execution.
-
-    """
+    """Test command line execution."""
     # Call with the --help option as a basic sanity check.
     cmdl = f"{executable} -m {{ cookiecutter.app_name }}.cli {command} --help"
     assert 0 == call(cmdl.split())

@@ -12,17 +12,13 @@ from {{cookiecutter.app_name}}.api import *  # tests __all__
 
 
 def test_hello():
-    """ Test the hello() function.
-
-    """
+    """Test the hello() function."""
     assert hello() == "Hello, World!"
     return
 
 
 def test_hello_name():
-    """ Test the hello() function with a name.
-
-    """
+    """Test the hello() function with a name."""
     assert hello("foo") == "Hello, foo!"
     return
 
