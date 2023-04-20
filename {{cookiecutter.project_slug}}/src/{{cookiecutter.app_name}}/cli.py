@@ -9,12 +9,11 @@ from .api import hello
 from .core.config import config
 from .core.logger import logger
 
-
-__all__ = "main",
+__all__ = ("main",)
 
 
 def main(argv=None) -> int:
-    """ Execute the application CLI.
+    """Execute the application CLI.
 
     :param argv: argument list to parse (sys.argv by default)
     :return: exit status
@@ -41,27 +40,33 @@ def main(argv=None) -> int:
         return 1
     logger.debug("successful completion")
     return 0
- 
+
 
 def _args(argv):
-    """ Parse command line arguments.
+    """Parse command line arguments.
 
     :param argv: argument list to parse
     """
     parser = ArgumentParser()
-    parser.add_argument("-c", "--config", action="append",
-            help="config file [etc/config.yml]")
-    parser.add_argument("-v", "--version", action="version",
-            version=f"{{ cookiecutter.app_name }} {__version__}",
-            help="print version and exit")
-    parser.add_argument("-w", "--warn", default="WARN",
-            help="logger warning level [WARN]")
+    parser.add_argument(
+        "-c", "--config", action="append", help="config file [etc/config.yml]"
+    )
+    parser.add_argument(
+        "-v",
+        "--version",
+        action="version",
+        version=f"{{ cookiecutter.app_name }} {__version__}",
+        help="print version and exit",
+    )
+    parser.add_argument(
+        "-w", "--warn", default="WARN", help="logger warning level [WARN]"
+    )
     parser.set_defaults(command=None)
     subparsers = parser.add_subparsers(title="subcommands")
     common = ArgumentParser(add_help=False)  # common subcommand arguments
     common.add_argument("--name", "-n", default="World", help="greeting name")
     _hello(subparsers, common)
-    args = parser.parse_args(argv)    
+    args = parser.parse_args(argv)
     if not args.command:
         # No sucommand was specified.
         parser.print_help()
@@ -69,12 +74,12 @@ def _args(argv):
     if not args.config:
         # Don't specify this as an argument default or else it will always be
         # included in the list.
-        args.config = "etc/config.yml"          
+        args.config = "etc/config.yml"
     return args
- 
+
 
 def _hello(subparsers, common):
-    """ CLI adaptor for the api.hello command.
+    """CLI adaptor for the api.hello command.
 
     :param subparsers: subcommand parsers
     :param common: parser for common subcommand arguments

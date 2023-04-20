@@ -7,11 +7,11 @@ precedence over the version in this project directory. Use a virtualenv test
 environment or setuptools develop mode to test against the development version.
 
 """
-from logging import DEBUG
 from io import StringIO
+from logging import DEBUG
 
 import pytest
-from {{ cookiecutter.app_name }}.core.logger import *  # tests __all__
+from {{cookiecutter.app_name}}.core.logger import *  # tests __all__
 
 
 @pytest.fixture
@@ -25,11 +25,11 @@ def logger():
 
 class LoggerTest(object):
     """ Test suite for the Logger class.
-    
+
     """
     def test_start(self, capsys, logger):
         """ Test the start method.
-        
+
         """
         message = "test message"
         logger.start("debug")
@@ -41,7 +41,7 @@ class LoggerTest(object):
 
     def test_stop(self, capsys, logger):
         """ Test the stop() method.
-        
+
         """
         logger.start("debug")
         logger.stop()
@@ -65,7 +65,7 @@ class LoggerTest(object):
 
     def test_stream(self, logger):
         """ Test output to an alternate stream.
-        
+
         """
         message = "test message"
         stream = StringIO()

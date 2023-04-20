@@ -3,10 +3,10 @@
     python -m {{ cookiecutter.app_name }}  ...
 
 """
-def main():
-    """ Execute the application.
 
-    """
+
+def main():
+    """Execute the application."""
     raise NotImplementedError
 
 

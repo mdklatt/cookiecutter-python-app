@@ -4,9 +4,7 @@
 from os import walk
 from pathlib import Path
 
-from setuptools import find_packages
-from setuptools import setup
-
+from setuptools import find_packages, setup
 
 _config = {
     "name": "{{ cookiecutter.app_name }}",
@@ -16,16 +14,17 @@ _config = {
     "package_dir": {"": "src"},
     "packages": find_packages("src"),
     "entry_points": {
-        "console_scripts": ("{{ cookiecutter.cli_script }} = {{ cookiecutter.app_name }}.cli:main",),
+        "console_scripts": (
+            "{{ cookiecutter.cli_script }} = {{ cookiecutter.app_name }}.cli:main",
+        ),
     },
     "data_files": ("etc/",),
 }
 
 
 def main() -> int:
-    """ Execute the setup command.
+    """Execute the setup command."""
 
-    """
     def data_files(*paths):
         """ Expand path contents for the `data_files` config variable.  """
         for path in map(Path, paths):
@@ -43,10 +42,12 @@ def main() -> int:
         exec(path.read_text(), namespace)
         return namespace["__version__"]
 
-    _config.update({
-        "data_files": list(data_files(*_config["data_files"])),
-        "version": version(),
-    })
+    _config.update(
+        {
+            "data_files": list(data_files(*_config["data_files"])),
+            "version": version(),
+        }
+    )
     setup(**_config)
     return 0
 

@@ -11,7 +11,7 @@ from os import environ
 from pathlib import Path
 
 import pytest
-from {{ cookiecutter.app_name }}.core.config import *  # tests __all__
+from {{cookiecutter.app_name}}.core.config import *  # tests __all__
 
 
 class YamlConfigTest(object):

@@ -12,7 +12,7 @@ from subprocess import call
 from sys import executable
 
 import pytest
-from {{ cookiecutter.app_name }}.cli import *  # test __all__
+from {{cookiecutter.app_name}}.cli import *  # test __all__
 
 
 @pytest.fixture(params=("--help", "hello"))
@@ -36,7 +36,7 @@ def test_main(command):
 
 def test_main_none():
     """ Test the main() function with no arguments.
-    
+
     """
     with pytest.raises(SystemExit) as exinfo:
         main([])  # displays a help message and exits gracefully
