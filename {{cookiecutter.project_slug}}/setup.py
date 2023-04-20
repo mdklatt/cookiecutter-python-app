@@ -14,9 +14,7 @@ _config = {
     "package_dir": {"": "src"},
     "packages": find_packages("src"),
     "entry_points": {
-        "console_scripts": (
-            "{{ cookiecutter.cli_script }} = {{ cookiecutter.app_name }}.cli:main",
-        ),
+        "console_scripts": ("{{cookiecutter.app_name}} = {{cookiecutter.app_name}}.cli:main",),
     },
     "data_files": ("etc/",),
 }
