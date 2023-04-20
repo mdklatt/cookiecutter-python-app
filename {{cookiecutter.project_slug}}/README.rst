@@ -3,7 +3,7 @@
 {{ cookiecutter.app_name }}
 {{ delim }}
 
-This is the {{ cookiecutter.app_name }} application.
+This is the {{ cookiecutter.app_name }} CLI application.
 
 
 Minimum Requirements
@@ -29,7 +29,7 @@ Install for the current user:
 
 .. code-block:: console
 
-    $ python -m pip install . --user
+    $ pip3 install . --user
 
 
 Run the application:

@@ -1,10 +1,10 @@
 ###################################
-Python Application Project Template
+Python CLI Application Project Template
 ###################################
 
 |badge|
 
-This is a `Cookiecutter`_ template for creating a Python application project.
+This is a `Cookiecutter`_ template for creating a Python CLI application project.
 
 
 ================
@@ -34,14 +34,14 @@ Install Python requirements for using the template:
 
 .. code-block:: console
 
-  $ python -m pip install --user --requirement=requirements.txt
+  $ pip3 install -r requirements.txt
 
 
 Create a new project directly from the template on `GitHub`_:
 
 .. code-block:: console
 
-  $ cookiecutter gh:mdklatt/cookiecutter-python-app
+  $ cookiecutter git@github.com:wujiayi101/cookiecutter-python-cli.git
 
 
 .. _GitHub Actions: https://github.com/mdklatt/cookiecutter-python-app/actions/workflows/test.yml
