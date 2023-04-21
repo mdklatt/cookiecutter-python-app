@@ -19,14 +19,27 @@ jobs:
         - "3.9"
         - "3.10"
     steps:
-      - name: Check out project
-        uses: actions/checkout@v2
-      - name: Set up Python {% raw %}${{ matrix.python-version }}{% endraw %}
-        uses: actions/setup-python@v2
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Set up Python {% raw %}${{ matrix.python-version }}{% endraw %}}
+        uses: actions/setup-python@v4
         with:
           python-version: {% raw %}${{ matrix.python-version }}{% endraw %}
           cache: pip
-      - name: Install dependencies
-        run: pip3 install -r requirements.txt -r test/requirements.txt -r docs/requirements.txt
-      - name: Run tests
-        run: pre-commit run --all-files
+      - name: Lint
+        run: |
+          sudo pip3 install pre-commit
+          pre-commit install
+          pre-commit run -a
+      - name: Package
+        run: |
+          sudo pip3 install -r requirements.txt
+          sudo pip3 install . --user
+      - name: Pytest
+        run: |
+          sudo pip3 install -r test/requirements.txt
+          sudo pytest test/
+      - name: Create Doc
+        run: |
+          sudo pip3 install -r doc/requirements.txt
+          sudo sphinx-build -b html doc doc/_build/html

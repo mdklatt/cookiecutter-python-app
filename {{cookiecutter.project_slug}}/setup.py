@@ -14,7 +14,7 @@ _config = {
     "package_dir": {"": "src"},
     "packages": find_packages("src"),
     "entry_points": {
-        "console_scripts": ("{{cookiecutter.app_name}} = {{cookiecutter.app_name}}.cli:main",),
+        "console_scripts": ("{{cookiecutter.cli_script}} = {{cookiecutter.app_name}}.cli:main",),
     },
     "data_files": ("etc/",),
 }
@@ -24,7 +24,7 @@ def main() -> int:
     """Execute the setup command."""
 
     def data_files(*paths):
-        """ Expand path contents for the `data_files` config variable.  """
+        """Expand path contents for the `data_files` config variable."""
         for path in map(Path, paths):
             if path.is_dir():
                 for root, _, files in walk(str(path)):
@@ -34,7 +34,7 @@ def main() -> int:
         return
 
     def version():
-        """ Get the local package version. """
+        """Get the local package version."""
         namespace = {}
         path = Path("src", _config["name"], "__version__.py")
         exec(path.read_text(), namespace)

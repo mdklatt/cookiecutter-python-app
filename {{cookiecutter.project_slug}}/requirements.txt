@@ -1,3 +1,2 @@
 python-dotenv==0.20.0
 PyYAML==6.0
-pre-commit==3.2.2

@@ -25,11 +25,11 @@ Optional Requirements
 Basic Setup
 ===========
 
-Setup project dependencies
+Install `pre-commit` for linting
 
 .. code-block:: console
 
-    $ pip3 install -r requirements.txt -r test/requirements.txt -r docs/requirements.txt
+    $ pip3 install pre-commit
 
 Install `pre-commit` hooks
 
