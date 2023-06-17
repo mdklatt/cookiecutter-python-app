@@ -9,7 +9,7 @@ This is the {{ cookiecutter.app_name }} application.
 Minimum Requirements
 ====================
 
-- Python 3.5+
+- Python 3.8+
 
 
 Optional Requirements
@@ -29,7 +29,7 @@ Install for the current user:
 
 .. code-block:: console
 
-    $ python -m pip install . --user
+    $ python -m pip install -e ".[dev]"
 
 
 Run the application:
@@ -43,11 +43,11 @@ Run the test suite:
 
 .. code-block:: console
    
-    $ pytest test/
+    $ python -m pytest test/
 
 
 Build documentation:
 
 .. code-block:: console
 
-    $ sphinx-build -b html doc doc/_build/html
+    $ python -m sphinx -b html doc doc/_build/html
