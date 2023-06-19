@@ -21,14 +21,7 @@ Run tests:
 
 .. code-block::
 
-    $ .venv/bin/python -m pytest -v test/
-
-
-Run the test suite:
-
-.. code-block::
-   
-    $ .venv/bin/python -m pytest test/
+    $ .venv/bin/python -m pytest -v tests/
 
 
 Build documentation:

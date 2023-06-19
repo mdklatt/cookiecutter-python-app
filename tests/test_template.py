@@ -35,7 +35,7 @@ def main() -> int:
         python = venv / "bin" / "python"
         install = f"{python} -m pip install -e \".[dev]\""
         check_call(split(install), cwd=cwd)
-        check_call(split(f"{python} -m pytest --verbose test"), cwd=cwd)
+        check_call(split(f"{python} -m pytest -v tests"), cwd=cwd)
     return 0
     
     

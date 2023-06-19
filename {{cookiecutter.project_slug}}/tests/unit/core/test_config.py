@@ -25,7 +25,7 @@ class YamlConfigTest(object):
 
         """
         files = "conf1.yml", "conf2.yml"
-        return tuple(Path("test/data", item) for item in files)
+        return tuple(Path("tests/assets", item) for item in files)
 
     @classmethod
     @pytest.fixture
