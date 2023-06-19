@@ -14,7 +14,7 @@ import pytest
 from {{ cookiecutter.app_name }}.core.config import *  # tests __all__
 
 
-class YamlConfigTest(object):
+class TomlConfigTest(object):
     """ Test suite for the YamlConfig class.
 
     """
@@ -24,7 +24,7 @@ class YamlConfigTest(object):
         """ Return configuration files for testing.
 
         """
-        files = "conf1.yml", "conf2.yml"
+        files = "conf1.toml", "conf2.toml"
         return tuple(Path("tests/assets", item) for item in files)
 
     @classmethod
@@ -40,7 +40,7 @@ class YamlConfigTest(object):
         """ Test item access.
 
         """
-        config = YamlConfig()
+        config = TomlConfig()
         config["root"] = {}
         config["root"]["key"] = "value"
         assert config["root"]["key"] == "value"
@@ -50,7 +50,7 @@ class YamlConfigTest(object):
         """ Test attribute access.
 
         """
-        config = YamlConfig()
+        config = TomlConfig()
         config.root = {}
         config.root.key = "value"
         assert config.root.key == "value"
@@ -62,7 +62,7 @@ class YamlConfigTest(object):
 
         """
         merged = {"str": "$str", "env": "ENV1VAR2", "var": "VAR1VAR3"}
-        config = YamlConfig(files, root, params)
+        config = TomlConfig(files, root, params)
         if root:
             assert config == {root: merged}
         else:
@@ -75,7 +75,7 @@ class YamlConfigTest(object):
 
         """
         merged = {"str": "$str", "env": "ENV1VAR2", "var": "VAR1VAR3"}
-        config = YamlConfig()
+        config = TomlConfig()
         config.load(files, root, params)
         if root:
             assert config == {root: merged}

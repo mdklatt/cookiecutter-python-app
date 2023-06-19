@@ -20,7 +20,7 @@ def main(argv=None) -> int:
     :return: exit status
     """
     args = _args(argv)
-    logger.start(args.warn or "WARNING")  # can't use default from config yet
+    logger.start(args.warn)
     logger.debug("starting execution")
     config.load(args.config)
     config.core.config = args.config
@@ -50,12 +50,12 @@ def _args(argv):
     """
     parser = ArgumentParser()
     parser.add_argument("-c", "--config", action="append",
-            help="config file [etc/config.yml]")
+            help="config file [etc/config.toml]")
     parser.add_argument("-v", "--version", action="version",
             version=f"{{ cookiecutter.app_name }} {__version__}",
             help="print version and exit")
-    parser.add_argument("-w", "--warn", default="WARN",
-            help="logger warning level [WARN]")
+    parser.add_argument("-w", "--warn", default="WARNING",
+            help="logger warning level [WARNING]")
     parser.set_defaults(command=None)
     subparsers = parser.add_subparsers(title="subcommands")
     common = ArgumentParser(add_help=False)  # common subcommand arguments
@@ -69,7 +69,7 @@ def _args(argv):
     if not args.config:
         # Don't specify this as an argument default or else it will always be
         # included in the list.
-        args.config = "etc/config.yml"          
+        args.config = "etc/config.toml"
     return args
  
 

@@ -5,17 +5,17 @@ this object to store application-wide configuration values.
 
 """
 from dotenv import load_dotenv
-from yaml import Node
-from yaml import SafeLoader
-from yaml import safe_load
 from os import environ
-from re import compile
 from string import Template
+try:
+    import tomllib
+except ModuleNotFoundError:
+    import tomli as tomllib
 
 from .logger import logger
 
 
-__all__ = "config", "YamlConfig"
+__all__ = "config", "TomlConfig"
 
 
 class _AttrDict(dict):
@@ -56,14 +56,8 @@ class _AttrDict(dict):
         return
 
 
-class YamlConfig(_AttrDict):
-    """ Store YAML configuration data.
-
-    Parameters can be embedded in the YAML file using e.g. $param or ${param}.
-    Parameter lookup is performed against the current environment and an
-    optional user-specified mapping (user parameters take precedence).
-
-    After loading, data can be accessed as dict values or object attributes.
+class TomlConfig(_AttrDict):
+    """
 
     """
     def __init__(self, path=None, root=None, params=None):
@@ -73,7 +67,7 @@ class YamlConfig(_AttrDict):
         :param root: place config values at this root
         :param params: macro substitutions
         """
-        super(YamlConfig, self).__init__()
+        super().__init__()
         if path:
             self.load(path, root, params)
         return
@@ -91,63 +85,22 @@ class YamlConfig(_AttrDict):
         :param params: mapping of parameter substitutions
         """
         load_dotenv()
-        tag = _ParameterTag(params)
-        tag.add(SafeLoader)
+        params_ = environ.copy()
+        if params is not None:
+            params_.update(params)
         for path in [path] if isinstance(path, str) else path:
-            with open(path, "r") as stream:
-                logger.info(f"reading config data from '{path}'")
-                data = safe_load(stream)
+            with open(path, "rt") as stream:
+                logger.info(f"Reading config data from '{path}'")
+                toml = Template(stream.read()).substitute(params_)
+                data = tomllib.loads(toml)
             try:
                 if root:
                     self.setdefault(root, {}).update(data)
                 else:
                     self.update(data)
             except TypeError:  # data is None
-                logger.warning(f"config file {path} is empty")
+                logger.warning(f"Config file {path} is empty")
         return
 
 
-class _ParameterTag(object):
-    """ YAML tag for performing parameter substitution on a scalar node.
-
-    Enable this tag by calling add_constructor() for the SafeLoader class.
-
-    """
-    NAME = "param"
-
-    def __init__(self, params=None):
-        """ Initialize this object.
-
-        :param params: key-value replacement mapping
-        """
-        self._params = environ.copy()
-        try:
-            self._params.update(params)
-        except TypeError:
-            pass  # params is None
-        return
-
-    def __call__(self, loader: SafeLoader, node: Node) -> str:
-        """ Implement the tag constructor interface.
-
-        :param loader: YAML loader
-        :param node: YAML node to process
-        :return: final value
-        """
-        value = loader.construct_scalar(node)
-        return Template(value).substitute(self._params)
-
-    def add(self, loader: type(SafeLoader)):
-        """ Add this tag to the SafeLoader class.
-
-        This adds a the tag constructor and an implicit resolver to the
-        loader
-
-        :param loader: loader class
-        """
-        loader.add_implicit_resolver(self.NAME, compile(r"(?=.*$)"), None)
-        loader.add_constructor(self.NAME, self)
-        return
-
-
-config = YamlConfig()
+config = TomlConfig()
