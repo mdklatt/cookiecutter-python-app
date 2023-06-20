@@ -3,6 +3,7 @@
 """
 from argparse import ArgumentParser
 from inspect import getfullargspec
+from os import environ
 
 from . import __version__
 from .api import hello
@@ -22,7 +23,7 @@ def main(argv=None) -> int:
     args = _args(argv)
     logger.start(args.warn)
     logger.debug("starting execution")
-    config.load(args.config)
+    config.load(args.config, params=environ)
     config.core.config = args.config
     if args.warn:
         config.core.logging = args.warn
