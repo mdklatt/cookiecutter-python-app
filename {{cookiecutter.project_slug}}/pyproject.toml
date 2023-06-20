@@ -1,6 +1,6 @@
 [project]
 name = "{{ cookiecutter.app_name }}"
-description = "Execute CLI commands via a REST API."
+description = "Python application created from the gh:mdklatt/cookiecutter-python-app Cookiecutter template."
 authors = [
     { name = "{{ cookiecutter.author_name }}", email = "{{ cookiecutter.author_email }}" },
 ]
@@ -11,6 +11,9 @@ classifiers = [
     "Programming Language :: Python",
     "Programming Language :: Python :: 3",
     "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
 ]
 requires-python = ">=3.8"
 dependencies = [

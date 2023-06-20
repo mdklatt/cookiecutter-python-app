@@ -80,7 +80,8 @@ def test_dev(project, python):
     """
     install = f"pip install -e .[dev]"
     test = "pytest tests/"
-    for command in install, test:
+    docs = "sphinx -M html docs docs/_build"
+    for command in install, test, docs:
         args = split(f"{python} -m {command}")
         process = run(args, cwd=project)
         assert process.returncode == 0

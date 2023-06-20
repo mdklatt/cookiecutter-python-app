@@ -3,7 +3,8 @@
 {{ cookiecutter.app_name }}
 {{ delim }}
 
-This is the {{ cookiecutter.app_name }} application. Python 3.8+ is required.
+Python application created from the `mdklatt/cookiecutter-python-app`_ template.
+Python 3.8+ is required.
 
 
 Development
@@ -28,7 +29,7 @@ Build documentation:
 
 .. code-block::
 
-    $ .venv/bin/python -m sphinx -b html doc doc/_build/html
+    $ .venv/bin/python -m sphinx -M html docs docs/_build
 
 
 
@@ -79,3 +80,4 @@ nd the logging level can be set via the config file or on the command line.
 
 .. _TOML: https://toml.io
 .. _Python logging: https://docs.python.org/3/library/logging.html
+.. _mdklatt/cookiecutter-python-app: https://github.com/mdklatt/cookiecutter-python-app
