@@ -63,7 +63,7 @@ def _args(argv):
     _hello(subparsers, common)
     args = parser.parse_args(argv)    
     if not args.command:
-        # No sucommand was specified.
+        # No subcommand was specified.
         parser.print_help()
         raise SystemExit(1)
     if not args.config:

@@ -1,3 +1,2 @@
-str = "$$str"  # literal `$$`, no substitution
-env = "${env1}${env2}"
+str = "$$str"  # literal `$`, no substitution
 var = "${var1}$var2"

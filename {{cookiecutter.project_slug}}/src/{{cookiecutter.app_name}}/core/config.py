@@ -4,11 +4,11 @@ This module defines a global configuration object. Other modules should use
 this object to store application-wide configuration values.
 
 """
-from dotenv import load_dotenv
-from os import environ
+from pathlib import Path
 from string import Template
+import re
 try:
-    import tomllib
+    import tomllib  # Python 3.11+
 except ModuleNotFoundError:
     import tomli as tomllib
 
@@ -57,49 +57,53 @@ class _AttrDict(dict):
 
 
 class TomlConfig(_AttrDict):
-    """
+    """ Store data from TOML configuration files.
 
     """
-    def __init__(self, path=None, root=None, params=None):
+    def __init__(self, paths=None, root=None, params=None):
         """ Initialize this object.
 
-        :param path: config file path to load
+        :param paths: one or more config file paths to load
         :param root: place config values at this root
-        :param params: macro substitutions
+        :param params: mapping of parameter substitutions
         """
         super().__init__()
-        if path:
-            self.load(path, root, params)
+        if paths:
+            self.load(paths, root, params)
         return
 
-    def load(self, path, root=None, params=None):
-        """ Load data from YAML configuration files.
+    def load(self, paths, root=None, params=None):
+        """ Load data from configuration files.
 
-        Configuration values are read from a sequence of one or more YAML
+        Configuration values are read from a sequence of one or more TOML
         files. Files are read in the given order, and a duplicate value will
         overwrite the existing value. If a root is specified the config data
         will be loaded under that attribute.
 
-        :param path: config file path to load
+        :param paths: one or more config file paths to load
         :param root: place config values at this root
         :param params: mapping of parameter substitutions
         """
-        load_dotenv()
-        params_ = environ.copy()
-        if params is not None:
-            params_.update(params)
-        for path in [path] if isinstance(path, str) else path:
+        try:
+            paths = [Path(paths)]
+        except TypeError:
+            # Assume this is a sequence of paths.
+            pass
+        if params is None:
+            params = {}
+        for path in paths:
+            # Comments must be stripped prior to template substitution to avoid
+            # any unintended semantics such as stray `$` symbols.
+            comment = re.compile(r"\s*#.*$", re.MULTILINE)
             with open(path, "rt") as stream:
                 logger.info(f"Reading config data from '{path}'")
-                toml = Template(stream.read()).substitute(params_)
+                conf = comment.sub("", stream.read())
+                toml = Template(conf).substitute(params)
                 data = tomllib.loads(toml)
-            try:
-                if root:
-                    self.setdefault(root, {}).update(data)
-                else:
-                    self.update(data)
-            except TypeError:  # data is None
-                logger.warning(f"Config file {path} is empty")
+            if root:
+                self.setdefault(root, {}).update(data)
+            else:
+                self.update(data)
         return
 
 
