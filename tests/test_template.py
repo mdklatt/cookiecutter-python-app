@@ -70,7 +70,7 @@ def test_project(project):
 
     """
     # Just a basic sanity test.
-    assert len(list(project.iterdir())) == 8
+    assert len(list(project.iterdir())) == 9
     return
 
 
@@ -78,13 +78,8 @@ def test_dev(project, python):
     """ Test the creation of the project dev environment.
 
     """
-    install = f"pip install -e .[dev]"
-    test = "pytest tests/"
-    docs = "sphinx -M html docs docs/_build"
-    for command in install, test, docs:
-        args = split(f"{python} -m {command}")
-        process = run(args, cwd=project)
-        assert process.returncode == 0
+    process = run(split("make dev check docs"), cwd=project)
+    assert process.returncode == 0
     return
 
 
