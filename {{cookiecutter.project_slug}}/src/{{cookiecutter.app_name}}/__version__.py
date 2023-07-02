@@ -2,7 +2,7 @@
 
 This project uses the Semantic Versioning scheme in conjunction with PEP 0440:
 
-    <http://semver.org/>
+    <https://semver.org/>
     <https://www.python.org/dev/peps/pep-0440>
 
 Major versions introduce significant changes to the API, and backwards 

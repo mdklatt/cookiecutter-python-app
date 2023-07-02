@@ -1,10 +1,8 @@
 # Project management tasks.
 
 VENV = .venv
-DIST = dist
 PYTHON = . $(VENV)/bin/activate && python
 PYTEST = $(PYTHON) -m pytest
-BUILD = $(PYTHON) -m build --outdir=$(DIST)
 
 
 $(VENV)/.make-update: pyproject.toml
