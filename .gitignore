@@ -5,13 +5,9 @@
 *.pyo
 
 
-# Ignore pyenv files.
+# Ignore Python environments.
 
 .python-version
-
-
-# Ignore virtualenv environments.
-
 .venv*/
 
 
