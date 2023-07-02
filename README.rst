@@ -28,6 +28,7 @@ based on the `Python Packaging User Guide`_.
 - Hierarchical `TOML`_ configuration
 
 
+=====
 Usage
 =====
 
@@ -45,6 +46,7 @@ Create a new project directly from the template on `GitHub`_:
     $ cookiecutter gh:mdklatt/cookiecutter-python-app
 
 
+===========
 Development
 ===========
 

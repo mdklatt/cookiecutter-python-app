@@ -1,2 +1,2 @@
+# Reqirements for using the template.
 cookiecutter>=2.1.1,<3
-pytest>=7.3.2,<8

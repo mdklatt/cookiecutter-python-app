@@ -4,7 +4,7 @@ VENV = .venv
 PYTHON = source $(VENV)/bin/activate && python
 
 
-$(VENV)/.make-update: requirements.txt
+$(VENV)/.make-update: requirements-dev.txt
 	python -m venv $(VENV)
 	$(PYTHON) -m pip install -r $^
 	touch $@
