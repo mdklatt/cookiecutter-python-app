@@ -5,6 +5,5 @@
     "cli_script": "{{ cookiecutter.app_name }}",
     "author_name": "",
     "author_email": "",
-    "project_version": "0.1.0.dev0",
-    "sphinx_theme": "alabaster"
+    "project_version": "0.1.0.dev0"
 }
