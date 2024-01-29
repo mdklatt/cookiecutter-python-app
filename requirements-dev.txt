@@ -1,4 +1,4 @@
 # Requirements for template development.
-pytest>=7.3.2,<8
+pytest>=7.3.2,<9
 
 -r requirements.txt
