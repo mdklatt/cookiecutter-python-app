@@ -28,7 +28,7 @@ def main(argv=None) -> int:
     if args.warn:
         config.core.logging = args.warn
     logger.stop()  # clear handlers to prevent duplicate records
-    logger.start(config.core.logging)
+    logger.start(config.core.get("logging")) # dict.get() enables logger arg defaults
     command = args.command
     args = vars(args)
     spec = getfullargspec(command)
@@ -55,8 +55,8 @@ def _args(argv):
     parser.add_argument("-v", "--version", action="version",
             version=f"{{ cookiecutter.app_name }} {__version__}",
             help="print version and exit")
-    parser.add_argument("-w", "--warn", default="WARNING",
-            help="logger warning level [WARNING]")
+    parser.add_argument("-w", "--warn", # default not needed due to logger.start having default
+            help="logger warning level [WARN]")
     parser.set_defaults(command=None)
     subparsers = parser.add_subparsers(title="subcommands")
     common = ArgumentParser(add_help=False)  # common subcommand arguments
