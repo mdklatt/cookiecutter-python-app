@@ -16,6 +16,7 @@ class _Logger(getLoggerClass()):
 
     """
     LOGFMT = "%(asctime)s;%(levelname)s;%(name)s;%(message)s"
+    DFLTLEVEL = "WARN"
 
     def __init__(self, name=None):
         """ Initialize this logger.
@@ -34,7 +35,7 @@ class _Logger(getLoggerClass()):
         self.addHandler(NullHandler())  # default to no output
         return
 
-    def start(self, level="WARN", stream=None):
+    def start(self, level=DFLTLEVEL, stream=None):
         """ Start logging to a stream.
 
         Until the logger is started, no messages will be emitted. This applies
@@ -59,7 +60,7 @@ class _Logger(getLoggerClass()):
         :param level: logger priority level
         :param stream: output stream (stderr by default)
         """
-        self.setLevel(level.upper() if level is not None else "WARN")
+        self.setLevel(level.upper() if level is not None else self.DFLTLEVEL)
         handler = StreamHandler(stream)
         handler.setFormatter(Formatter(self.LOGFMT))
         handler.setLevel(self.level)
