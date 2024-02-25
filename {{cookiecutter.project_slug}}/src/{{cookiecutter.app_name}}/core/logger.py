@@ -59,7 +59,7 @@ class _Logger(getLoggerClass()):
         :param level: logger priority level
         :param stream: output stream (stderr by default)
         """
-        self.setLevel(level.upper())
+        self.setLevel(level.upper() if level is not None else "WARN")
         handler = StreamHandler(stream)
         handler.setFormatter(Formatter(self.LOGFMT))
         handler.setLevel(self.level)
